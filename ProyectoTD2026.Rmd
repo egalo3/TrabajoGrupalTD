@@ -2,10 +2,35 @@
 title: "ProyectoTD2026"
 author: "Grupo E"
 date: "2026-04-04"
-output: html_document
+output:
+  bookdown::html_document2:
+    fig_caption: yes
+    df_print: kable
+  bookdown::pdf_document2:
+    fig_caption: yes
+    df_print: kable
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
+
+
+
+
+# Figuras y tablas numeradas y referenciadas.
+
+En este proyecto utilizaremos figuras y tablas para poder interpretar de una manera más clara y visual la información obtenida a partir de los datos analizados. 
+
+## Tablas:
+
+Queremos mostrar el número de veces que aparece cada tipo de evento, identificando así las acciones que los usuarios realizan de manera más habitual.
+
+```{r tabla-eventos, echo= FALSE}
+datos_logs %>%
+  count(Evento, name = "Cantidad", sort = TRUE) %>%
+  kable(caption = "Frecuencia de eventos registrados")
+```
+En la Tabla \@ref(tab:tabla-eventos) vemos los eventos más habituales entre los usuarios.
+
 
