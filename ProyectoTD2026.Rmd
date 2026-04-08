@@ -31,4 +31,11 @@ datos_logs %>%
 ```
 En la Tabla \@ref(tab:tabla-eventos) vemos los eventos más habituales entre los usuarios.
 
+## Figura:
+Vamos a crear in mosaico que nos permite visualizar cómo se distribuyen los diferentes tipos de eventos entre los componentes o módulos.
 
+```{r mosaico, echo= FALSE}
+tabla <- table(datos_logs$Evento, datos_logs$Componente)
+mosaicplot(tabla, color = TRUE, las = 2, main = "Eventos vs Componentes")
+```
+En la Figura \@ref(fig:mosaico) podemos observar cómo se distribuyen estos eventos entre los diferentes componentes de Moodle.
