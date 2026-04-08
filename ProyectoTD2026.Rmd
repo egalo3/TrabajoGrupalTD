@@ -36,6 +36,6 @@ Vamos a crear un mosaico que nos permite visualizar cómo se distribuyen los dif
 
 ```{r mosaico, echo= FALSE}
 tabla <- table(datos_logs$Evento, datos_logs$Componente)
-mosaicplot(tabla, color = TRUE, las = 2, main = "Eventos vs Componentes")
+mosaicplot(tabla, color = TRUE, las = 2, main = "Distribución de eventos por componente de Moodle", xlab = "Tipo de evento", ylab = "Componente", cex.axis = 0.9)
 ```
 En la Figura \@ref(fig:mosaico) podemos observar cómo se distribuyen estos eventos entre los diferentes componentes de Moodle.
