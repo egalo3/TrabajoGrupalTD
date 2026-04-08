@@ -32,7 +32,7 @@ datos_logs %>%
 En la Tabla \@ref(tab:tabla-eventos) vemos los eventos más habituales entre los usuarios.
 
 ## Figura:
-Vamos a crear in mosaico que nos permite visualizar cómo se distribuyen los diferentes tipos de eventos entre los componentes o módulos.
+Vamos a crear un mosaico que nos permite visualizar cómo se distribuyen los diferentes tipos de eventos entre los componentes o módulos.
 
 ```{r mosaico, echo= FALSE}
 tabla <- table(datos_logs$Evento, datos_logs$Componente)
