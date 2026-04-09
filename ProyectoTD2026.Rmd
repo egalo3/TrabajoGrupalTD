@@ -13,9 +13,55 @@ output:
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+
+library(dplyr)
+library(tidyr)
+library(lubridate)
+library(knitr)
+
 ```
 
 
+# Introducción
+
+En la era digital actual, las plataformas de aprendizaje virtual como el Aula Virtual se han convertido en el núcleo operativo de la educación universitaria. Estas plataformas no solo facilitan el acceso a los materiales y la entrega de tareas, sino que también generan un rastro digital exhaustivo de las interacciones de los usuarios mediante archivos de registro o *logs*.
+
+Este proyecto tiene como objetivo principal poner en práctica los conocimientos de Análisis Exploratorio de Datos adquiridos durante la asignatura de "Tratamiento de los Datos" del Grado en Ciencia de Datos. Para llevar a cabo este análisis, trabajaremos con un conjunto de datos real proporcionado por el profesor de la asignatura: los *logs* anonimizados del Aula Virtual de esta misma asignatura, correspondientes al curso académico 2024-2025.
+
+Mediante el uso del lenguaje de programación R y, en particular, del ecosistema *tidyverse* (con librerías como `dplyr`, `tidyr` y `ggplot2`), realizaremos un proceso completo de importación, limpieza, adecuación y visualización de los datos. El propósito es extraer patrones de comportamiento subyacentes que nos permitan entender cómo interactúan los alumnos con la plataforma. 
+
+A lo largo de este documento, plantearemos y daremos respuesta a una serie de preguntas clave, tales como la distribución temporal de las conexiones, los recursos más consultados o los picos de actividad. De este modo, buscamos transformar un conjunto de datos en bruto en información útil y visualmente interpretable.
+
+
+# Material y métodos
+
+En esta fase se ha llevado a cabo la importación de los datos en bruto para convertirlos en un conjunto de datos técnicamente correcto. Para ello, se han renombrado las variables conflictivas y se ha convertido la variable temporal a un formato de fecha válido utilizando la librería lubridate.
+Como se puede observar en la Tabla 1, los datos han sido importados y preprocesados correctamente para su posterior análisis exploratorio.
+
+```{r}
+
+# Importación de los datos
+archivo_datos <- "data/logs_moodle_anon.csv"
+datos_brutos <- read.csv(archivo_datos, fileEncoding = "UTF-8")
+
+# Preparación y tratamiento de fechas 
+datos_logs <- datos_brutos %>%
+  # Renombramos columnas (sin espacios)
+  rename(
+    Usuario = Nombre.completo.del.usuario,
+    Contexto = Contexto.del.evento,
+    Evento = Nombre.evento
+  ) %>%
+  # Tratamiento de fecha con lubridate
+  mutate(
+    Fecha_aux = dmy_hms(Hora),
+    Fecha_texto = format(Fecha_aux, "%d/%m/%Y")
+  )
+
+# Comprobación 
+kable(head(datos_logs, 5), caption = "Primeros registros de la base de datos")
+
+```
 
 
 # Figuras y tablas numeradas y referenciadas.
