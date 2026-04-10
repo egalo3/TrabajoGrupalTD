@@ -84,7 +84,7 @@ Vamos a crear un diagrama de barras que nos permite visualizar cuáles son los t
 library(ggplot2)
 frecuencias <- datos_logs %>%
   count(Evento) %>%
-  slice_max(n, n = 32)
+  slice_max(n, n = 12) #con doce se lee mejor
 
 ggplot(frecuencias, aes(x = Evento, y = n)) +
   geom_bar(stat = "identity", fill = "steelblue") +
