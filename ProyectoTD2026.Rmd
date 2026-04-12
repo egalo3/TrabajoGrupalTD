@@ -113,4 +113,7 @@ En el siguiente apartado se expondrán dichas preguntas claves para la  explorac
 ¿Cuál es el número medio de acciones por usuario? ¿Existen usuarios con comportamiento atípico (muy alta o muy baja actividad)? 
 ¿Existe relación entre el dispositivo empleado y la actividad realizada?
 ¿Que actividades o recursos generan más interacciones?
-
+¿Cómo cambia el comportamiento antes de una entrega?
+¿Hay registros realizados en horas "extrañas" (ej. 4:00 AM)? ¿Son usuarios aislados o un patrón común en época de exámenes?
+¿Se detectan múltiples IPs para un mismo usuario en un corto periodo de tiempo?
+¿Hay eventos de error o acciones fallidas recurrentes en los logs?
