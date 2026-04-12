@@ -99,7 +99,7 @@ En la Figura \@ref(fig:figura) podemos observar cuáles son los eventos más fre
 # 2. Exploración y Visualización
 
 Una vez que los datos han sido organizados en una estructura adecuada y se ha verificado su consistencia,comienza una fase clave del análisis: la exploración. En este punto, el objetivo no es todavia confirmar conclusiones, sino observar,comparar y cuestionar la información otorgada. A partir del  conjunto de datos dado nos surgen varias hipótesis provisionales sobre posibles tendencias,relaciones o comportamientos.
-En el siguiente apartado se expondran dichas preguntas claves para la  exploración de los datos
+En el siguiente apartado se expondrán dichas preguntas claves para la  exploración de los datos
 
 
 
