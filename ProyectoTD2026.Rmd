@@ -105,14 +105,12 @@ En el siguiente apartado se expondrán dichas preguntas claves para la  explorac
 ¿Qué tipo de variables contiene (numéricas, categóricas, fechas, etc.)?
 ¿Existen valores faltantes (NA)? ¿En qué variables se concentran?
 ¿Cómo se distribuye la actividad por horas del día?
-¿Cuál es su distribución por día?
 ¿Cuáles son los materiales consultados con mayor frecuencia?
-¿Qué usuarios son más activos (mayor número de eventos)?
-¿Existen usuarios con comportamiento atípico (muy alta o muy baja actividad)? 
-¿Cómo se distribuye la actividad entre los distintos usuarios?
+
 ¿En que hora existe una mayor actividad por parte de los alumnos ? ¿Se generan picos antes de la entrega de un proyecto?
 ¿En qué franja horaria trabajan más los alumnos?
 ¿Cuántos usuario únicos han accedido a la plataforma?
-¿Cuál es el número medio de acciones por usuario?
+¿Cuál es el número medio de acciones por usuario? ¿Existen usuarios con comportamiento atípico (muy alta o muy baja actividad)? 
 ¿Existe relación entre el dispositivo empleado y la actividad realizada?
 ¿Que actividades o recursos generan más interacciones?
+
