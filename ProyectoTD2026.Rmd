@@ -112,3 +112,7 @@ En el siguiente apartado se expondrán dichas preguntas claves para la  explorac
 ¿Cómo se distribuye la actividad entre los distintos usuarios?
 ¿En que hora existe una mayor actividad por parte de los alumnos ? ¿Se generan picos antes de la entrega de un proyecto?
 ¿En qué franja horaria trabajan más los alumnos?
+¿Cuántos usuario únicos han accedido a la plataforma?
+¿Cuál es el número medio de acciones por usuario?
+¿Existe relación entre el dispositivo empleado y la actividad realizada?
+¿Que actividades o recursos generan más interacciones?
