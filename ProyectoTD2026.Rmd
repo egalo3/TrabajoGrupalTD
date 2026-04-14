@@ -102,10 +102,8 @@ Una vez que los datos han sido organizados en una estructura adecuada y se ha ve
 En el siguiente apartado se expondrán dichas preguntas claves para la  exploración de los datos
 
 
-¿Qué tipo de variables contiene (numéricas, categóricas, fechas, etc.)?
-¿Existen valores faltantes (NA)? ¿En qué variables se concentran?
-¿Cómo se distribuye la actividad por horas del día?
-¿Cuáles son los materiales consultados con mayor frecuencia?
+
+
 
 ¿En que hora existe una mayor actividad por parte de los alumnos ? ¿Se generan picos antes de la entrega de un proyecto?
 ¿En qué franja horaria trabajan más los alumnos?
