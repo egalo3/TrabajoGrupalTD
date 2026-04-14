@@ -129,3 +129,19 @@ En el siguiente apartado se expondrán dichas preguntas claves para la  explorac
 11.¿Se detectan múltiples IPs para un mismo usuario en un corto periodo de tiempo?
 
 12.¿Hay eventos de error o acciones fallidas recurrentes en los logs?
+
+13.¿Existe alguna evolución en la actividad de un mismo usuario a lo largo del año (de menos a más o de más a menos)? ¿A que puede deberse esto?
+
+14.¿Hay alguna diferencia notoria de visitas entre una actividad y otra? ¿A que puede deberse?
+
+15.¿Cuál es la secuencia más común entre los estudiantes? (Ej. entrar al curso -> ver material -> descargar archivo)
+
+16.¿Existen diferencias entre los patrones de actividad de los usuarios muy activos con la de los menos activos?
+
+17.¿Cuál es la proporción entre el número de actividades pasivas (entrar, ver) y las activas (entregar, editar)?
+
+18.¿Existen usuarios que solo acceden en momentos muy concretos? (Ej. previos a entrega o a exámenes)
+
+19.¿En horario lectivo se detecta menor actividad desde el móvil o es indiferente?
+
+20.¿Hay más actividad en días laborales o en fin de semana? ¿Varia esta proporción en momentos concretos? (Ej. época de exámenes)
