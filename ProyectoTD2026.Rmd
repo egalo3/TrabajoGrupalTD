@@ -67,6 +67,7 @@ kable(head(datos_logs, 5), caption = "Primeros registros de la base de datos")
 # Figuras y tablas numeradas y referenciadas.
 En este proyecto utilizaremos figuras y tablas para poder interpretar de una manera más clara y visual la información obtenida a partir de los datos analizados. 
 
+
 ## Tablas:
 Queremos mostrar el número de veces que aparece cada tipo de evento, identificando así las acciones que los usuarios realizan de manera más habitual.
 
