@@ -82,6 +82,8 @@ En la Tabla \@ref(tab:tabla-eventos) vemos los eventos más habituales entre los
 ## Figura:
 Vamos a crear un diagrama de barras que nos permite visualizar cuáles son los tipos de eventos más frecuentes
 
+En la Figura \@ref(fig:figura-eventos) podemos observar cuáles son los eventos más frecuentes entre los usuarios.
+
 ```{r figura-eventos, echo=FALSE, fig.cap="Diagrama de barras de los eventos más frecuentes"}
 library(ggplot2)
 frecuencias <- datos_logs %>%
@@ -93,8 +95,6 @@ ggplot(frecuencias, aes(x = Evento, y = n)) +
   coord_flip() +
   labs(x = "", y = "Frecuencia")
 ```
-En la Figura \@ref(fig:figura-eventos) podemos observar cuáles son los eventos más frecuentes entre los usuarios.
-
 
 
 
