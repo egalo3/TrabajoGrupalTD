@@ -19,6 +19,8 @@ library(tidyr)
 library(lubridate)
 library(knitr)
 library(ggplot2) 
+library(kableExtra)
+
 
 ```
 
@@ -60,7 +62,8 @@ datos_logs <- datos_brutos %>%
   )
 
 # Comprobación 
-kable(head(datos_logs, 5), caption = "Primeros registros de la base de datos")
+kable(head(datos_logs, 5), caption = "Primeros registros de la base de datos") %>%
+  kable_styling(latex_options = "scale_down")
 
 ```
 
