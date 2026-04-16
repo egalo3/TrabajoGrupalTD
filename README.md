@@ -1,1 +1,1 @@
-# TrabajoGrupalTD
+# ProyectoTD2026
