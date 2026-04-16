@@ -75,7 +75,7 @@ Queremos mostrar el número de veces que aparece cada tipo de evento, identifica
 ```{r tabla-eventos, echo= FALSE}
 datos_logs %>%
   count(Evento, name = "Cantidad", sort = TRUE) %>%
-  kable(caption = "Frecuencia de eventos registrados")
+  kable(longtable= TRUE, caption = "Frecuencia de eventos registrados")
 ```
 En la Tabla \@ref(tab:tabla-eventos) vemos los eventos más habituales entre los usuarios.
 
