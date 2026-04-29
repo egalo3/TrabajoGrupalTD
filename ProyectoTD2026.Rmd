@@ -1,15 +1,44 @@
 ---
-title: "ProyectoTD2026"
-author: "Grupo E"
-date: "2026-04-04"
-output:
-  bookdown::html_document2:
-    fig_caption: yes
-    df_print: kable
-  bookdown::pdf_document2:
-    fig_caption: yes
-    df_print: kable
+title: "Análisis Exploratorio de los Logs del Aula Virtual: Grupo E"
+author:
+  - name: (Nombre Alumno 1)
+    affil: 1
+  - name: (Nombre Alumno 2)
+    affil: 1
+  - name: (Nombre Alumno 3)
+    affil: 1
+  - name: (Nombre Alumno 4)
+    affil: 1
+  - name: (Nombre Alumno 5)
+    affil: 1
+affiliation:
+  - num: 1
+    address: |
+      Grado en Ciencia de Datos
+      Universidad de Valencia, España
+    email: (email)@alumni.uv.es
+authorcitation: |
+  (Apellidos Alumnos)
+journal: notspecified
+type: article
+status: submit
+simplesummary: |
+  Este trabajo analiza el comportamiento de los estudiantes mediante los registros de actividad del Aula Virtual.
+abstract: |
+  ( resumen de unos 200 palabras sobre los objetivos, metodología y resultados principales).
+keywords: |
+  Análisis exploratorio; R; Logs; Aula Virtual; Tidyverse.
+
+output: 
+  rticles::mdpi_article:
+    extra_dependencies: longtable
+    
+header-includes:
+  - \newcommand{\pandocbounded}[1]{#1}
 ---
+
+
+
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
