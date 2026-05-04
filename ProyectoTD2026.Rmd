@@ -148,8 +148,34 @@ En el siguiente apartado se expondrán dichas preguntas claves para la  explorac
 4.¿Cuántos usuario únicos han accedido a la plataforma?
 
 5.¿Cuál es el número medio de acciones por usuario?
+```{r}
+acciones_por_usuario <- datos_logs %>%
+  group_by(Usuario) %>%
+  summarise(total_acciones = n(), .groups = "drop") # número total de acciones por cada usuario
+media <- mean(acciones_por_usuario$total_acciones)
+paste("Número medio de acciones por usuario:", round(media_acciones, 2)) # redondeamos a dos decimales
+```
 
-6.¿Existen usuarios con comportamiento atípico (muy alta o muy baja actividad)? 
+6.¿Existen usuarios con comportamiento atípico (muy alta o muy baja actividad)?
+```{r}
+# Calculamos por quantiles
+q1 <- quantile(acciones_por_usuario$total_acciones, 0.25)
+q3 <- quantile(acciones_por_usuario$total_acciones, 0.75)
+iqr <- IQR(acciones_por_usuario$total_acciones)
+
+# Decidimos que el valor atipico a partir de 1.5
+limite_inferior <- q1 - 1.5 * iqr
+limite_superior <- q3 + 1.5 * iqr
+
+# Filtramos estos valores atípicos
+usuarios_atipicos <- acciones_por_usuario %>%
+  filter(total_acciones < limite_inferior | total_acciones > limite_superior) %>%
+  arrange(desc(total_acciones))
+
+# Vamos a mostrar los 10 mas activos y los 10 menos activos en una tabal para obserbar mejor los datos
+kable(usuarios_atipicos, caption = "Usuarios con comportamiento atípico en número de acciones") %>%
+  kable_styling(latex_options = "scale_down")
+```
 
 7.¿Existe relación entre el dispositivo empleado y la actividad realizada?
 
