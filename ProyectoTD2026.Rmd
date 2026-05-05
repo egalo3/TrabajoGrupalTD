@@ -176,10 +176,44 @@ usuarios_atipicos <- acciones_por_usuario %>%
 kable(usuarios_atipicos, caption = "Usuarios con comportamiento atípico en número de acciones") %>%
   kable_styling(latex_options = "scale_down")
 ```
+Con esta tabla podemos ver a los usuarios que se salen de la norma. Los primeros de la lista son los muy activos(aquellos que la han utilizado de manera exagerada), y los últimos son usuarios que apenas han interactuado con la plataforma. Para no dañar el analisi debemos saber porque hacen que las mediades como de la media de acciones se vea afectada.
 
 7.¿Existe relación entre el dispositivo empleado y la actividad realizada?
+```{r}
+# Limpiar y agrupar datos
+relacion_origen_evento <- datos_logs %>%
+  group_by(Origen, Evento) %>%
+  summarise(total = n(), .groups = "drop") %>%
+
+  # Eliminar orígenes vacíos o desconocidos si los hay
+  filter(!is.na(Origen) & Origen != "") %>%
+
+  # Eventos
+  group_by(Evento) %>% 
+  mutate(total_evento = sum(total)) %>%
+  ungroup() %>%
+  slice_max(total_evento, n = 10) %>%
+  select(-total_evento)
+
+kable(relacion_origen_evento, caption = "Relación entre el origen y el tipo de evento") %>%
+  kable_styling(latex_options = "scale_down")
+```
+Para que se vea mejor hemos seleccionado los eventos más comunes. (poner lo que se ve en la tabla) - - - - si es verdad que hay relacion....
 
 8.¿Que actividades o recursos generan más interacciones?
+```{r}
+# Agrupar por el componente de Moodle y el evento
+actividades_populares <- datos_logs %>%
+  group_by(Componente, Evento) %>%
+  summarise(total_interacciones = n(), .groups = "drop") %>%
+  arrange(desc(total_interacciones)) %>%
+  head(10) 
+
+kable(actividades_populares, caption = "Actividades o recursos con más interacciones") %>%
+  kable_styling(latex_options = "scale_down")
+```
+Primero agrupamps por componente y evento y para mejor visualización de los datos utilizamos un head para ver los 10 más populares.
+En la Tabla vemos como .... es con el que mas interacciones.....
 
 9.¿Cómo cambia el comportamiento antes de una entrega?
 
