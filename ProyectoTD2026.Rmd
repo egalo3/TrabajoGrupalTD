@@ -153,7 +153,7 @@ acciones_por_usuario <- datos_logs %>%
   group_by(Usuario) %>%
   summarise(total_acciones = n(), .groups = "drop") # número total de acciones por cada usuario
 media <- mean(acciones_por_usuario$total_acciones)
-paste("Número medio de acciones por usuario:", round(media_acciones, 2)) # redondeamos a dos decimales
+paste("Número medio de acciones por usuario:", round(media, 2)) # redondeamos a dos decimales
 ```
 
 6.¿Existen usuarios con comportamiento atípico (muy alta o muy baja actividad)?
