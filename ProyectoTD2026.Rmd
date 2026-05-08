@@ -265,11 +265,11 @@ library(ggplot2)
 
 # Solo extraemos la hora de la columna Fecha_aux que ya creaste antes
 distribucion_horas <- datos_logs %>%
-  mutate(Solo_Hora = hour(Fecha_aux)) %>%
-  count(Solo_Hora, name = "Cantidad_Eventos")
+  mutate(Hora = hour(Fecha_aux)) %>%
+  count(Hora, name = "Cantidad_Eventos")
 
 # Creamos el gráfico de barras
-ggplot(distribucion_horas, aes(x = factor(Solo_Hora), y = Cantidad_Eventos)) +
+ggplot(distribucion_horas, aes(x = factor(Hora), y = Cantidad_Eventos)) +
   geom_col(fill = "dodgerblue") +
   labs(x = "Hora del día (0-23h)",
        y = "Cantidad de eventos (Logs)") +
@@ -289,11 +289,9 @@ En este caso aplicaremos otro tipo de enfoque,trataremos con los días.
 El objetivo es ver la evolución temporal de la actividad y superponer las fechas límite (fechas de entrega) para comprobar visualmente si la actividad se dispara justo antes.
 
 
+### *Picos de actividad antes de las entregas*
 
-
-
-
-
+Para realizar este análisis, se ha explorado el dataset en busca del evento 'Se ha enviado una entrega'. Con el objetivo de mostrar el comportamiento del alumnado, se ha seleccionado la entrega del proyecto realizada el 26 de mayo de 2025."
 
 
 
@@ -303,7 +301,9 @@ El objetivo es ver la evolución temporal de la actividad y superponer las fecha
 
 
 5.¿Cuál es el número medio de acciones por usuario?
+
 ```{r}
+
 acciones_por_usuario <- datos_logs %>%
   group_by(Usuario) %>%
   summarise(total_acciones = n(), .groups = "drop") # número total de acciones por cada usuario
