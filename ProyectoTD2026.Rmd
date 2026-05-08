@@ -242,6 +242,11 @@ Por otro lado, la existencia de valores nulos en variables como "Usuario.afectad
 
 
 
+Una vez confirmada la integridad del data frame obtenido y analizada la naturaleza de las variables que lo componen procedemos a realizar una análisis descriptivo, en el cual trataremos de identificar los patrones de coportamiento de los estudiantes. Por ende ,analizaremos los picos de actividad y los materiales consultados con mayor frecuencia.
+
+
+
+
 
 
 5.¿Cuál es el número medio de acciones por usuario?
