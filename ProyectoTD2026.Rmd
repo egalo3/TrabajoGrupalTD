@@ -219,6 +219,31 @@ kable(tabla, caption = "Descripción de las variables ")
 
 
 
+#Valoración de la calidad de los datos
+
+```{r analisis-nas, echo=FALSE}
+library(dplyr)
+library(knitr)
+library(kableExtra)
+library(tidyr)
+
+# Calculamos cuántos NAs hay por columna
+tabla_nas <- datos_logs %>%
+  summarise(across(everything(), ~sum(is.na(.)))) %>% 
+  pivot_longer(cols = everything(), names_to = "Variable", values_to = "ValoresFaltantes") 
+
+kable(tabla_nas, caption = "Análisis de valores faltantes por variable")
+
+```
+
+A partir de los datos obtenidos en la Tabla @ref(tab:analisis-nas), se puede afirmar que el conjunto de datos es robusto, es decir, existe un escaso porcentaje de valores faltantes en las variables analizadas.
+
+Por otro lado, la existencia de valores nulos en variables como "Usuario.afectado" no deben interpretarse como errores, ya que existen múltiples acciones que son individuales y no requieren la implicación de un segundo usuario. Por tanto, el data set es considerado de alta calidad.
+
+
+
+
+
 5.¿Cuál es el número medio de acciones por usuario?
 ```{r}
 acciones_por_usuario <- datos_logs %>%
