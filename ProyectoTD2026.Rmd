@@ -41,7 +41,11 @@ header-includes:
 
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(
+  echo = TRUE,
+  out.width = "100%",   
+  fig.align = "center"  
+)
 
 library(dplyr)
 library(tidyr)
@@ -93,8 +97,9 @@ datos_logs <- datos_brutos %>%
 # Comprobación 
 kable(head(datos_logs, 5), caption = "Primeros registros de la base de datos") %>%
   kable_styling(latex_options = "scale_down")
-
 ```
+
+
 
 
 # Figuras y tablas numeradas y referenciadas.
@@ -146,6 +151,73 @@ En el siguiente apartado se expondrán dichas preguntas claves para la  explorac
 3.¿En qué franja horaria trabajan más los alumnos?
 
 4.¿Cuántos usuario únicos han accedido a la plataforma?
+
+5.¿Cuál es el número medio de acciones por usuario?
+
+6.¿Existen usuarios con comportamiento atípico (muy alta o muy baja actividad)?
+
+7.¿Existe relación entre el dispositivo empleado y la actividad realizada?
+
+8.¿Que actividades o recursos generan más interacciones?
+
+9.¿Cómo cambia el comportamiento antes de una entrega?
+
+10.¿Hay registros realizados en horas "extrañas" (ej. 4:00 AM)? ¿Son usuarios aislados o un patrón común en época de exámenes?
+
+11.¿Se detectan múltiples IPs para un mismo usuario en un corto periodo de tiempo?
+
+12.¿Hay eventos de error o acciones fallidas recurrentes en los logs?
+
+13.¿Existe alguna evolución en la actividad de un mismo usuario a lo largo del año (de menos a más o de más a menos)? ¿A que puede deberse esto?
+
+14.¿Hay alguna diferencia notoria de visitas entre una actividad y otra? ¿A que puede deberse?
+
+15.¿Cuál es la secuencia más común entre los estudiantes? (Ej. entrar al curso -> ver material -> descargar archivo)
+
+16.¿Existen diferencias entre los patrones de actividad de los usuarios muy activos con la de los menos activos?
+
+17.¿Cuál es la proporción entre el número de actividades pasivas (entrar, ver) y las activas (entregar, editar)?
+
+18.¿Existen usuarios que solo acceden en momentos muy concretos? (Ej. previos a entrega o a exámenes)
+
+19.¿En horario lectivo se detecta menor actividad desde el móvil o es indiferente?
+
+20.¿Hay más actividad en días laborales o en fin de semana? ¿Varia esta proporción en momentos concretos? (Ej. época de exámenes)
+
+
+
+
+
+
+#2.1 Análisis univariante
+En nuestro data frame observamos la predominancia de variables de tipo string o factor, de modo que las tablas realizadas no mostrarán estadísticos descriptivos. En este caso, se centraran en frecuencias, porcentajes y descripciones.
+
+
+
+#2.1.1. Análisis de tipo de variables 
+```{r tabla-variables, echo=FALSE}
+library(knitr)
+library(kableExtra)
+
+# Creamos el diccionario basado en nuestros daros datos
+tabla <- data.frame(
+  Variable = c("Usuario", "Contexto", "Componente", "Evento", "Dirección.IP", "hora_dia"),
+  Tipo = c("Factor", "String", "Factor", "Factor", "String", "Entero"),
+  Descripción = c("Identificador anónimo del alumno", 
+                  "Nombre del curso o tarea donde ocurre la acción",
+                  "Módulo del sistema (Tarea, Cuestionario, Sistema)",
+                  "Acción específica realizada por el usuario",
+                  "Dirección desde la que se conecta",
+                  "Hora del día en formato 24h")
+)
+
+
+kable(tabla, caption = "Descripción de las variables ")
+```
+
+*"Como se puede observar en la **Tabla \@ref(tab:tabla-variables)**, existe una predominancia de variables de tipo string o factor."*
+
+
 
 5.¿Cuál es el número medio de acciones por usuario?
 ```{r}
@@ -213,28 +285,4 @@ kable(actividades_populares, caption = "Actividades o recursos con más interacc
   kable_styling(latex_options = "scale_down")
 ```
 Primero agrupamps por componente y evento y para mejor visualización de los datos utilizamos un head para ver los 10 más populares.
-En la Tabla vemos como .... es con el que mas interacciones.....
-
-9.¿Cómo cambia el comportamiento antes de una entrega?
-
-10.¿Hay registros realizados en horas "extrañas" (ej. 4:00 AM)? ¿Son usuarios aislados o un patrón común en época de exámenes?
-
-11.¿Se detectan múltiples IPs para un mismo usuario en un corto periodo de tiempo?
-
-12.¿Hay eventos de error o acciones fallidas recurrentes en los logs?
-
-13.¿Existe alguna evolución en la actividad de un mismo usuario a lo largo del año (de menos a más o de más a menos)? ¿A que puede deberse esto?
-
-14.¿Hay alguna diferencia notoria de visitas entre una actividad y otra? ¿A que puede deberse?
-
-15.¿Cuál es la secuencia más común entre los estudiantes? (Ej. entrar al curso -> ver material -> descargar archivo)
-
-16.¿Existen diferencias entre los patrones de actividad de los usuarios muy activos con la de los menos activos?
-
-17.¿Cuál es la proporción entre el número de actividades pasivas (entrar, ver) y las activas (entregar, editar)?
-
-18.¿Existen usuarios que solo acceden en momentos muy concretos? (Ej. previos a entrega o a exámenes)
-
-19.¿En horario lectivo se detecta menor actividad desde el móvil o es indiferente?
-
-20.¿Hay más actividad en días laborales o en fin de semana? ¿Varia esta proporción en momentos concretos? (Ej. época de exámenes)
+En la Tabla vemos como .... es con el que mas interacciones....
