@@ -219,7 +219,7 @@ kable(tabla, caption = "Descripción de las variables ")
 
 
 
-#Valoración de la calidad de los datos
+#2.1.2Valoración de la calidad de los datos
 
 ```{r analisis-nas, echo=FALSE}
 library(dplyr)
@@ -243,6 +243,40 @@ Por otro lado, la existencia de valores nulos en variables como "Usuario.afectad
 
 
 Una vez confirmada la integridad del data frame obtenido y analizada la naturaleza de las variables que lo componen procedemos a realizar una análisis descriptivo, en el cual trataremos de identificar los patrones de coportamiento de los estudiantes. Por ende ,analizaremos los picos de actividad y los materiales consultados con mayor frecuencia.
+
+
+
+
+
+###3. Distribución de la actividad por hora
+
+Para determinar la franja horaria en la que existe una mayor actividad por parte del alumnado, analizaremos la distribución.Esta nos permite comprender y analizar el comportamiento de los estudiantes 
+
+### 2.1.2. Distribución de la actividad por hora
+
+```{r grafico-horas, echo=FALSE, message=FALSE, warning=FALSE, fig.cap="Distribución de la actividad de los usuarios por hora del día"}
+library(dplyr)
+library(lubridate)
+library(ggplot2)
+
+# Solo extraemos la hora de la columna Fecha_aux que ya creaste antes
+distribucion_horas <- datos_logs %>%
+  mutate(Solo_Hora = hour(Fecha_aux)) %>%
+  count(Solo_Hora, name = "Cantidad_Eventos")
+
+# Creamos el gráfico de barras
+ggplot(distribucion_horas, aes(x = factor(Solo_Hora), y = Cantidad_Eventos)) +
+  geom_col(fill = "dodgerblue") +
+  labs(x = "Hora del día (0-23h)",
+       y = "Cantidad de eventos (Logs)") +
+  theme_minimal()
+```
+
+
+Como se puede observar en la Figura @ref(fig:grafico-horas),el uso de la plataforma presenta una gran variación a lo largo deldía. La mayor parte de la actividad se concentra durante la mañana, alcanzando su pico máximo durante las  9:00 horas, podemos observar que en ese instante se registran más de 16.000 eventos. Este comportamiento es coherente con el horario lectivo.
+
+Por otro lado,podemos apreciar como la  caída de la actividad durante las horas centrales del mediodía (14:00 - 16:00), seguida de un segundo incremento más moderado durante la tarde y noche (17:00 - 20:00), es lógico que se deba al trabajo autónomo y estudio en casa. Finalmente, como es esperable, la actividad desciende drásticamente de madrugada a partir de la 1:00 AM.
+
 
 
 
