@@ -252,7 +252,6 @@ Una vez confirmada la integridad del data frame obtenido y analizada la naturale
 
 Para determinar la franja horaria en la que existe una mayor actividad por parte del alumnado, analizaremos la distribución.Esta nos permite comprender y analizar el comportamiento de los estudiantes 
 
-### 2.1.2. Distribución de la actividad por hora
 
 ```{r grafico-horas, echo=FALSE, message=FALSE, warning=FALSE, fig.cap="Distribución de la actividad de los usuarios por hora del día"}
 library(dplyr)
@@ -275,7 +274,7 @@ ggplot(distribucion_horas, aes(x = factor(Solo_Hora), y = Cantidad_Eventos)) +
 
 Como se puede observar en la Figura @ref(fig:grafico-horas),el uso de la plataforma presenta una gran variación a lo largo deldía. La mayor parte de la actividad se concentra durante la mañana, alcanzando su pico máximo durante las  9:00 horas, podemos observar que en ese instante se registran más de 16.000 eventos. Este comportamiento es coherente con el horario lectivo.
 
-Por otro lado,podemos apreciar como la  caída de la actividad durante las horas centrales del mediodía (14:00 - 16:00), seguida de un segundo incremento más moderado durante la tarde y noche (17:00 - 20:00), es lógico que se deba al trabajo autónomo y estudio en casa. Finalmente, como es esperable, la actividad desciende drásticamente de madrugada a partir de la 1:00 AM.
+Por otro lado,podemos apreciar como la  caída de la actividad durante las horas centrales del mediodía (14:00 - 16:00), seguida de un segundo incremento más moderado durante la tarde y noche (17:00 - 20:00),franja horaria que coincide con el estudio autónomo y trabajo en casa .Finamente, la actividad desciende a patir de la 1:00 AM  
 
 
 
