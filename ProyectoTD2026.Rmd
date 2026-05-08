@@ -293,10 +293,34 @@ El objetivo es ver la evolución temporal de la actividad y superponer las fecha
 
 Para realizar este análisis, se ha explorado el dataset en busca del evento 'Se ha enviado una entrega'. Con el objetivo de mostrar el comportamiento del alumnado, se ha seleccionado la entrega del proyecto realizada el 26 de mayo de 2025."
 
+```{r picos-entrega, echo=FALSE, message=FALSE, warning=FALSE, fig.width=10, fig.height=4, fig.cap="Actividad diaria en los días previos a la entrega final del proyecto (26 de mayo)."}
+library(dplyr)
+library(lubridate)
+library(ggplot2)
+
+# Ponemos tu fecha pico original: 26 de mayo
+fecha_entrega <- as.Date("2025-05-26") 
+
+# Filtramos para ver solo la recta final de ESA entrega (10 días antes)
+actividad_filtrada <- datos_logs %>%
+  mutate(Dia = as.Date(Fecha_aux)) %>% 
+  filter(Dia >= (fecha_entrega - 10) & Dia <= (fecha_entrega + 2)) %>% 
+  count(Dia, name = "Cantidad_Eventos")
+
+#Gráfica
+ggplot(actividad_filtrada, aes(x = Dia, y = Cantidad_Eventos)) +
+  geom_col(fill = "hotpink2") +  
+#Linea negra = día de la entrega
+geom_vline(xintercept = as.numeric(fecha_entrega), color = "black", linetype = "dashed", linewidth = 1) +
+labs(x = "Fecha",
+     y = "Número de eventos") +
+theme_minimal()
 
 
-
-
+```
+Como se observa en la Figura @ref(fig:picos-entrega), la evolución de la actividad muestra una clara tendencia exponencial a medida que se acerca el límite de la fecha de entrega .
+Cabe remarcar que el mayor número de interacciones no se producen el día mismo de la entrega(marcada por la línea negra), si no el día previo a la misma(pico máximo).
+Este patrón refleja el esfuerzo de última hora por parte del alumnado, donde la jornada previa concentra la mayor carga de trabajo en la plataforma, mientras que el día límite se reserva únicamente para llevar a cabo la entrega del material.
 
 
 
