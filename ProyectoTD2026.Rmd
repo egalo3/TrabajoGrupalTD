@@ -189,7 +189,13 @@ En el siguiente apartado se expondrán dichas preguntas claves para la  explorac
 
 
 
-###2.1 Análisis univariante
+
+
+
+## Análisis univariante
+
+
+
 En nuestro data frame observamos la predominancia de variables de tipo string o factor, de modo que las tablas realizadas no mostrarán estadísticos descriptivos. En este caso, se centraran en frecuencias, porcentajes y descripciones.
 
 
@@ -240,15 +246,13 @@ A partir de los datos obtenidos en la Tabla @ref(tab:analisis-nas), se puede afi
 
 Por otro lado, la existencia de valores nulos en variables como "Usuario.afectado" no deben interpretarse como errores, ya que existen múltiples acciones que son individuales y no requieren la implicación de un segundo usuario. Por tanto, el data set es considerado de alta calidad.
 
-
-
-
-
-
-
-
 Una vez confirmada la integridad del data frame obtenido y analizada la naturaleza de las variables que lo componen procedemos a realizar una análisis descriptivo, en el cual trataremos de identificar los patrones de coportamiento de los estudiantes. Por ende ,analizaremos los picos de actividad y los materiales consultados con mayor frecuencia.
 
+
+
+
+
+# Análisis de la distribución horaria
 
 
 Para determinar la franja horaria en la que existe una mayor actividad por parte del alumnado, analizaremos la distribución.Esta nos permite comprender y analizar el comportamiento de los estudiantes 
@@ -279,10 +283,17 @@ Por otro lado,podemos apreciar como la  caída de la actividad durante las horas
 
 
 
-###3.1.Picos de actividad
+### *Análisis de la distribución horaria*
 
 En este caso aplicaremos otro tipo de enfoque,trataremos con los días.
 El objetivo es ver la evolución temporal de la actividad y superponer las fechas límite (fechas de entrega) para comprobar visualmente si la actividad se dispara justo antes.
+
+
+
+
+
+
+
 
 
 
