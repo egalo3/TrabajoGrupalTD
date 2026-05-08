@@ -189,12 +189,12 @@ En el siguiente apartado se expondrán dichas preguntas claves para la  explorac
 
 
 
-#2.1 Análisis univariante
+###2.1 Análisis univariante
 En nuestro data frame observamos la predominancia de variables de tipo string o factor, de modo que las tablas realizadas no mostrarán estadísticos descriptivos. En este caso, se centraran en frecuencias, porcentajes y descripciones.
 
 
 
-#2.1.1. Análisis de tipo de variables 
+
 ```{r tabla-variables, echo=FALSE}
 library(knitr)
 library(kableExtra)
@@ -219,7 +219,7 @@ kable(tabla, caption = "Descripción de las variables ")
 
 
 
-#2.1.2Valoración de la calidad de los datos
+
 
 ```{r analisis-nas, echo=FALSE}
 library(dplyr)
@@ -250,7 +250,6 @@ Por otro lado, la existencia de valores nulos en variables como "Usuario.afectad
 Una vez confirmada la integridad del data frame obtenido y analizada la naturaleza de las variables que lo componen procedemos a realizar una análisis descriptivo, en el cual trataremos de identificar los patrones de coportamiento de los estudiantes. Por ende ,analizaremos los picos de actividad y los materiales consultados con mayor frecuencia.
 
 
-###3. Distribución de la actividad por hora
 
 Para determinar la franja horaria en la que existe una mayor actividad por parte del alumnado, analizaremos la distribución.Esta nos permite comprender y analizar el comportamiento de los estudiantes 
 
