@@ -148,7 +148,7 @@ En el siguiente apartado se expondrán dichas preguntas claves para la  explorac
 
 2.¿Se generan picos antes de la entrega de un proyecto?
 
-3.¿En qué franja horaria trabajan más los alumnos?
+3.¿Qué usuarios son más activos (mayor número de eventos)?
 
 4.¿Cuántos usuario únicos han accedido a la plataforma?
 
@@ -160,7 +160,7 @@ En el siguiente apartado se expondrán dichas preguntas claves para la  explorac
 
 8.¿Que actividades o recursos generan más interacciones?
 
-9.¿Cómo cambia el comportamiento antes de una entrega?
+9.HACER UNA PREGUNTA
 
 10.¿Hay registros realizados en horas "extrañas" (ej. 4:00 AM)? ¿Son usuarios aislados o un patrón común en época de exámenes?
 
@@ -291,7 +291,7 @@ El objetivo es ver la evolución temporal de la actividad y superponer las fecha
 
 ### *Picos de actividad antes de las entregas*
 
-Para realizar este análisis, se ha explorado el dataset en busca del evento 'Se ha enviado una entrega'. Con el objetivo de mostrar el comportamiento del alumnado, se ha seleccionado la entrega del proyecto realizada el 26 de mayo de 2025."
+Para realizar este análisis, se ha explorado el dataset en busca del evento 'Se ha enviado una entrega'. Con el objetivo de mostrar el comportamiento del alumnado, se ha seleccionado la entrega del proyecto realizada el 26 de mayo de 2025.
 
 ```{r picos-entrega, echo=FALSE, message=FALSE, warning=FALSE, fig.width=10, fig.height=4, fig.cap="Actividad diaria en los días previos a la entrega final del proyecto (26 de mayo)."}
 library(dplyr)
@@ -321,6 +321,9 @@ theme_minimal()
 Como se observa en la Figura @ref(fig:picos-entrega), la evolución de la actividad muestra una clara tendencia exponencial a medida que se acerca el límite de la fecha de entrega .
 Cabe remarcar que el mayor número de interacciones no se producen el día mismo de la entrega(marcada por la línea negra), si no el día previo a la misma(pico máximo).
 Este patrón refleja el esfuerzo de última hora por parte del alumnado, donde la jornada previa concentra la mayor carga de trabajo en la plataforma, mientras que el día límite se reserva únicamente para llevar a cabo la entrega del material.
+
+
+
 
 
 
