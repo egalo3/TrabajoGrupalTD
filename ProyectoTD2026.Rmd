@@ -274,7 +274,7 @@ ggplot(datos_logs, aes(x = Hora)) +
   geom_histogram(aes(y = stat(density)), binwidth = 1, fill = "darkslategray3",color ="darkslategray") +
 geom_density(color = "deeppink1", linewidth = 1.2) +
   scale_x_continuous(breaks = 0:23) +
-  labs(title = "Distribución de la Actividad (Histograma + Densidad)",
+  labs(title = "Distribución de la Actividad",
        x = "Hora del día (0-23h)",
        y = "Densidad") +
   theme_minimal()
@@ -289,7 +289,7 @@ Como se puede observar en la Figura @ref(fig:grafico-horas),el uso de la platafo
 
 Por otro lado,podemos apreciar como la  caída de la actividad durante las horas centrales del mediodía (14:00 - 16:00), seguida de un segundo incremento más moderado durante la tarde y noche (17:00 - 20:00),franja horaria que coincide con el estudio autónomo y trabajo en casa .Finamente, la actividad desciende a patir de la 1:00 AM  
 
-En cuanto a la forma de la distribución , no sigue la forma de la Gaussiana. Podemos observar una distribución bimodal, es decir, este gráfico tiene claramente dos picos principales. Siendo el primero de las 11:00 - 12:00 de la mañana y el segundo, siendo el pico máximo, de 10:00-11:00 am  
+En cuanto a la forma de la distribución , no sigue la forma de la Gaussiana. Podemos observar una distribución bimodal, es decir, este gráfico tiene claramente dos picos principales. Siendo el primero de las 11:00 - 12:00 de la mañana y el segundo(siendo el pico máximo), de 10:00-11:00 am.  
 
 
 
@@ -351,6 +351,12 @@ ggplot(Usuarios_activos, aes(x = Usuario, y = n)) +
   theme_minimal()
 
 ```
+
+Con el objetivo de analizar la participación por parte del alumnado, hemos identificado los 20 usuarios más activos del conjunto.Como podemos ver en     ,existe un grupo de alumnos con un número elevado de interacciones, más de 5000.
+
+Este gráfico nos permite diferenciar el alumnado que utiliza la plataforma de forma puntual y aquellos que navegan e interactúan constantemente con el material del curso.
+
+
 
 
 
