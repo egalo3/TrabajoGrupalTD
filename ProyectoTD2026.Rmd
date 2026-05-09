@@ -161,7 +161,7 @@ En el siguiente apartado se expondrán dichas preguntas claves para la  explorac
 
 3.¿Qué usuarios son más activos (mayor número de eventos)?
 
-4.¿Cuántos usuario únicos han accedido a la plataforma?
+4.NO LA HAGO
 
 5.¿Cuál es el número medio de acciones por usuario?
 
