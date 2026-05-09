@@ -144,6 +144,17 @@ En el siguiente apartado se expondrán dichas preguntas claves para la  explorac
 
 
 
+
+
+
+
+
+
+
+
+
+
+
 1.¿En que hora existe una mayor actividad por parte de los alumnos ? 
 
 2.¿Se generan picos antes de la entrega de un proyecto?
@@ -221,7 +232,7 @@ tabla <- data.frame(
 kable(tabla, caption = "Descripción de las variables ")
 ```
 
-*"Como se puede observar en la **Tabla \@ref(tab:tabla-variables)**, existe una predominancia de variables de tipo string o factor."*
+Como se puede observar en la Tabla \@ref(tab:tabla-variables), existe una predominancia de variables de tipo string o factor.
 
 
 
@@ -242,7 +253,7 @@ kable(tabla_nas, caption = "Análisis de valores faltantes por variable")
 
 ```
 
-A partir de los datos obtenidos en la Tabla @ref(tab:analisis-nas), se puede afirmar que el conjunto de datos es robusto, es decir, existe un escaso porcentaje de valores faltantes en las variables analizadas.
+A partir de los datos obtenidos en la Tabla \@ref(tab:analisis-nas), se puede afirmar que el conjunto de datos es robusto, es decir, existe un escaso porcentaje de valores faltantes en las variables analizadas.
 
 Por otro lado, la existencia de valores nulos en variables como "Usuario.afectado" no deben interpretarse como errores, ya que existen múltiples acciones que son individuales y no requieren la implicación de un segundo usuario. Por tanto, el data set es considerado de alta calidad.
 
@@ -285,7 +296,7 @@ geom_density(color = "deeppink1", linewidth = 1.2) +
 ```
 
 
-Como se puede observar en la Figura @ref(fig:grafico-horas),el uso de la plataforma presenta una gran variación a lo largo deldía. La mayor parte de la actividad se concentra durante la mañana, alcanzando su pico máximo durante las  9:00 horas, podemos observar que en ese instante se registran más de 16.000 eventos. Este comportamiento es coherente con el horario lectivo.
+Como se puede observar en la Figura \@ref(fig:grafico-horas),el uso de la plataforma presenta una gran variación a lo largo deldía. La mayor parte de la actividad se concentra durante la mañana, alcanzando su pico máximo durante las  9:00 horas, podemos observar que en ese instante se registran más de 16.000 eventos. Este comportamiento es coherente con el horario lectivo.
 
 Por otro lado,podemos apreciar como la  caída de la actividad durante las horas centrales del mediodía (14:00 - 16:00), seguida de un segundo incremento más moderado durante la tarde y noche (17:00 - 20:00),franja horaria que coincide con el estudio autónomo y trabajo en casa .Finamente, la actividad desciende a patir de la 1:00 AM  
 
@@ -328,31 +339,34 @@ theme_minimal()
 
 
 ```
-Como se observa en la Figura @ref(fig:picos-entrega), la evolución de la actividad muestra una clara tendencia exponencial a medida que se acerca el límite de la fecha de entrega .
+Como se observa en la Figura \@ref(fig:picos-entrega), la evolución de la actividad muestra una clara tendencia exponencial a medida que se acerca el límite de la fecha de entrega .
 Cabe remarcar que el mayor número de interacciones no se producen el día mismo de la entrega(marcada por la línea negra), si no el día previo a la misma(pico máximo).
 Este patrón refleja el esfuerzo de última hora por parte del alumnado, donde la jornada previa concentra la mayor carga de trabajo en la plataforma, mientras que el día límite se reserva únicamente para llevar a cabo la entrega del material.
 
 
-#Análisis frecuencia:usuarios más activos
+# Exploración Usuarios 
 
-```{r}
+En este apartado realizaremos un análisis en base al comportamiento de los usuarios de la plataforma.
 
+
+## Análisis frecuencia:usuarios más activos
+
+```{r grafico-usuarios-activos, echo=FALSE, fig.cap="30 usuarios con mayor número de interacciones en la plataforma."}
 library(ggplot2)
 #Acciones por usuario
 Usuarios_activos <- datos_logs %>%
-  count(Usuario, sort = TRUE) %>% head(20)
+  count(Usuario, sort = TRUE) %>% head(30)
 
 # Gráfico de barras
 ggplot(Usuarios_activos, aes(x = Usuario, y = n)) +
   geom_col(fill = "cyan4") +
-  coord_flip() + labs(title = "20 Usuarios más activos",
+  coord_flip() + labs(title = "30 Usuarios más activos",
        x = "ID de Usuario",
        y = "Número total de interacciones") +
   theme_minimal()
 
 ```
-
-Con el objetivo de analizar la participación por parte del alumnado, hemos identificado los 20 usuarios más activos del conjunto.Como podemos ver en     ,existe un grupo de alumnos con un número elevado de interacciones, más de 5000.
+Con el objetivo de analizar la participación por parte del alumnado, hemos identificado los 30 usuarios más activos del conjunto.Como podemos ver en la \@ref(fig:grafico-usuarios-activos),existe un grupo de alumnos con un número elevado de interacciones,llegando a ser más de 5000.
 
 Este gráfico nos permite diferenciar el alumnado que utiliza la plataforma de forma puntual y aquellos que navegan e interactúan constantemente con el material del curso.
 
