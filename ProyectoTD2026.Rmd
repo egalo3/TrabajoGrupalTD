@@ -262,18 +262,24 @@ Para determinar la franja horaria en la que existe una mayor actividad por parte
 library(dplyr)
 library(lubridate)
 library(ggplot2)
+library(ggplot2)
+library(dplyr)
+library(lubridate)
 
-# Solo extraemos la hora de la columna Fecha_aux que ya creaste antes
-distribucion_horas <- datos_logs %>%
-  mutate(Hora = hour(Fecha_aux)) %>%
-  count(Hora, name = "Cantidad_Eventos")
+#Extraemos solo la hora de cada fecha con la función hour
+datos_logs <- datos_logs %>% mutate(Hora = hour(Fecha_aux))
 
-# Creamos el gráfico de barras
-ggplot(distribucion_horas, aes(x = factor(Hora), y = Cantidad_Eventos)) +
-  geom_col(fill = "dodgerblue") + geom_density()
-  labs(x = "Hora del día (0-23h)",
-       y = "Cantidad de eventos (Logs)") +
+
+ggplot(datos_logs, aes(x = Hora)) +
+  geom_histogram(aes(y = stat(density)), binwidth = 1, fill = "darkslategray3",color ="darkslategray") +
+geom_density(color = "deeppink1", linewidth = 1.2) +
+  scale_x_continuous(breaks = 0:23) +
+  labs(title = "Distribución de la Actividad (Histograma + Densidad)",
+       x = "Hora del día (0-23h)",
+       y = "Densidad") +
   theme_minimal()
+
+
 
 
 ```
