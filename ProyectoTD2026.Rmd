@@ -323,6 +323,24 @@ Cabe remarcar que el mayor número de interacciones no se producen el día mismo
 Este patrón refleja el esfuerzo de última hora por parte del alumnado, donde la jornada previa concentra la mayor carga de trabajo en la plataforma, mientras que el día límite se reserva únicamente para llevar a cabo la entrega del material.
 
 
+#Análisis frecuencia:usuarios más activos
+
+```{r}
+
+library(ggplot2)
+#Acciones por usuario
+Usuarios_activos <- datos_logs %>%
+  count(Usuario, sort = TRUE) %>% head(20)
+
+# Gráfico de barras
+ggplot(Usuarios_activos, aes(x = Usuario, y = n)) +
+  geom_col(fill = "cyan4") +
+  coord_flip() + labs(title = "20 Usuarios más activos",
+       x = "ID de Usuario",
+       y = "Número total de interacciones") +
+  theme_minimal()
+
+```
 
 
 
