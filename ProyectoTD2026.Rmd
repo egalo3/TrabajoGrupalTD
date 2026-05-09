@@ -266,7 +266,11 @@ Una vez confirmada la integridad del data frame obtenido y analizada la naturale
 # Análisis de la distribución horaria
 
 
-Para determinar la franja horaria en la que existe una mayor actividad por parte del alumnado, analizaremos la distribución.Esta nos permite comprender y analizar el comportamiento de los estudiantes 
+Para determinar la franja horaria en la que existe una mayor actividad por parte del alumnado, analizaremos la distribución.Esta nos permite comprender y analizar el comportamiento de los estudiantes.
+
+En este caso contemplaremos tanto la forma de la distribución(Gráfica 1), como el número de interacciones por franjas horarias(Gráfica 2)
+
+
 
 
 ```{r grafico-horas, echo=FALSE, message=FALSE, warning=FALSE, fig.cap="Distribución de la actividad de los usuarios por hora del día"}
@@ -293,14 +297,24 @@ geom_density(color = "deeppink1", linewidth = 1.2) +
 
 
 
+ggplot(datos_logs, aes(x = Hora)) +
+  geom_histogram( binwidth = 1, fill = "darkslategray3",color ="darkslategray") +scale_x_continuous(breaks = 0:23) +
+  labs(title = "Distribución de la Actividad",
+       x = "Hora del día (0-23h)",
+       y = "Interacciones") +
+  theme_minimal()
+
+
+
+
 ```
 
 
-Como se puede observar en la Figura \@ref(fig:grafico-horas),el uso de la plataforma presenta una gran variación a lo largo deldía. La mayor parte de la actividad se concentra durante la mañana, alcanzando su pico máximo durante las  9:00 horas, podemos observar que en ese instante se registran más de 16.000 eventos. Este comportamiento es coherente con el horario lectivo.
+Como se puede observar en las Figuras \@ref(fig:grafico-horas),el uso de la plataforma presenta una gran variación a lo largo del día. La mayor parte de la actividad se concentra durante la mañana, alcanzando su pico máximo durante las  9:00 horas, podemos observar que en ese instante se registran más de 16.000 eventos. Este comportamiento es coherente con el horario lectivo.
 
 Por otro lado,podemos apreciar como la  caída de la actividad durante las horas centrales del mediodía (14:00 - 16:00), seguida de un segundo incremento más moderado durante la tarde y noche (17:00 - 20:00),franja horaria que coincide con el estudio autónomo y trabajo en casa .Finamente, la actividad desciende a patir de la 1:00 AM  
 
-En cuanto a la forma de la distribución , no sigue la forma de la Gaussiana. Podemos observar una distribución bimodal, es decir, este gráfico tiene claramente dos picos principales. Siendo el primero de las 11:00 - 12:00 de la mañana y el segundo(siendo el pico máximo), de 10:00-11:00 am.  
+En cuanto a la forma de la distribución , los datos no se distribuyen siguiendo la distribución Gaussiana . Podemos observar una distribución bimodal, es decir, este gráfico tiene claramente dos picos principales. Siendo el primero en la franja horario de  11:00 - 12:00 de la mañana y el segundo(siendo el pico máximo), de 10:00-11:00 am.  
 
 
 
