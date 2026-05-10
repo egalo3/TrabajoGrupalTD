@@ -548,3 +548,60 @@ Por otra parte, se puede ver casos aislados en algunos meses. Por ejemplo entre 
 
 
 
+
+
+
+
+## Comportamiento del usuario: Actividades pasivas frente a activas (Pregunta 17)
+
+Para profundizar en la exploración de los usuarios, resulta fundamental conocer qué tipo de uso hacen de la plataforma. Por ello, se procederá a analizar la proporción existente entre el número de actividades pasivas (orientadas a la consulta, como entrar o visualizar material) y las actividades activas (que implican la creación o modificación de contenido, como entregar tareas o editar).
+
+Para dar respuesta a esta cuestión, se ha llevado a cabo una clasificación de los eventos mediante técnicas de procesamiento de texto. Se ha normalizado el texto y buscado raíces de palabras clave para categorizar cada acción, otorgando prioridad a los eventos de creación y excluyendo los eventos neutros o del sistema para asegurar una comparativa directa y rigurosa.
+
+```{r tabla-proporcion, echo=FALSE, warning=FALSE, message=FALSE}
+
+# Clasificación de actividades usando manipulación de caracteres:
+datos_actividad <- datos_logs %>%
+  mutate(
+    Evento_lower = tolower(Evento), # Normalizamos a minúsculas
+    Tipo_Actividad = case_when(
+      grepl("entreg|crea|actualiz|subi|envi|respon|modific|edit|añadi", Evento_lower) ~ "Activa",       # Buscamos las Activas
+      grepl("vist|visualiza|consult|acced|entra|visita", Evento_lower) ~ "Pasiva", # Buscamos las Pasivas
+      TRUE ~ "Otra" # Para el resto de eventos que no encajen
+    )
+  ) %>%
+  # Filtramos para quedarnos solo con la comparativa directa:
+  filter(Tipo_Actividad != "Otra")
+
+# Cálculo de proporciones 
+proporcion_resumen <- datos_actividad %>%
+  count(Tipo_Actividad, name = "Cantidad") %>%
+  mutate(Porcentaje = round((Cantidad / sum(Cantidad)) * 100, 2))
+
+# Tabla:
+kable(proporcion_resumen, caption = "Frecuencia y porcentaje de actividades Pasivas y Activas") %>%
+  kable_styling(latex_options = "HOLD_position")
+
+```
+
+Tal y como se muestra en la Tabla \ref{tab:tabla-proporcion}, existe una evidente disparidad entre los volúmenes de ambas categorías. Para facilitar la interpretación de estos resultados, se ha generado la siguiente representación gráfica.
+
+```{r figura-proporcion, echo=FALSE, fig.cap="Proporción de actividades pasivas frente a activas en la plataforma.", fig.pos="H"}
+
+# Gráfico de barras de la proporción:
+ggplot(proporcion_resumen, aes(x = Tipo_Actividad, y = Porcentaje, fill = Tipo_Actividad)) +
+  geom_bar(stat = "identity", width = 0.5, color = "black") +
+  geom_text(aes(label = paste0(Porcentaje, "%")), vjust = -0.8, fontface = "bold", size = 5) + # Añadimos etiquetas de porcentaje
+  labs(x = "Tipo de Interacción", y = "Porcentaje (%)") +
+  scale_y_continuous(expand = expansion(mult = c(0, 0.2))) +
+  scale_fill_manual(values = c("Activa" = "purple", "Pasiva" = "turquoise")) +
+  theme_minimal() +
+  theme(legend.position = "none")
+
+```
+
+
+Como se observa en la Figura \ref{fig:figura-proporcion}, la diferencia de comportamiento es muy notoria. La inmensa mayoría de las interacciones registradas en el Aula Virtual consisten en el consumo pasivo de contenido (visualización de cursos, descarga de apuntes o lectura de enunciados). Las interacciones activas representan una pequeña fracción del total, este es un patrón esperado en entornos de aprendizaje virtual donde el estudio autónomo y la lectura preceden a los momentos puntuales de entrega o evaluación.
+
+
+
