@@ -181,11 +181,11 @@ En el siguiente apartado se expondrán dichas preguntas claves para la  explorac
 
 13.¿Existe alguna evolución en la actividad de un mismo usuario a lo largo del año (de menos a más o de más a menos)? ¿A que puede deberse esto?
 
-14.¿Hay alguna diferencia notoria de visitas entre una actividad y otra? ¿A que puede deberse?
+14.¿Hay una diferencia notoria entre las actividades registradas en dias lectivos y las registradas los fines de semana?
 
-15.¿Cuál es la secuencia más común entre los estudiantes? (Ej. entrar al curso -> ver material -> descargar archivo)
+15.¿Qué usuarios cambian más de dispositivo a lo largo del día?
 
-16.¿Existen diferencias entre los patrones de actividad de los usuarios muy activos con la de los menos activos?
+16.¿Qué actividades se realizan más desde móvil y cuáles desde ordenador?
 
 17.¿Cuál es la proporción entre el número de actividades pasivas (entrar, ver) y las activas (entregar, editar)?
 
@@ -556,10 +556,6 @@ Por otra parte, se puede ver casos aislados en algunos meses. Por ejemplo entre 
 
 
 12.¿Hay eventos de error o acciones fallidas recurrentes en los logs?
-
-
-
-
 
 
 
