@@ -609,8 +609,67 @@ ggplot(proporcion_resumen, aes(x = Tipo_Actividad, y = Porcentaje, fill = Tipo_A
 
 ```
 
-
 Como se observa en la Figura \ref{fig:figura-proporcion}, la diferencia de comportamiento es muy notoria. La inmensa mayoría de las interacciones registradas en el Aula Virtual consisten en el consumo pasivo de contenido (visualización de cursos, descarga de apuntes o lectura de enunciados). Las interacciones activas representan una pequeña fracción del total, este es un patrón esperado en entornos de aprendizaje virtual donde el estudio autónomo y la lectura preceden a los momentos puntuales de entrega o evaluación.
 
 
+## Identificación de patrones de acceso estacional (Pregunta 18)
 
+Tras analizar la distribución general de la actividad, resulta de gran interés determinar si existe un perfil de estudiante con un comportamiento "estacional". Es decir, alumnos que no mantienen una interacción constante con el Aula Virtual, sino que concentran gran parte de su actividad en momentos críticos, como los días previos a la entrega final del proyecto (fijada el 26 de mayo).
+
+Para este análisis, hemos definido un "Periodo Crítico" que abarca los 7 días previos a la entrega. Hemos clasificado a los usuarios en dos categorías: **Acceso Puntual**, aquellos cuya actividad semanal triplica la media esperada (concentrando más del 10% de sus clics anuales en esa única semana); y **Acceso Regular**, el resto de usuarios con una participación más constante a lo largo del curso.
+
+```{r tabla-estacionalidad, echo=FALSE, warning=FALSE, message=FALSE}
+
+# Definimos fecha de referencia y el periodo crítico 
+fecha_entrega <- as.Date("2025-05-26")
+periodo_inicio <- fecha_entrega - 7
+
+# Procesamos los datos por usuario para segmentarlos 
+perfil_usuarios <- datos_logs %>%
+  mutate(Fecha = as.Date(Fecha_aux)) %>%
+  group_by(Usuario) %>%
+  summarise(
+    Total_Accesos = n(),
+    Accesos_Criticos = sum(Fecha >= periodo_inicio & Fecha <= fecha_entrega, na.rm = TRUE),
+    Pct_Critico = (Accesos_Criticos / Total_Accesos) * 100,
+    .groups = "drop"
+  ) %>%
+  mutate(
+    Tipo_Usuario = case_when(
+      Pct_Critico >= 10 ~ "Acceso Puntual",
+      TRUE ~ "Acceso Regular"
+    )
+  )
+
+# Tabla de frecuencias
+resumen_estacional <- perfil_usuarios %>%
+  count(Tipo_Usuario, name = "Numero_Usuarios") %>%
+  mutate(Porcentaje = round((Numero_Usuarios / sum(Numero_Usuarios)) * 100, 2))
+
+# Imprimimos tabla con etiqueta 
+kable(resumen_estacional, caption = "\\label{tab:tabla-estacional}Clasificación de usuarios según su estacionalidad ante la entrega.") %>%
+  kable_styling(latex_options = "HOLD_position")
+
+```
+
+Como se puede observar en la Tabla \ref{tab:tabla-estacional}, al aplicar este criterio de concentración semanal, logramos identificar un segmento de la clase con un perfil de acceso puntual. Aunque un gran grupo de estudiantes mantiene una interacción más regular a lo largo del curso, existe una parte del alumnado que intensifica drásticamente su huella digital ante la proximidad de los plazos de evaluación.
+
+Para visualizar esta segmentación y entender cómo se distribuye la intensidad de la actividad en el periodo crítico, se presenta la siguiente figura.
+
+```{r figura-estacional, echo=FALSE, fig.cap="Concentración de la actividad de los usuarios en la plataforma durante periodos muy concretos.", fig.pos="H"}
+
+# Graficamos la distribución del porcentaje de actividad 
+ggplot(perfil_usuarios, aes(x = Pct_Critico)) +
+  geom_histogram(binwidth = 2, fill = "darkslategray3", color = "darkslategray", alpha = 0.8) +
+  # Añadimos línea de corte en el 10% para destacar visualmente a los puntuales 
+  geom_vline(xintercept = 10, linetype = "dashed", color = "hotpink2", linewidth = 1) +
+  labs(
+    x = "Porcentaje de actividad en la semana de entrega (%)",
+    y = "Número de Usuarios"
+  ) +
+  scale_y_continuous(expand = expansion(mult = c(0, 0.15))) +
+  theme_minimal()
+
+```
+
+La Figura \ref{fig:figura-estacional} muestra la distribución de los usuarios según el peso que tiene esa semana específica en su actividad total anual. La acumulación de usuarios a la derecha de la línea de corte (marcada en color hotpink2) confirma la existencia de alumnos cuya actividad se dispara bajo la presión evaluativa. Este comportamiento es un indicador claro de una estrategia de aprendizaje basada en la urgencia frente a la constancia continuada.
