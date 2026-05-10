@@ -387,21 +387,21 @@ Este gráfico nos permite diferenciar el alumnado que utiliza la plataforma de f
 
 
 
-
-
-5.¿Cuál es el número medio de acciones por usuario?
+## Número medio de acciones por usuario
 
 ```{r}
-
 acciones_por_usuario <- datos_logs %>%
   group_by(Usuario) %>%
   summarise(total_acciones = n(), .groups = "drop") # número total de acciones por cada usuario
 media <- mean(acciones_por_usuario$total_acciones)
-paste("Número medio de acciones por usuario:", round(media, 2)) # redondeamos a dos decimales
 ```
+Tras procesar los registros, se ha determinado que el número medio de acciones realizadas por usuario es de ...... 
+Este dato sugiere que, en promedio, cada estudiante interactúa más de 800 veces con la plataforma a lo largo del periodo analizado, lo que refleja un seguimiento constante de los materiales.
 
-6.¿Existen usuarios con comportamiento atípico (muy alta o muy baja actividad)?
-```{r}
+
+## Comportamientos atípicos
+
+```{r tabla-atipicos, echo=FALSE}
 # Calculamos por quantiles
 q1 <- quantile(acciones_por_usuario$total_acciones, 0.25)
 q3 <- quantile(acciones_por_usuario$total_acciones, 0.75)
@@ -420,10 +420,17 @@ usuarios_atipicos <- acciones_por_usuario %>%
 kable(usuarios_atipicos, caption = "Usuarios con comportamiento atípico en número de acciones") %>%
   kable_styling(latex_options = "scale_down")
 ```
-Con esta tabla podemos ver a los usuarios que se salen de la norma. Los primeros de la lista son los muy activos(aquellos que la han utilizado de manera exagerada), y los últimos son usuarios que apenas han interactuado con la plataforma. Para no dañar el analisi debemos saber porque hacen que las mediades como de la media de acciones se vea afectada.
+Como se observa en la Tabla @ref(tab:tabla-atipicos), existe un grupo de estudiantes con una actividad excepcionalmente alta. Estos usuarios suelen ser los que consultan repetidamente los materiales o realizan múltiples intentos en las actividades, lo que debe tenerse en cuenta para no sesgar las interpretaciones globales del grupo.
+Por ejemplo el usuario.... destaca con un total de 26.350 acciones.
 
-7.¿Existe relación entre el dispositivo empleado y la actividad realizada?
-```{r}
+
+# Actividades
+
+En este apartado veremos las diferentes relaciones, iteracciones y comportamientos que tienen las actividades.
+
+## Relación entre dispositivo empleado y la actividad realizada
+
+```{r tabla-origen, echo=FALSE}
 # Limpiar y agrupar datos
 relacion_origen_evento <- datos_logs %>%
   group_by(Origen, Evento) %>%
@@ -442,10 +449,12 @@ relacion_origen_evento <- datos_logs %>%
 kable(relacion_origen_evento, caption = "Relación entre el origen y el tipo de evento") %>%
   kable_styling(latex_options = "scale_down")
 ```
-Para que se vea mejor hemos seleccionado los eventos más comunes. (poner lo que se ve en la tabla) - - - - si es verdad que hay relacion....
+En la Tabla @ref(tab:tabla-origen) se aprecia cómo ciertos eventos de consulta son predominantes desde determinados orígenes de conexión, lo que sugiere que el tipo de dispositivo podría condicionar la navegación del usuario.
 
-8.¿Que actividades o recursos generan más interacciones?
-```{r}
+
+## Actividades/recursos con más iteracciones
+
+```{r tabla-iteraccion2}
 # Agrupar por el componente de Moodle y el evento
 actividades_populares <- datos_logs %>%
   group_by(Componente, Evento) %>%
@@ -456,8 +465,9 @@ actividades_populares <- datos_logs %>%
 kable(actividades_populares, caption = "Actividades o recursos con más interacciones") %>%
   kable_styling(latex_options = "scale_down")
 ```
-Primero agrupamps por componente y evento y para mejor visualización de los datos utilizamos un head para ver los 10 más populares.
-En la Tabla vemos como .... es con el que mas interacciones....
+Tal y como indica la Tabla @ref(tab:tabla-iteraccion2), los componentes relacionados con la visualización de materiales y la gestión de tareas son los que generan el mayor flujo de datos en los logs analizados.
+
+
 
 10.¿Hay registros realizados en horas "extrañas" (ej. 4:00 AM)? ¿Son usuarios aislados o un patrón común en época de exámenes?
 
