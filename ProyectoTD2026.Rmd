@@ -531,7 +531,7 @@ ggplot(datos_mayo_julio, aes(x = Fecha_s, y = Usuarios_Unicos)) +
 
 
 ```
-En el \@ref(fig:grafico-epoca-examenes) se puede observar dos días concretos en los que el número de usuarios activos en horas nocturnas ha sido mayor. Por ejemplo, el día 26 de mayo un total de 15 alumnos accedieron en ese horario a la clase. También entre el 9 y el 16 de junio, destaca un día en el que accedieron más de 20 usuarios diferentes.
+En el \@ref(fig:grafico-epoca-examenes) se puede observar dos días concretos en los que el número de usuarios activos en horas nocturnas ha sido mayor. Por ejemplo, el día 26 de mayo un total de 15 alumnos accedieron en ese horario a la clase. También entre el 9 y el 16 de junio destaca un día en el que accedieron más de 20 usuarios diferentes.
 
 Por otra parte, se puede ver casos aislados en algunos meses. Por ejemplo entre el 5 de mayo y el 12 de mayo donde la actividad nocturna se reduce a 1 o 2 usuarios por noche.
 
