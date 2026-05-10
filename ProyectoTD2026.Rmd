@@ -458,3 +458,93 @@ kable(actividades_populares, caption = "Actividades o recursos con más interacc
 ```
 Primero agrupamps por componente y evento y para mejor visualización de los datos utilizamos un head para ver los 10 más populares.
 En la Tabla vemos como .... es con el que mas interacciones....
+
+10.¿Hay registros realizados en horas "extrañas" (ej. 4:00 AM)? ¿Son usuarios aislados o un patrón común en época de exámenes?
+
+```{r}
+Hora<- datos_logs %>%
+  mutate(
+  # Extraemos la hora del df.
+  Hora_dia= hour(Fecha_aux),
+  
+  # Extraemos el día del df.
+  Fecha_s= as.Date(Fecha_aux)
+    ) %>%
+  
+  # Filtramos las horas consideradas "extrañas"
+  filter(Hora >= 0 & Hora <= 5) %>% 
+  
+  # Agrupamos por día
+  group_by(Fecha_s) %>% 
+  
+  #Calculamos el número de usuarios únicos
+  summarise(Usuarios_Unicos = n_distinct(Usuario))
+```
+
+```{r grafico-usuarios-nocturnos}
+# Creamos el gráfico 
+fechas_concretas<-Hora %>% filter(
+  Fecha_s>= as.Date("2025-01-01") & Fecha_s <= as.Date("2025-07-31"))
+
+ggplot(fechas_concretas, aes(x = Fecha_s, y = Usuarios_Unicos)) +
+  geom_line(color= "#2C3E50", size= 0.5) +
+  geom_point(color= "#D35400", size =1) +
+  
+  # Ajustamos el eje x.
+  scale_x_date(
+    date_breaks = "1 month",
+    date_minor_breaks = "1 week",
+    date_labels = "%d-%b") +
+  
+  labs(
+    title = "Usuarios activos entre las 00:00 - 05:00 AM",
+    x = "Fecha",
+    y = "Número de usuarios únicos"
+  ) +
+  theme_minimal()  +
+  
+  # Rotar fechas.
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+```
+En el gráfico \@ref(fig:grafico-usuarios-nocturnos) muestra la evolución del segundo cuatrimestre en cuanto a la actividad de usuarios en horas "extrañas" (00:00 a 05:00 AM). Se observan claros picos de actividad en algunos periodos del año, especialmente entre los meses de mayo y julio. Mientras que durante el resto del curso la actividad es mínima y podemos atribuirlo a usuarios aislados.
+
+Para analizarlo con mayor precisión, se ha generado otro gráfico con una visualización más detallada de la época de exámenes (entre mayo y junio).
+
+
+```{r grafico-epoca-examenes}
+# Filtramos los meses que nos interesan
+datos_mayo_julio <- Hora %>% 
+  filter(Fecha_s >= as.Date("2025-05-01") & Fecha_s <= as.Date("2025-07-31"))
+
+ggplot(datos_mayo_julio, aes(x = Fecha_s, y = Usuarios_Unicos)) +
+  geom_line(color = "lightblue", size = 0.9) +   
+  geom_point(color = "darkblue", size = 2) +  
+  scale_x_date(date_breaks = "1 week", date_labels = "%d-%b") +
+  labs(
+    title = "Actividad nocturna en época de exámenes",
+    x = "Fecha",
+    y = "Usuarios Únicos"
+  ) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+
+```
+En el \@ref(fig:grafico-epoca-examenes) se puede observar dos días concretos en los que el número de usuarios activos en horas nocturnas ha sido mayor. Por ejemplo, el día 26 de mayo un total de 15 alumnos accedieron en ese horario a la clase. También entre el 9 y el 16 de junio, destaca un día en el que accedieron más de 20 usuarios diferentes.
+
+Por otra parte, se puede ver casos aislados en algunos meses. Por ejemplo entre el 5 de mayo y el 12 de mayo donde la actividad nocturna se reduce a 1 o 2 usuarios por noche.
+
+
+11.¿Se detectan múltiples IPs para un mismo usuario en un corto periodo de tiempo?
+
+
+
+
+
+12.¿Hay eventos de error o acciones fallidas recurrentes en los logs?
+
+
+
+
+
