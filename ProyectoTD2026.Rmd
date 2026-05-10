@@ -395,7 +395,7 @@ acciones_por_usuario <- datos_logs %>%
   summarise(total_acciones = n(), .groups = "drop") # número total de acciones por cada usuario
 media <- mean(acciones_por_usuario$total_acciones)
 ```
-Tras procesar los registros, se ha determinado que el número medio de acciones realizadas por usuario es de ...... 
+Tras procesar los registros, se ha determinado que el número medio de acciones realizadas por usuario es de 1261.448 
 Este dato sugiere que, en promedio, cada estudiante interactúa más de 800 veces con la plataforma a lo largo del periodo analizado, lo que refleja un seguimiento constante de los materiales.
 
 
@@ -421,7 +421,7 @@ kable(usuarios_atipicos, caption = "Usuarios con comportamiento atípico en núm
   kable_styling(latex_options = "scale_down")
 ```
 Como se observa en la Tabla @ref(tab:tabla-atipicos), existe un grupo de estudiantes con una actividad excepcionalmente alta. Estos usuarios suelen ser los que consultan repetidamente los materiales o realizan múltiples intentos en las actividades, lo que debe tenerse en cuenta para no sesgar las interpretaciones globales del grupo.
-Por ejemplo el usuario.... destaca con un total de 26.350 acciones.
+Por ejemplo el usuario U0072 destaca con un total de 13079 acciones, seguido por U0001 con 6932 acciones.
 
 
 # Actividades
@@ -450,6 +450,7 @@ kable(relacion_origen_evento, caption = "Relación entre el origen y el tipo de 
   kable_styling(latex_options = "scale_down")
 ```
 En la Tabla @ref(tab:tabla-origen) se aprecia cómo ciertos eventos de consulta son predominantes desde determinados orígenes de conexión, lo que sugiere que el tipo de dispositivo podría condicionar la navegación del usuario.
+Por ejemplo el origen web con el tipo de evento Módulo de curso visto con 23535.
 
 
 ## Actividades/recursos con más iteracciones
@@ -466,6 +467,8 @@ kable(actividades_populares, caption = "Actividades o recursos con más interacc
   kable_styling(latex_options = "scale_down")
 ```
 Tal y como indica la Tabla @ref(tab:tabla-iteraccion2), los componentes relacionados con la visualización de materiales y la gestión de tareas son los que generan el mayor flujo de datos en los logs analizados.
+
+El componente sistema por ejemplo, con el evento curso visto con un total de iteracciones 20430.
 
 
 
