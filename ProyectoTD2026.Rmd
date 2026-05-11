@@ -561,6 +561,96 @@ Por otra parte, se puede ver casos aislados en algunos meses. Por ejemplo entre 
 
 
 
+
+## Variación de la actividad anual en casos aislados
+
+Para el análisis de la variación de la actividad de cada usuario a lo largo del año, analizaremos las actividades registradas por cada usuario en los diferentes meses y representaremos en un gráfico de barras los datos de cada mes para poder observar la diferencia entre los meses.
+
+```{r}
+library(dplyr)
+library(lubridate)
+library(ggplot2)
+
+# 1. Convertimos la fecha desde Fecha_texto
+datos_mensualidad <- datos_logs %>%
+  mutate(Fecha_aux = dmy(Fecha_texto),
+         Mes_num = month(Fecha_aux))
+
+# 2. Seleccionamos 3 usuarios al azar
+usuarios_azar <- sample(unique(datos_mensualidad$Usuario), 3)
+
+# 3. Creamos tabla de meses completa
+meses <- c("Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
+           "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre")
+meses_completos <- data.frame(
+  Mes_num = 1:12,
+  Mes = factor(meses, levels = meses)
+)
+
+# 4. Función para generar dataframe mensual de un usuario
+actividades_por_usuario <- function(usuario_id) {
+  actividades_usuario <- datos_mensualidad %>%
+    filter(Usuario == usuario_id) %>%
+    group_by(Mes_num) %>%
+    summarise(Actividades = n())
+  
+  df_usuario <- meses_completos %>%
+    left_join(actividades_usuario, by = "Mes_num") %>%
+    mutate(Actividades = ifelse(is.na(Actividades), 0, Actividades),
+           Usuario = usuario_id)
+  
+  return(df_usuario)
+}
+
+# 5. Generamos los 3 dataframes individuales
+df_u1 <- actividades_por_usuario(usuarios_azar[1])
+df_u2 <- actividades_por_usuario(usuarios_azar[2])
+df_u3 <- actividades_por_usuario(usuarios_azar[3])
+
+# 6. Gráficos individuales
+# Usuario 1
+ggplot(df_u1, aes(x = Mes, y = Actividades)) +
+  geom_col(fill = "darkslategray3", color = "darkslategray") +
+  labs(title = paste("Actividades mensuales del usuario", usuarios_azar[1]),
+       x = "Mes", y = "Número de actividades") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+# Usuario 2
+ggplot(df_u2, aes(x = Mes, y = Actividades)) +
+  geom_col(fill = "yellow", color = "black") +
+  labs(title = paste("Actividades mensuales del usuario", usuarios_azar[2]),
+       x = "Mes", y = "Número de actividades") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+# Usuario 3
+ggplot(df_u3, aes(x = Mes, y = Actividades)) +
+  geom_col(fill = "palevioletred3", color = "deeppink3") +
+  labs(title = paste("Actividades mensuales del usuario", usuarios_azar[3]),
+       x = "Mes", y = "Número de actividades") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+# 7. Unimos los 3 dataframes para el gráfico combinado
+df_todos <- bind_rows(df_u1, df_u2, df_u3)
+
+# 8. Gráfico combinado con 3 barras por mes
+ggplot(df_todos, aes(x = Mes, y = Actividades, fill = Usuario)) +
+  geom_col(position = "dodge", color = "black") +
+  labs(title = "Comparación mensual de actividad entre 3 usuarios",
+       x = "Mes", y = "Número de actividades") +
+  scale_fill_manual(values = c("darkslategray3", "yellow", "palevioletred3")) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+```
+Como observamos en los gráficos, cada usuario presenta una variación anual de la actividad mensual diferente, es decir que ninguno sigue un patrón organizado, ni los usuarios muestran una misma variación entre los meses, por lo que según los datos registrados podemos concluir en que cada usuario realiza una serie de actividades diferentes independientemente de las actividades realizadas por los demás usuarios del registro.
+
+Por otra parte, algo que si podemos observar como "normal" en todos los usuarios estudiados es la falta de actividad durante los meses de agosto a diciembre, este suceso podemos suponer que no se sale de lo previsto, puesto que sabemos de ante mano que se trata del registro de las actividades realizadas en la asignatura de Tratamiento de Datos, la cual se desarrolla durante el segundo cuatrimestre. Es por ello que no es extraño que durante los meses del primer cuatrimestre, así como los meses de verano, naturalmente, no presenten actividad alguna.
+
+
+
 ## Comportamiento del usuario: Actividades pasivas frente a activas (Pregunta 17)
 
 Para profundizar en la exploración de los usuarios, resulta fundamental conocer qué tipo de uso hacen de la plataforma. Por ello, se procederá a analizar la proporción existente entre el número de actividades pasivas (orientadas a la consulta, como entrar o visualizar material) y las actividades activas (que implican la creación o modificación de contenido, como entregar tareas o editar).
