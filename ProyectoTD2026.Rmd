@@ -752,7 +752,7 @@ Para visualizar esta segmentación y entender cómo se distribuye la intensidad 
 ggplot(perfil_usuarios, aes(x = Pct_Critico)) +
   geom_histogram(binwidth = 2, fill = "darkslategray3", color = "darkslategray", alpha = 0.8) +
   # Añadimos línea de corte en el 10% para destacar visualmente a los puntuales 
-  geom_vline(xintercept = 10, linetype = "dashed", color = "hotpink2", linewidth = 1) +
+  geom_vline(xintercept = 10, linetype = "dashed", color = "purple", linewidth = 1) +
   labs(
     x = "Porcentaje de actividad en la semana de entrega (%)",
     y = "Número de Usuarios"
@@ -763,3 +763,141 @@ ggplot(perfil_usuarios, aes(x = Pct_Critico)) +
 ```
 
 La Figura \ref{fig:figura-estacional} muestra la distribución de los usuarios según el peso que tiene esa semana específica en su actividad total anual. La acumulación de usuarios a la derecha de la línea de corte (marcada en color morado) confirma la existencia de alumnos cuya actividad se dispara bajo la presión evaluativa. Este comportamiento es un indicador claro de una estrategia de aprendizaje basada en la urgencia frente a la constancia continuada.
+
+
+## Análisis del uso de dispositivos según la franja horaria (Pregunta 19)
+
+Para comprender los hábitos de conexión del alumnado, la cuestión plantea si existe una disminución del uso de dispositivos móviles durante el horario lectivo en favor de otras herramientas. Para estructurar la comparativa, definimos el "Horario Lectivo" como la franja comprendida entre las 08:00 y las 14:00 horas, frente al "Horario No Lectivo" (el resto del día).
+
+Mediante funciones de búsqueda y filtrado de texto, rastreamos los registros en busca de las etiquetas asociadas a la aplicación móvil (App, Web Services, Mobile,...) para contrastarlos con los accesos al entorno web estándar.
+
+```{r tabla-dispositivos, echo=FALSE, warning=FALSE, message=FALSE}
+
+# Definición de franjas horarias y clasificación de dispositivos 
+uso_dispositivos <- datos_logs %>%
+  mutate(
+    Hora = hour(Fecha_aux), 
+    Horario = case_when(
+      Hora >= 8 & Hora <= 14 ~ "Horario Lectivo",
+      TRUE ~ "Horario No Lectivo"
+    ),
+    Dispositivo = case_when(
+      grepl("servicio web|webservice|token|mobile|app|móvil|celular|ws", tolower(paste(Componente, Evento, Contexto))) ~ "Móvil / App",
+      TRUE ~ "Ordenador / Web"
+    )
+  )
+
+# Cálculo de resúmenes por franja
+resumen_dispositivos <- uso_dispositivos %>%
+  count(Horario, Dispositivo, name = "Accesos") %>%
+  group_by(Horario) %>%
+  mutate(Porcentaje = round((Accesos / sum(Accesos)) * 100, 2)) %>%
+  ungroup()
+
+# Tabla 
+kable(resumen_dispositivos, caption = "Distribución absoluta y porcentual del tipo de acceso por franja horaria.") %>%
+  kable_styling(latex_options = "HOLD_position")
+
+```
+
+Como se detalla en la Tabla \ref{tab:tabla-dispositivos}, los resultados extraídos del conjunto de datos son tajantes y revelan una limitación técnica de los propios registros de la plataforma: no existen trazas de actividad móvil. El 100% de las interacciones, tanto por la mañana como por la tarde, constan en el sistema como tráfico Web/Ordenador.
+
+Ante la imposibilidad de comparar porcentajes de dispositivos (dado que la variable es constante), el análisis debe centrarse en el volumen total de actividad que soporta la plataforma en cada una de estas franjas.
+
+```{r figura-dispositivos, echo=FALSE, fig.cap="Actividad total en el Aula Virtual por franja horaria.", fig.pos="H"}
+
+# Gráfico de volumen absoluto que hace visible el contraste real de actividad 
+ggplot(resumen_dispositivos, aes(x = Horario, y = Accesos, fill = Horario)) +
+  geom_bar(stat = "identity", color = "darkslategray", alpha = 0.9, width = 0.5) +
+  # Etiquetamos las barras con la cantidad real de accesos
+  geom_text(aes(label = format(Accesos, big.mark = ".")), 
+            vjust = -0.5, fontface = "bold", size = 5) +
+  labs(
+    x = "Franja Horaria",
+    y = "Volumen Total de Accesos Registrados"
+  ) +
+  scale_y_continuous(expand = expansion(mult = c(0, 0.15))) +
+  scale_fill_manual(values = c("Horario Lectivo" = "darkslategray3", "Horario No Lectivo" = "purple")) +
+  theme_minimal() +
+  theme(legend.position = "none") 
+
+```
+
+A la vista de la Tabla \ref{tab:tabla-dispositivos} y la Figura \ref{fig:figura-dispositivos}, se puede dar una respuesta fundamentada a la pregunta de investigación planteada: el uso de dispositivos es completamente indiferente respecto al horario. En la base de datos analizada, el alumno utiliza invariablemente el entorno Web/Ordenador.
+
+Lo que sí experimenta una variación altamente significativa no es la herramienta, sino la intensidad de uso. La Figura \ref{fig:figura-dispositivos} evidencia que el volumen de interacciones se desploma casi a la mitad (pasando de más de 70.000 a cerca de 39.000) al salir del horario de clase. Esto permite concluir que, aunque el dispositivo no cambia, los estudiantes concentran su actividad digital en la franja matutina presencial, dejando el horario no lectivo para un acceso considerablemente más residual.
+
+
+## Análisis de la actividad según el tipo de día y momento del curso (Pregunta 20)
+
+Para comprender los hábitos de estudio del alumnado, es fundamental analizar cómo se distribuye su carga de trabajo entre los días laborales y los fines de semana. Además, resulta de gran interés comprobar si esta proporción se mantiene estable a lo largo del año o si, por el contrario, se ve alterada ante la proximidad de fechas clave (como la entrega de proyectos o exámenes).
+
+Para responder a esta cuestión, utilizamos la información temporal de los eventos para identificar el día exacto de la semana en que ocurrieron. Posteriormente, dividimos el histórico del curso en dos fases: un Periodo Regular y una Época de Entrega (definida como los 14 días previos a la entrega final del proyecto fijada el 26 de mayo).
+
+```{r tabla-dias, echo=FALSE, warning=FALSE, message=FALSE}
+
+# Clasificación temporal 
+fecha_entrega <- as.Date("2025-05-26")
+inicio_examenes <- fecha_entrega - 14  # 2 semanas de presión evaluativa
+
+actividad_dias <- datos_logs %>%
+  mutate(
+    Fecha = as.Date(Fecha_aux),
+    # Extraemos el día de la semana (1 = Lunes, 7 = Domingo)
+    Dia_Semana = wday(Fecha, week_start = 1),
+    Tipo_Dia = case_when(
+      Dia_Semana %in% 1:5 ~ "Laboral (L-V)",
+      TRUE ~ "Fin de Semana (S-D)"
+    ),
+    Fase_Curso = case_when(
+      Fecha >= inicio_examenes & Fecha <= fecha_entrega ~ "Época de Entrega",
+      TRUE ~ "Periodo Regular"
+    )
+  )
+
+# Resumen de datos calculando proporciones dentro de cada fase
+resumen_dias <- actividad_dias %>%
+  count(Fase_Curso, Tipo_Dia, name = "Accesos") %>%
+  group_by(Fase_Curso) %>%
+  mutate(Porcentaje = round((Accesos / sum(Accesos)) * 100, 2)) %>%
+  ungroup()
+
+# Tabla con etiquetas
+kable(resumen_dias, caption = "Distribución de la actividad en días laborales y fines de semana según la fase del curso.") %>%
+  kable_styling(latex_options = "HOLD_position")
+
+```
+
+Al analizar la Tabla \ref{tab:tabla-dias}, debemos tener en cuenta un factor estadístico clave: una semana se compone de 5 días laborales y 2 de fin de semana. Por tanto, un reparto equitativo y perfectamente proporcional del trabajo implicaría, de base, un ~71% de actividad laboral y un ~29% en fin de semana.
+
+Para interpretar correctamente cómo los estudiantes alteran este balance natural según el momento del curso, se ha diseñado la siguiente visualización comparativa.
+
+```{r figura-dias, echo=FALSE, fig.cap="Comparativa porcentual de accesos entre días laborales y fines de semana.", fig.pos="H"}
+
+# Gráfico de barras agrupadas 
+ggplot(resumen_dias, aes(x = Fase_Curso, y = Porcentaje, fill = Tipo_Dia)) +
+  geom_bar(stat = "identity", position = "dodge", color = "darkslategray", alpha = 0.9) +
+  # Etiquetas de porcentaje
+  geom_text(aes(label = paste0(Porcentaje, "%")), 
+            position = position_dodge(width = 0.9), 
+            vjust = -0.5, fontface = "bold", size = 4.5) +
+  labs(
+    x = "Fase del Curso",
+    y = "Porcentaje de Accesos (%)"
+  ) +
+  scale_y_continuous(expand = expansion(mult = c(0, 0.15))) +
+  scale_fill_manual(values = c("Laboral (L-V)" = "darkslategray3", "Fin de Semana (S-D)" = "purple")) +
+  theme_minimal() +
+  theme(
+    legend.position = "bottom",
+    legend.title = element_blank(),
+    legend.text = element_text(size = 11)
+  )
+
+```
+
+La Figura \ref{fig:figura-dias} responde claramente a la hipótesis planteada. De forma general, existe mucha más actividad durante los días laborales, algo lógico al ser los días en los que se imparte docencia y los estudiantes asisten al campus. Durante el "Periodo Regular", el fin de semana registra una actividad residual, evidenciando que el alumnado utiliza estos días principalmente para el descanso y la desconexión académica.
+
+Sin embargo, esta proporción varía drásticamente al analizar momentos concretos. Al llegar la "Época de Entrega", la gráfica muestra un notable trasvase porcentual: el peso del fin de semana (representado por las barras en color morado) se incrementa considerablemente a costa de la actividad entre semana. Este aumento demuestra que, bajo la presión de los plazos de evaluación o exámenes, los estudiantes se ven obligados a sacrificar sus días de descanso y convertir los fines de semana en jornadas intensivas de estudio y trabajo en la plataforma.
+
+
