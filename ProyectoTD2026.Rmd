@@ -762,4 +762,4 @@ ggplot(perfil_usuarios, aes(x = Pct_Critico)) +
 
 ```
 
-La Figura \ref{fig:figura-estacional} muestra la distribución de los usuarios según el peso que tiene esa semana específica en su actividad total anual. La acumulación de usuarios a la derecha de la línea de corte (marcada en color hotpink2) confirma la existencia de alumnos cuya actividad se dispara bajo la presión evaluativa. Este comportamiento es un indicador claro de una estrategia de aprendizaje basada en la urgencia frente a la constancia continuada.
+La Figura \ref{fig:figura-estacional} muestra la distribución de los usuarios según el peso que tiene esa semana específica en su actividad total anual. La acumulación de usuarios a la derecha de la línea de corte (marcada en color morado) confirma la existencia de alumnos cuya actividad se dispara bajo la presión evaluativa. Este comportamiento es un indicador claro de una estrategia de aprendizaje basada en la urgencia frente a la constancia continuada.
