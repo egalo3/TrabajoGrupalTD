@@ -799,6 +799,41 @@ Además, si se observa un pico concreto en algún día específico (por ejemplo,
 En conjunto, el gráfico permite visualizar de forma clara cómo se distribuye la actividad semanal y confirma que el uso de la plataforma sigue un patrón muy ligado al calendario académico, los días lectivos se registran actividades en mayor cantidad y los dias del fin de semana menor.
 
 
+## Variabilidad en la masa de estudiantes por hora
+
+Para analizar qué franjas horarias presentan una mayor variabilidad entre usuarios, estudiaremos cuántos usuarios distintos generan actividad en cada hora del día. Esto nos permitirá identificar si existen horas en las que muchos usuarios diferentes acceden a la plataforma, frente a otras en las que solo unos pocos usuarios realizan acciones. Este análisis es útil para comprender los patrones colectivos de acceso y detectar momentos de mayor diversidad de participación.
+
+```{r}
+library(dplyr)
+library(lubridate)
+library(ggplot2)
+
+# 1. Extraemos la hora directamente desde Fecha_aux
+datos_horas <- datos_logs %>%
+  mutate(Hora = hour(Fecha_aux))
+
+# 2. Contamos cuántos usuarios distintos hay en cada hora del día
+variabilidad_horaria <- datos_horas %>%
+  group_by(Hora) %>%
+  summarise(Usuarios_distintos = n_distinct(Usuario), .groups = "drop")
+
+# 3. Gráfico de variabilidad por franja horaria
+ggplot(variabilidad_horaria, aes(x = Hora, y = Usuarios_distintos)) +
+  geom_col(fill = "darkslateblue", color = "black") +
+  labs(title = "Variabilidad de usuarios por franja horaria",
+       x = "Hora del día",
+       y = "Número de usuarios distintos") +
+  theme_minimal() +
+  scale_x_continuous(breaks = 0:23)
+
+```
+
+El gráfico muestra cuántos usuarios distintos generan actividad en cada hora del día. Las horas con barras más altas representan franjas horarias con mayor variabilidad, es decir, momentos en los que muchos usuarios diferentes acceden a la plataforma. Mientras que las barras más bajas muestran los momentos del día de menor actividad por parte de los estudiantes.
+
+Según lo que vemos en nuestro gráfico, apartir de las 9am existe un número de usuarios muy superior a las horas anteriores, vemos como este número continua estable durante las siguientes horas hasta las 2pm, hora apartir de la cual comienza a descender levemente, esto puede deberse a que apartir de las 9am y hasta las 2pm los estudiantes se encuentran en horario lectivo, horarios con clase, y vemos como la actividad sigue presente durante las horas de la tarde, pero este número va decreciendo.
+En cambio, llegados ya a las horas nocturas y durante las primeras horas de la mañana, vemos como esa masa tan alta descience notoriamente, esto se debe, naturalmente a las horas de descanso y sueño de los estudiantes.
+
+En conjunto, el gráfico permite identificar claramente qué franjas horarias presentan mayor diversidad de usuarios activos y cuáles muestran un uso más limitado, proporcionando una visión global del comportamiento colectivo a lo largo del día.
 
 
 
