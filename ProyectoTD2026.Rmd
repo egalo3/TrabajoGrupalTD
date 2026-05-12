@@ -312,7 +312,7 @@ ggplot(datos_logs, aes(x = Hora)) +
 
 Como se puede observar en las Figuras \@ref(fig:grafico-horas),el uso de la plataforma presenta una gran variación a lo largo del día. La mayor parte de la actividad se concentra durante la mañana, alcanzando su pico máximo durante las  9:00 horas, podemos observar que en ese instante se registran más de 16.000 eventos. Este comportamiento es coherente con el horario lectivo.
 
-Por otro lado,podemos apreciar como la  caída de la actividad durante las horas centrales del mediodía (14:00 - 16:00), seguida de un segundo incremento más moderado durante la tarde y noche (17:00 - 20:00),franja horaria que coincide con el estudio autónomo y trabajo en casa .Finamente, la actividad desciende a patir de la 1:00 AM  
+Por otro lado, podemos apreciar como la  caída de la actividad durante las horas centrales del mediodía (14:00 - 16:00), seguida de un segundo incremento más moderado durante la tarde y noche (17:00 - 20:00),franja horaria que coincide con el estudio autónomo y trabajo en casa .Finamente, la actividad desciende a patir de la 1:00 AM  
 
 En cuanto a la forma de la distribución , los datos no se distribuyen siguiendo la distribución Gaussiana . Podemos observar una distribución bimodal, es decir, este gráfico tiene claramente dos picos principales. Siendo el primero en la franja horario de  11:00 - 12:00 de la mañana y el segundo(siendo el pico máximo), de 10:00-11:00 am.  
 
@@ -471,8 +471,9 @@ Tal y como indica la Tabla \ref{tab:tabla-iteraccion2} , los componentes relacio
 El componente sistema por ejemplo, con el evento curso visto con un total de iteracciones 20430.
 
 
+# Estudio de la actividad nocturna en periodos de exámenes.
 
-10.¿Hay registros realizados en horas "extrañas" (ej. 4:00 AM)? ¿Son usuarios aislados o un patrón común en época de exámenes?
+En este apartado analizaremos si existen accesos al Aula Virtual en horarios poco habituales, el estudio se ha realizado con actividades registradas entre las 00:00 y las 05:00 AM. Será posible analizar si dichos accesos corresponden a casos aislados o, por el contrario, aumentan durante periodos de evaluación.
 
 ```{r}
 Hora<- datos_logs %>%
@@ -520,10 +521,13 @@ ggplot(fechas_concretas, aes(x = Fecha_s, y = Usuarios_Unicos)) +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 
 ```
-En el gráfico \@ref(fig:grafico-usuarios-nocturnos) muestra la evolución del segundo cuatrimestre en cuanto a la actividad de usuarios en horas "extrañas" (00:00 a 05:00 AM). Se observan claros picos de actividad en algunos periodos del año, especialmente entre los meses de mayo y julio. Mientras que durante el resto del curso la actividad es mínima y podemos atribuirlo a usuarios aislados.
+En el gráfico \@ref(fig:grafico-usuarios-nocturnos) se observa que durante el curso la actividad registrada en horario nocturno es relativamente baja y corresponde mayoritariamente a usuarios aislados.
 
-Para analizarlo con mayor precisión, se ha generado otro gráfico con una visualización más detallada de la época de exámenes (entre mayo y junio).
 
+Sin embargo, conforme se aproximan los periodos de evaluación, el número de estudiantes activos durante la madrugada aumenta de manera considerable. Este comportamiento resulta especialmente visible entre los meses de mayo y junio, coincidiendo la época de exámenes.
+
+
+Con el objetivo de analizar con mayor detalle este periodo, se ha generado una segunda visualización centrada únicamente en los meses de mayo y julio.
 
 ```{r grafico-epoca-examenes}
 # Filtramos los meses que nos interesan
@@ -544,7 +548,8 @@ ggplot(datos_mayo_julio, aes(x = Fecha_s, y = Usuarios_Unicos)) +
 
 
 ```
-En el \@ref(fig:grafico-epoca-examenes) se puede observar dos días concretos en los que el número de usuarios activos en horas nocturnas ha sido mayor. Por ejemplo, el día 26 de mayo un total de 15 alumnos accedieron en ese horario a la clase. También entre el 9 y el 16 de junio destaca un día en el que accedieron más de 20 usuarios diferentes.
+Como se aprecia en la Figura \@ref(fig:grafico-epoca-examenes), existen varios días concretos donde la actividad nocturna aumenta notablemente. Por ejemplo, alrededor del 26 de mayo y mediados de junio se registran picos superiores a 15 y 20 usuarios conectados respectivamente durante la madrugada.
+
 
 Por otra parte, se puede ver casos aislados en algunos meses. Por ejemplo entre el 5 de mayo y el 12 de mayo donde la actividad nocturna se reduce a 1 o 2 usuarios por noche.
 
