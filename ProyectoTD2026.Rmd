@@ -622,11 +622,67 @@ kable(head(resumen_cambios, 6),
 Al analizar la Tabla \@ref(tab:tabla-usuarios-ip-distinta), se confirma la existencia de accesos desde múltiples direcciones IP en intervalos de tiempo muy reducidos. Destaca especialmente el usuario U0001, que presenta un número muy elevado tanto de direcciones IP distintas como de cambios rápidos de conexión. Sin embargo, en la mayoría de los usuarios los valores observados son considerablemente más moderados.
 
 
-# Identificación de eventos de erros y acciones fallidas.
+
+# Identificación de eventos de errores y acciones fallidas.
+
+Para determinar si existen eventos de error o acciones fallidas recurrentes en los logs del Aula Virtual, realizaremos un análisis de  aquellas acciones cuyo nombre contenga términos asociados a errores, fallos o intentos no completados correctamente.
 
 
+Este análisis puede resultar relevante ya que permite identificar los posibles problemas técnicos o dificultades de uso de la plataforma del Aula Virtual por parte de los usuarios.
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}}
+# Filtramos eventos relacionados con errores o acciones fallidad
+eventos_error <- datos_logs %>%
+  
+  filter(
+    str_detect(tolower(Evento),  "error|fallid|excedido|abandonado|eliminado|borrado")
+  ) %>%
+  
+  # Agrupamos por evento
+  group_by(Evento) %>%
+  
+  # Calculamos el número de veces que aparece cada evento
+  summarise(
+    Total = n(),
+    .groups = "drop"
+  ) %>%
+  # Ordenamos de mayor a menor frecuencia
+  arrange(desc(Total))
+```
+
+```{r grafico-eventos-erroneos, echo=FALSE, warning=FALSE, message=FALSE}}
+# Representamos gráficamente los eventos de error más frecuentes
+ggplot(eventos_error, aes(x = reorder(Evento, Total),
+           y = Total)) +
+  
+  # Creamos las barras
+  geom_col(fill = "cadetblue") +
+  
+  
+  # Añadimos las etiquetas con los valores
+  geom_text(aes(label = Total),
+            hjust = -0.1,
+            size = 3.5) +
+  
+  # Giramos el gráfico
+  coord_flip() +
+  
+  # Añadimos títulos y etiquetas
+  labs(
+    title = "Frecuencia de Eventos erróneos o Acciones fallidas",
+    x = "Tipo de evento",
+    y = "Número de registros") 
++
+  theme_minimal()
+```
+
+En el gráfico \@ref(fig:grafico-eventos-erroneos) se pueden observar aquellos eventos de errores o acciones fallidas que presentan una mayor frecuencia dentro de los registros del Aula Virtual.
 
 
+El evento más repetido corresponde a "Tiempo límite del cuestionario excedido", con un total de 55 registros. También destacan los eventos “Módulo de curso eliminado” y “Elemento borrado”, ambos con 41 registros. 
+
+
+Por otro lado, los eventos menos frecuentes son "Grupo eliminado" o "Agrupamiento eliminado" con un total de 3 y 1 registros respectivamente. Esto puede indicar que son incidencias muy puntuales.
 
 
 ## Variación de la actividad anual en casos aislados
