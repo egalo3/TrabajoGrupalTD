@@ -183,9 +183,9 @@ En el siguiente apartado se expondrán dichas preguntas claves para la  explorac
 
 14.¿Hay una diferencia notoria entre las actividades registradas en dias lectivos y las registradas los fines de semana?
 
-15.¿Qué usuarios cambian más de dispositivo a lo largo del día?
+15.¿Que franjas horarias muestran una mayor concentración de usuarios al mismo tiempo?
 
-16.¿Qué actividades se realizan más desde móvil y cuáles desde ordenador?
+16.¿Qué actividades se realizan más desde móvil y cuáles desde ordenador? - - - MUY PARECIDA A LA PREGUNTA 7
 
 17.¿Cuál es la proporción entre el número de actividades pasivas (entrar, ver) y las activas (entregar, editar)?
 
@@ -194,6 +194,7 @@ En el siguiente apartado se expondrán dichas preguntas claves para la  explorac
 19.¿En horario lectivo se detecta menor actividad desde el móvil o es indiferente?
 
 20.¿Hay más actividad en días laborales o en fin de semana? ¿Varia esta proporción en momentos concretos? (Ej. época de exámenes)
+
 
 
 
@@ -714,6 +715,48 @@ ggplot(df_todos, aes(x = Mes, y = Actividades, fill = Usuario)) +
 Como observamos en los gráficos, cada usuario presenta una variación anual de la actividad mensual diferente, es decir que ninguno sigue un patrón organizado, ni los usuarios muestran una misma variación entre los meses, por lo que según los datos registrados podemos concluir en que cada usuario realiza una serie de actividades diferentes independientemente de las actividades realizadas por los demás usuarios del registro.
 
 Por otra parte, algo que si podemos observar como "normal" en todos los usuarios estudiados es la falta de actividad durante los meses de agosto a diciembre, este suceso podemos suponer que no se sale de lo previsto, puesto que sabemos de ante mano que se trata del registro de las actividades realizadas en la asignatura de Tratamiento de Datos, la cual se desarrolla durante el segundo cuatrimestre. Es por ello que no es extraño que durante los meses del primer cuatrimestre, así como los meses de verano, naturalmente, no presenten actividad alguna.
+
+
+## Diferencias de actividad entre días lectivos y fines de semana
+
+Para analizar si existe una diferencia notable entre la actividad registrada en días lectivos y la registrada durante los fines de semana, estudiaremos el número total de eventos generados en cada día. El objetivo es comprobar si los usuarios utilizan el aula virtual principalmente durante la semana, coincidiendo con el calendario académico, o si también muestran actividad relevante durante los sábados y domingos. Para ello, clasificaremos cada registro según el día de la semana y representaremos los resultados en un gráfico comparativo que permita visualizar de forma clara la diferencia entre ambos grupos.
+
+```{r}
+library(dplyr)
+library(lubridate)
+library(ggplot2)
+
+# 1. Convertimos la fecha desde Fecha_texto
+datos_dias <- datos_logs %>%
+  mutate(Fecha_aux = dmy(Fecha_texto),
+         Dia_semana = wday(Fecha_aux, label = TRUE, abbr = FALSE, week_start = 1),
+         Tipo_dia = ifelse(Dia_semana %in% c("sábado", "domingo"),
+                           "Fin de semana", "Día lectivo"))
+
+# 2. Contamos actividades por día de la semana
+actividades_semana <- datos_dias %>%
+  group_by(Dia_semana, Tipo_dia) %>%
+  summarise(Actividades = n(), .groups = "drop")
+
+# 3. Gráfico comparativo con colores diferenciados
+ggplot(actividades_semana, aes(x = Dia_semana, y = Actividades, fill = Tipo_dia)) +
+  geom_col(color = "black") +
+  scale_fill_manual(values = c("Día lectivo" = "darkblue",
+                               "Fin de semana" = "lightgreen")) +
+  labs(title = "Número de actividades registradas por día de la semana",
+       x = "Día de la semana", y = "Número de actividades") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1),
+        legend.title = element_blank())
+
+```
+En el gráfico se observa la distribución de actividades registradas a lo largo de los siete días de la semana. Los días lectivos (de lunes a viernes) concentran la mayor parte de la actividad, lo cual es coherente con el funcionamiento habitual de una asignatura universitaria: los estudiantes suelen acceder al aula virtual coincidiendo con las clases, la realización de tareas y la consulta de materiales.
+
+Por el contrario, los sábados y domingos muestran una actividad considerablemente menor. Este descenso puede deberse a que los estudiantes tienden a desconectar durante el fin de semana o a que la asignatura no plantea entregas ni actividades en esos días.
+Además, si se observa un pico concreto en algún día específico (por ejemplo, los miércoles), podría estar relacionado con la programación de clases presenciales, la publicación de materiales o la proximidad de fechas de entrega. 
+
+En conjunto, el gráfico permite visualizar de forma clara cómo se distribuye la actividad semanal y confirma que el uso de la plataforma sigue un patrón muy ligado al calendario académico, los días lectivos se registran actividades en mayor cantidad y los dias del fin de semana menor.
+
 
 
 
