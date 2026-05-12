@@ -554,13 +554,74 @@ Como se aprecia en la Figura \@ref(fig:grafico-epoca-examenes), existen varios d
 Por otra parte, se puede ver casos aislados en algunos meses. Por ejemplo entre el 5 de mayo y el 12 de mayo donde la actividad nocturna se reduce a 1 o 2 usuarios por noche.
 
 
-11.¿Se detectan múltiples IPs para un mismo usuario en un corto periodo de tiempo?
+# Identificación de cambios de dirección IP en cortos periodos de tiempo.
+
+Se ha realizado un análisis para estudiar los posibles cambios de conexión entre los usuarios mediantelas direcciones IP registradas en los accesos del Aula Virtual. Este proceso perimite detectar si un mismo usuario accede desde diferentes redes o dispositivos en intervalos temporales reducidos.
 
 
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+# Definimos el umbral de tiempo que queremos estudiar.
+umbral_minutos <- 30 
+
+cambios_ip <- datos_logs %>%
+  # Eliminamos registros sin dirección IP
+  filter(!is.na(Dirección.IP) & Dirección.IP != "") %>%
+  
+  # Ordenamos por Usuario y por Fecha
+  arrange(Usuario, Fecha_aux) %>%
+  
+  # Agrupamos por Usuario
+  group_by(Usuario) %>%
+  mutate(
+    # Recuperamos la IP y la Fecha del acceso del mismo usuario
+    IP_anterior= lag(Dirección.IP),  
+    Tiempo_anterior = lag(Fecha_aux), 
+    
+    # Calculamos el intervalo de tiempo entre la actividad actual y anterior
+    Diff_min = as.numeric(difftime(Fecha_aux, Tiempo_anterior, units = "mins")), 
+    
+    # Guarda dos valores posibles True o False
+    Cambio_IP = (!is.na(IP_anterior)) &  # Hay evento anterior
+                (Dirección.IP != IP_anterior) &  # La IP cambió
+                 (Diff_min <= umbral_minutos) # En menos de 30 min
+  ) %>%
+  
+  # Desagrupamos 
+  ungroup()
+```
 
 
+```{r tabla-usuarios-ip-distinta, echo=FALSE, warning=FALSE, message=FALSE}
+resumen_cambios <- cambios_ip %>%
+  # Agrupamos por usuario
+  group_by(Usuario) %>%
+  
+  summarise(
+    # Contar cuantas IP diferentes ha usado el usuario en total
+    IPs_distintas = n_distinct(Dirección.IP),
+    
+    # Sumamos cuantos cambios de IP ha habido
+    Cambios_rapidos_IP = sum(Cambio_IP, na.rm = TRUE),
+    .groups = "drop"
+  ) %>%
+  
+  # Cogemos aquellos usuarios que han hecho algún cambio de IP
+  filter(Cambios_rapidos_IP > 0) %>%
+  
+  # Ordenamos de mayor a menor
+  arrange(desc(Cambios_rapidos_IP))
 
-12.¿Hay eventos de error o acciones fallidas recurrentes en los logs?
+kable(head(resumen_cambios, 6),
+      caption = "Usuarios con cambios frecuentes de IP ",
+      col.names = c("Usuario", "IPs distintas totales", "Cambios rápidos de IP")
+      
+) %>% kable_styling(latex_options = "scale_down")
+```
+
+Al analizar la Tabla \@ref(tab:tabla-usuarios-ip-distinta), se confirma la existencia de accesos desde múltiples direcciones IP en intervalos de tiempo muy reducidos. Destaca especialmente el usuario U0001, que presenta un número muy elevado tanto de direcciones IP distintas como de cambios rápidos de conexión. Sin embargo, en la mayoría de los usuarios los valores observados son considerablemente más moderados.
+
+
+# Identificación de eventos de erros y acciones fallidas.
 
 
 
