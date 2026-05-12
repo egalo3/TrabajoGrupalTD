@@ -758,47 +758,41 @@ Además, si se observa un pico concreto en algún día específico (por ejemplo,
 En conjunto, el gráfico permite visualizar de forma clara cómo se distribuye la actividad semanal y confirma que el uso de la plataforma sigue un patrón muy ligado al calendario académico, los días lectivos se registran actividades en mayor cantidad y los dias del fin de semana menor.
 
 
-## Diferencias de actividad entre días lectivos y fines de semana
+## Variabilidad en la masa de estudiantes por hora
 
-Para analizar si existe una diferencia notable entre la actividad registrada en días lectivos y la registrada durante los fines de semana, estudiaremos el número total de eventos generados en cada día. El objetivo es comprobar si los usuarios utilizan el aula virtual principalmente durante la semana, coincidiendo con el calendario académico, o si también muestran actividad relevante durante los sábados y domingos. Para ello, clasificaremos cada registro según el día de la semana y representaremos los resultados en un gráfico comparativo que permita visualizar de forma clara la diferencia entre ambos grupos.
+Para analizar qué franjas horarias presentan una mayor variabilidad entre usuarios, estudiaremos cuántos usuarios distintos generan actividad en cada hora del día. Esto nos permitirá identificar si existen horas en las que muchos usuarios diferentes acceden a la plataforma, frente a otras en las que solo unos pocos usuarios realizan acciones. Este análisis es útil para comprender los patrones colectivos de acceso y detectar momentos de mayor diversidad de participación.
 
 ```{r}
 library(dplyr)
 library(lubridate)
 library(ggplot2)
 
-# 1. Convertimos la fecha desde Fecha_texto
-datos_dias <- datos_logs %>%
-  mutate(Fecha_aux = dmy(Fecha_texto),
-         Dia_semana = wday(Fecha_aux, label = TRUE, abbr = FALSE, week_start = 1),
-         Tipo_dia = ifelse(Dia_semana %in% c("sábado", "domingo"),
-                           "Fin de semana", "Día lectivo"))
+# 1. Extraemos la hora directamente desde Fecha_aux
+datos_horas <- datos_logs %>%
+  mutate(Hora = hour(Fecha_aux))
 
-# 2. Contamos actividades por día de la semana
-actividades_semana <- datos_dias %>%
-  group_by(Dia_semana, Tipo_dia) %>%
-  summarise(Actividades = n(), .groups = "drop")
+# 2. Contamos cuántos usuarios distintos hay en cada hora del día
+variabilidad_horaria <- datos_horas %>%
+  group_by(Hora) %>%
+  summarise(Usuarios_distintos = n_distinct(Usuario), .groups = "drop")
 
-# 3. Gráfico comparativo con colores diferenciados
-ggplot(actividades_semana, aes(x = Dia_semana, y = Actividades, fill = Tipo_dia)) +
-  geom_col(color = "black") +
-  scale_fill_manual(values = c("Día lectivo" = "darkblue",
-                               "Fin de semana" = "lightgreen")) +
-  labs(title = "Número de actividades registradas por día de la semana",
-       x = "Día de la semana", y = "Número de actividades") +
+# 3. Gráfico de variabilidad por franja horaria
+ggplot(variabilidad_horaria, aes(x = Hora, y = Usuarios_distintos)) +
+  geom_col(fill = "darkslateblue", color = "black") +
+  labs(title = "Variabilidad de usuarios por franja horaria",
+       x = "Hora del día",
+       y = "Número de usuarios distintos") +
   theme_minimal() +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1),
-        legend.title = element_blank())
+  scale_x_continuous(breaks = 0:23)
 
 ```
-En el gráfico se observa la distribución de actividades registradas a lo largo de los siete días de la semana. Los días lectivos (de lunes a viernes) concentran la mayor parte de la actividad, lo cual es coherente con el funcionamiento habitual de una asignatura universitaria: los estudiantes suelen acceder al aula virtual coincidiendo con las clases, la realización de tareas y la consulta de materiales.
 
-Por el contrario, los sábados y domingos muestran una actividad considerablemente menor. Este descenso puede deberse a que los estudiantes tienden a desconectar durante el fin de semana o a que la asignatura no plantea entregas ni actividades en esos días.
-Además, si se observa un pico concreto en algún día específico (por ejemplo, los miércoles), podría estar relacionado con la programación de clases presenciales, la publicación de materiales o la proximidad de fechas de entrega. 
+El gráfico muestra cuántos usuarios distintos generan actividad en cada hora del día. Las horas con barras más altas representan franjas horarias con mayor variabilidad, es decir, momentos en los que muchos usuarios diferentes acceden a la plataforma. Mientras que las barras más bajas muestran los momentos del día de menor actividad por parte de los estudiantes.
 
-En conjunto, el gráfico permite visualizar de forma clara cómo se distribuye la actividad semanal y confirma que el uso de la plataforma sigue un patrón muy ligado al calendario académico, los días lectivos se registran actividades en mayor cantidad y los dias del fin de semana menor.
+Según lo que vemos en nuestro gráfico, apartir de las 9am existe un número de usuarios muy superior a las horas anteriores, vemos como este número continua estable durante las siguientes horas hasta las 2pm, hora apartir de la cual comienza a descender levemente, esto puede deberse a que apartir de las 9am y hasta las 2pm los estudiantes se encuentran en horario lectivo, horarios con clase, y vemos como la actividad sigue presente durante las horas de la tarde, pero este número va decreciendo.
+En cambio, llegados ya a las horas nocturas y durante las primeras horas de la mañana, vemos como esa masa tan alta descience notoriamente, esto se debe, naturalmente a las horas de descanso y sueño de los estudiantes.
 
-
+En conjunto, el gráfico permite identificar claramente qué franjas horarias presentan mayor diversidad de usuarios activos y cuáles muestran un uso más limitado, proporcionando una visión global del comportamiento colectivo a lo largo del día.
 
 
 
