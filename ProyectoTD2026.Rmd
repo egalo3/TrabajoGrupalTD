@@ -752,35 +752,10 @@ df_u1 <- actividades_por_usuario(usuarios_azar[1])
 df_u2 <- actividades_por_usuario(usuarios_azar[2])
 df_u3 <- actividades_por_usuario(usuarios_azar[3])
 
-# 6. Gráficos individuales
-# Usuario 1
-ggplot(df_u1, aes(x = Mes, y = Actividades)) +
-  geom_col(fill = "darkslategray3", color = "darkslategray") +
-  labs(title = paste("Actividades mensuales del usuario", usuarios_azar[1]),
-       x = "Mes", y = "Número de actividades") +
-  theme_minimal() +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))
-
-# Usuario 2
-ggplot(df_u2, aes(x = Mes, y = Actividades)) +
-  geom_col(fill = "yellow", color = "black") +
-  labs(title = paste("Actividades mensuales del usuario", usuarios_azar[2]),
-       x = "Mes", y = "Número de actividades") +
-  theme_minimal() +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))
-
-# Usuario 3
-ggplot(df_u3, aes(x = Mes, y = Actividades)) +
-  geom_col(fill = "palevioletred3", color = "deeppink3") +
-  labs(title = paste("Actividades mensuales del usuario", usuarios_azar[3]),
-       x = "Mes", y = "Número de actividades") +
-  theme_minimal() +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))
-
-# 7. Unimos los 3 dataframes para el gráfico combinado
+# 6. Unimos los 3 dataframes para el gráfico combinado
 df_todos <- bind_rows(df_u1, df_u2, df_u3)
 
-# 8. Gráfico combinado con 3 barras por mes
+# 7. Gráfico combinado con 3 barras por mes
 ggplot(df_todos, aes(x = Mes, y = Actividades, fill = Usuario)) +
   geom_col(position = "dodge", color = "black") +
   labs(title = "Comparación mensual de actividad entre 3 usuarios",
