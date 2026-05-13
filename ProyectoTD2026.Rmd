@@ -214,7 +214,7 @@ En nuestro data frame observamos la predominancia de variables de tipo string o 
 
 
 
-```{r tabla-variables, echo=FALSE}
+```{r, tabla-variables, echo=FALSE}
 library(knitr)
 library(kableExtra)
 
@@ -240,7 +240,7 @@ Como se puede observar en la Tabla \ref{tab:tabla-variables}, existe una predomi
 
 
 
-```{r analisis-nas, echo=FALSE}
+```{r, analisis-nas, echo=FALSE}
 library(dplyr)
 library(knitr)
 library(kableExtra)
@@ -275,7 +275,7 @@ En este caso contemplaremos tanto la forma de la distribución(Gráfica 1), como
 
 
 
-```{r grafico-horas, echo=FALSE, message=FALSE, warning=FALSE, fig.cap="Distribución de la actividad de los usuarios por hora del día"}
+```{r, grafico-horas, echo=FALSE, message=FALSE, warning=FALSE, fig.cap="Distribución de la actividad de los usuarios por hora del día"}
 library(dplyr)
 library(lubridate)
 library(ggplot2)
@@ -306,7 +306,7 @@ geom_density(color = "deeppink1", linewidth = 1.2) +
 
 ```
 
-```{r grafico-densidad, echo=FALSE, message=FALSE, warning=FALSE, fig.cap="Análisis densidad"}
+```{r, grafico-densidad, echo=FALSE, message=FALSE, warning=FALSE, fig.cap="Análisis densidad"}
 ggplot(datos_logs, aes(x = Hora)) +
   geom_histogram( binwidth = 1, fill = "darkslategray3",color ="darkslategray") +scale_x_continuous(breaks = 0:23) +
   labs(title = "Distribución de la Actividad",
@@ -339,7 +339,7 @@ El objetivo es ver la evolución temporal de la actividad y superponer las fecha
 
 Para realizar este análisis( figura \ref{fig:picos-entrega}), se ha explorado el dataset en busca del evento 'Se ha enviado una entrega'. Con el objetivo de mostrar el comportamiento del alumnado, se ha seleccionado la entrega del proyecto realizada el 26 de mayo de 2025.
 
-```{r picos-entrega, echo=FALSE, message=FALSE, warning=FALSE, fig.width=10, fig.height=4, fig.cap="Actividad diaria en los días previos a la entrega final del proyecto (26 de mayo)."}
+```{r, picos-entrega, echo=FALSE, message=FALSE, warning=FALSE, fig.width=10, fig.height=4, fig.cap="Actividad diaria en los días previos a la entrega final del proyecto (26 de mayo)."}
 library(dplyr)
 library(lubridate)
 library(ggplot2)
@@ -386,7 +386,7 @@ En este apartado realizaremos un análisis en base al comportamiento de los usua
 
 ## Análisis frecuencia:usuarios más activos
 
-```{r grafico-usuarios-activos, echo=FALSE, fig.cap="30 usuarios con mayor número de interacciones en la plataforma."}
+```{r,grafico-usuarios-activos, echo=FALSE, fig.cap="30 usuarios con mayor número de interacciones en la plataforma."}
 library(ggplot2)
 #Acciones por usuario
 Usuarios_activos <- datos_logs %>%
@@ -424,7 +424,7 @@ Este dato sugiere que, en promedio, cada estudiante interactúa más de 800 vece
 
 ## Comportamientos atípicos
 
-```{r tabla-atipicos, echo=FALSE}
+```{r, tabla-atipicos, echo=FALSE}
 # Calculamos por quantiles
 q1 <- quantile(acciones_por_usuario$total_acciones, 0.25)
 q3 <- quantile(acciones_por_usuario$total_acciones, 0.75)
@@ -453,7 +453,7 @@ En este apartado veremos las diferentes relaciones, iteracciones y comportamient
 
 ## Relación entre dispositivo empleado y la actividad realizada
 
-```{r tabla-origen, echo=FALSE}
+```{r,tabla-origen, echo=FALSE}
 # Limpiar y agrupar datos
 relacion_origen_evento <- datos_logs %>%
   group_by(Origen, Evento) %>%
@@ -478,7 +478,7 @@ Por ejemplo el origen web con el tipo de evento Módulo de curso visto con 23535
 
 ## Actividades/recursos con más iteracciones
 
-```{r tabla-iteraccion2,echo=FALSE}
+```{r,tabla-iteraccion2,echo=FALSE}
 # Agrupar por el componente de Moodle y el evento
 actividades_populares <- datos_logs %>%
   group_by(Componente, Evento) %>%
@@ -518,7 +518,7 @@ Hora<- datos_logs %>%
   summarise(Usuarios_Unicos = n_distinct(Usuario))
 ```
 
-```{r grafico-usuarios-nocturnos,echo=FALSE}
+```{r, grafico-usuarios-nocturnos,echo=FALSE}
 # Creamos el gráfico 
 fechas_concretas<-Hora %>% filter(
   Fecha_s>= as.Date("2025-01-01") & Fecha_s <= as.Date("2025-07-31"))
@@ -556,7 +556,7 @@ Sin embargo, conforme se aproximan los periodos de evaluación, el número de es
 
 Con el objetivo de analizar con mayor detalle este periodo, se ha generado una segunda visualización centrada únicamente en los meses de mayo y julio.
 
-```{r grafico-epoca-examenes,echo = FALSE}
+```{r, grafico-epoca-examenes,echo = FALSE}
 # Filtramos los meses que nos interesan
 datos_mayo_julio <- Hora %>% 
   filter(Fecha_s >= as.Date("2025-05-01") & Fecha_s <= as.Date("2025-07-31"))
@@ -618,7 +618,7 @@ cambios_ip <- datos_logs %>%
 ```
 
 
-```{r tabla-usuarios-ip-distinta, echo=FALSE, warning=FALSE, message=FALSE}
+```{r, tabla-usuarios-ip-distinta, echo=FALSE, warning=FALSE, message=FALSE}
 resumen_cambios <- cambios_ip %>%
   # Agrupamos por usuario
   group_by(Usuario) %>%
@@ -675,7 +675,7 @@ eventos_error <- datos_logs %>%
   arrange(desc(Total))
 ```
 
-```{r grafico-eventos-erroneos, echo=FALSE, warning=FALSE, message=FALSE}
+```{r,grafico-eventos-erroneos,fig.cap="eventos de error más frecuentes."}
 # Representamos gráficamente los eventos de error más frecuentes
 ggplot(eventos_error, aes(x = reorder(Evento, Total),
            y = Total)) +
@@ -716,7 +716,7 @@ Por otro lado, los eventos menos frecuentes son "Grupo eliminado" o "Agrupamient
 
 Para el análisis de la variación de la actividad de cada usuario a lo largo del año, analizaremos las actividades registradas por cada usuario en los diferentes meses y representaremos en un gráfico de barras los datos de cada mes para poder observar la diferencia entre los meses.
 
-```{r graficos-actvidad-anual,echo= FALSE}
+```{r, graficos-actvidad-anual,echo= FALSE}
 library(dplyr)
 library(lubridate)
 library(ggplot2)
@@ -804,7 +804,7 @@ Por otra parte, algo que si podemos observar como "normal" en todos los usuarios
 
 Para analizar si existe una diferencia notable entre la actividad registrada en días lectivos y la registrada durante los fines de semana, estudiaremos el número total de eventos generados en cada día. El objetivo es comprobar si los usuarios utilizan el aula virtual principalmente durante la semana, coincidiendo con el calendario académico, o si también muestran actividad relevante durante los sábados y domingos. Para ello, clasificaremos cada registro según el día de la semana y representaremos los resultados en un gráfico comparativo que permita visualizar de forma clara la diferencia entre ambos grupos.
 
-```{r dif_dias_fines,echo = FALSE}
+```{r, dif_dias_fines,echo = FALSE}
 library(dplyr)
 library(lubridate)
 library(ggplot2)
@@ -845,7 +845,7 @@ En conjunto, el gráfico permite visualizar de forma clara cómo se distribuye l
 
 Para analizar qué franjas horarias presentan una mayor variabilidad entre usuarios, estudiaremos cuántos usuarios distintos generan actividad en cada hora del día. Esto nos permitirá identificar si existen horas en las que muchos usuarios diferentes acceden a la plataforma, frente a otras en las que solo unos pocos usuarios realizan acciones. Este análisis es útil para comprender los patrones colectivos de acceso y detectar momentos de mayor diversidad de participación.
 
-```{r grafico-variabilidad ,echo = FALSE}
+```{r, grafico-variabilidad ,echo = FALSE}
 library(dplyr)
 library(lubridate)
 library(ggplot2)
@@ -886,7 +886,7 @@ Para profundizar en la exploración de los usuarios, resulta fundamental conocer
 
 Para dar respuesta a esta cuestión, se ha llevado a cabo una clasificación de los eventos mediante técnicas de procesamiento de texto. Se ha normalizado el texto y buscado raíces de palabras clave para categorizar cada acción, otorgando prioridad a los eventos de creación y excluyendo los eventos neutros o del sistema para asegurar una comparativa directa y rigurosa.
 
-```{r tabla-proporcion, echo=FALSE, warning=FALSE, message=FALSE}
+```{r, tabla-proporcion, echo=FALSE, warning=FALSE, message=FALSE}
 
 # Clasificación de actividades usando manipulación de caracteres:
 datos_actividad <- datos_logs %>%
@@ -914,7 +914,7 @@ kable(proporcion_resumen, caption = "Frecuencia y porcentaje de actividades Pasi
 
 Tal y como se muestra en la Tabla \ref{tab:tabla-proporcion}, existe una evidente disparidad entre los volúmenes de ambas categorías. Para facilitar la interpretación de estos resultados, se ha generado la siguiente representación gráfica.
 
-```{r figura-proporcion, echo=FALSE, fig.cap="Proporción de actividades pasivas frente a activas en la plataforma.", fig.pos="H"}
+```{r, figura-proporcion, echo=FALSE, fig.cap="Proporción de actividades pasivas frente a activas en la plataforma.", fig.pos="H"}
 
 # Gráfico de barras de la proporción:
 ggplot(proporcion_resumen, aes(x = Tipo_Actividad, y = Porcentaje, fill = Tipo_Actividad)) +
@@ -937,7 +937,7 @@ Tras analizar la distribución general de la actividad, resulta de gran interés
 
 Para este análisis, hemos definido un "Periodo Crítico" que abarca los 7 días previos a la entrega. Hemos clasificado a los usuarios en dos categorías: **Acceso Puntual**, aquellos cuya actividad semanal triplica la media esperada (concentrando más del 10% de sus clics anuales en esa única semana); y **Acceso Regular**, el resto de usuarios con una participación más constante a lo largo del curso.
 
-```{r tabla-estacionalidad, echo=FALSE, warning=FALSE, message=FALSE}
+```{r, tabla-estacionalidad, echo=FALSE, warning=FALSE, message=FALSE}
 
 # Definimos fecha de referencia y el periodo crítico 
 fecha_entrega <- as.Date("2025-05-26")
@@ -975,7 +975,7 @@ Como se puede observar en la Tabla \ref{tab:tabla-estacional}, al aplicar este c
 
 Para visualizar esta segmentación y entender cómo se distribuye la intensidad de la actividad en el periodo crítico, se presenta la siguiente figura.
 
-```{r figura-estacional, echo=FALSE, fig.cap="Concentración de la actividad de los usuarios en la plataforma durante periodos muy concretos.", fig.pos="H"}
+```{r, figura-estacional, echo=FALSE, fig.cap="Concentración de la actividad de los usuarios en la plataforma durante periodos muy concretos.", fig.pos="H"}
 
 # Graficamos la distribución del porcentaje de actividad 
 ggplot(perfil_usuarios, aes(x = Pct_Critico)) +
@@ -1000,7 +1000,7 @@ Para comprender los hábitos de conexión del alumnado, la cuestión plantea si 
 
 Mediante funciones de búsqueda y filtrado de texto, rastreamos los registros en busca de las etiquetas asociadas a la aplicación móvil (App, Web Services, Mobile,...) para contrastarlos con los accesos al entorno web estándar.
 
-```{r tabla-dispositivos, echo=FALSE, warning=FALSE, message=FALSE}
+```{r, tabla-dispositivos, echo=FALSE, warning=FALSE, message=FALSE}
 
 # Definición de franjas horarias y clasificación de dispositivos 
 uso_dispositivos <- datos_logs %>%
@@ -1033,7 +1033,7 @@ Como se detalla en la Tabla \ref{tab:tabla-dispositivos}, los resultados extraí
 
 Ante la imposibilidad de comparar porcentajes de dispositivos (dado que la variable es constante), el análisis debe centrarse en el volumen total de actividad que soporta la plataforma en cada una de estas franjas.
 
-```{r figura-dispositivos, echo=FALSE, fig.cap="Actividad total en el Aula Virtual por franja horaria.", fig.pos="H"}
+```{r, figura-dispositivos, echo=FALSE, fig.cap="Actividad total en el Aula Virtual por franja horaria.", fig.pos="H"}
 
 # Gráfico de volumen absoluto que hace visible el contraste real de actividad 
 ggplot(resumen_dispositivos, aes(x = Horario, y = Accesos, fill = Horario)) +
@@ -1063,7 +1063,7 @@ Para comprender los hábitos de estudio del alumnado, es fundamental analizar c�
 
 Para responder a esta cuestión, utilizamos la información temporal de los eventos para identificar el día exacto de la semana en que ocurrieron. Posteriormente, dividimos el histórico del curso en dos fases: un Periodo Regular y una Época de Entrega (definida como los 14 días previos a la entrega final del proyecto fijada el 26 de mayo).
 
-```{r tabla-dias, echo=FALSE, warning=FALSE, message=FALSE}
+```{r, tabla-dias, echo=FALSE, warning=FALSE, message=FALSE}
 
 # Clasificación temporal 
 fecha_entrega <- as.Date("2025-05-26")
@@ -1101,7 +1101,7 @@ Al analizar la Tabla \ref{tab:tabla-dias}, debemos tener en cuenta un factor est
 
 Para interpretar correctamente cómo los estudiantes alteran este balance natural según el momento del curso, se ha diseñado la siguiente visualización comparativa.
 
-```{r figura-dias, echo=FALSE, fig.cap="Comparativa porcentual de accesos entre días laborales y fines de semana.", fig.pos="H"}
+```{r, figura-dias, echo=FALSE, fig.cap="Comparativa porcentual de accesos entre días laborales y fines de semana.", fig.pos="H"}
 
 # Gráfico de barras agrupadas 
 ggplot(resumen_dias, aes(x = Fase_Curso, y = Porcentaje, fill = Tipo_Dia)) +
