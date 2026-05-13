@@ -114,12 +114,12 @@ datos_logs %>%
   count(Evento, name = "Cantidad", sort = TRUE) %>%
   kable(longtable= TRUE, caption = "Frecuencia de eventos registrados")
 ```
-En la Tabla \@ref(tab:tabla-eventos) vemos los eventos más habituales entre los usuarios.
+En la Tabla \ref{fig:tabla-eventos} vemos los eventos más habituales entre los usuarios.
 
 ## Figura:
 Vamos a crear un diagrama de barras que nos permite visualizar cuáles son los tipos de eventos más frecuentes
 
-En la Figura \@ref(fig:figura-eventos) podemos observar cuáles son los eventos más frecuentes entre los usuarios.
+En la Figura \ref{fig:figura-eventos} podemos observar cuáles son los eventos más frecuentes entre los usuarios.
 
 ```{r figura-eventos, echo=FALSE, fig.cap="Diagrama de barras de los eventos más frecuentes"}
 library(ggplot2)
@@ -233,7 +233,7 @@ tabla <- data.frame(
 kable(tabla, caption = "Descripción de las variables ")
 ```
 
-Como se puede observar en la Tabla \@ref(tab:tabla-variables), existe una predominancia de variables de tipo string o factor.
+Como se puede observar en la Tabla \ref{tab:tabla-variables}, existe una predominancia de variables de tipo string o factor.
 
 
 
@@ -254,7 +254,7 @@ kable(tabla_nas, caption = "Análisis de valores faltantes por variable")
 
 ```
 
-A partir de los datos obtenidos en la Tabla \@ref(tab:analisis-nas), se puede afirmar que el conjunto de datos es robusto, es decir, existe un escaso porcentaje de valores faltantes en las variables analizadas.
+A partir de los datos obtenidos en la Tabla \ref{tab:analisis-nas} se puede afirmar que el conjunto de datos es robusto, es decir, existe un escaso porcentaje de valores faltantes en las variables analizadas.
 
 Por otro lado, la existencia de valores nulos en variables como "Usuario.afectado" no deben interpretarse como errores, ya que existen múltiples acciones que son individuales y no requieren la implicación de un segundo usuario. Por tanto, el data set es considerado de alta calidad.
 
@@ -297,7 +297,6 @@ geom_density(color = "deeppink1", linewidth = 1.2) +
 
 
 
-
 ggplot(datos_logs, aes(x = Hora)) +
   geom_histogram( binwidth = 1, fill = "darkslategray3",color ="darkslategray") +scale_x_continuous(breaks = 0:23) +
   labs(title = "Distribución de la Actividad",
@@ -308,14 +307,24 @@ ggplot(datos_logs, aes(x = Hora)) +
 
 
 
+
 ```
 
 
-Como se puede observar en las Figuras \@ref(fig:grafico-horas),el uso de la plataforma presenta una gran variación a lo largo del día. La mayor parte de la actividad se concentra durante la mañana, alcanzando su pico máximo durante las  9:00 horas, podemos observar que en ese instante se registran más de 16.000 eventos. Este comportamiento es coherente con el horario lectivo.
+
+
+
+
+
+Como se puede observar en las Figuras \ref{fig:grafico-horas},el uso de la plataforma presenta una gran variación a lo largo del día. La mayor parte de la actividad se concentra durante la mañana, alcanzando su pico máximo durante las  9:00 horas, podemos observar que en ese instante se registran más de 16.000 eventos. Este comportamiento es coherente con el horario lectivo.
 
 Por otro lado, podemos apreciar como la  caída de la actividad durante las horas centrales del mediodía (14:00 - 16:00), seguida de un segundo incremento más moderado durante la tarde y noche (17:00 - 20:00),franja horaria que coincide con el estudio autónomo y trabajo en casa .Finamente, la actividad desciende a patir de la 1:00 AM  
 
 En cuanto a la forma de la distribución , los datos no se distribuyen siguiendo la distribución Gaussiana . Podemos observar una distribución bimodal, es decir, este gráfico tiene claramente dos picos principales. Siendo el primero en la franja horario de  11:00 - 12:00 de la mañana y el segundo(siendo el pico máximo), de 10:00-11:00 am.  
+
+
+
+
 
 
 
@@ -324,10 +333,7 @@ En cuanto a la forma de la distribución , los datos no se distribuyen siguiendo
 En este caso aplicaremos otro tipo de enfoque,trataremos con los días.
 El objetivo es ver la evolución temporal de la actividad y superponer las fechas límite (fechas de entrega) para comprobar visualmente si la actividad se dispara justo antes.
 
-
-### *Picos de actividad antes de las entregas*
-
-Para realizar este análisis, se ha explorado el dataset en busca del evento 'Se ha enviado una entrega'. Con el objetivo de mostrar el comportamiento del alumnado, se ha seleccionado la entrega del proyecto realizada el 26 de mayo de 2025.
+Para realizar este análisis(\ref{fig:picos-entrega}), se ha explorado el dataset en busca del evento 'Se ha enviado una entrega'. Con el objetivo de mostrar el comportamiento del alumnado, se ha seleccionado la entrega del proyecto realizada el 26 de mayo de 2025.
 
 ```{r picos-entrega, echo=FALSE, message=FALSE, warning=FALSE, fig.width=10, fig.height=4, fig.cap="Actividad diaria en los días previos a la entrega final del proyecto (26 de mayo)."}
 library(dplyr)
@@ -354,9 +360,19 @@ theme_minimal()
 
 
 ```
-Como se observa en la Figura \@ref(fig:picos-entrega), la evolución de la actividad muestra una clara tendencia exponencial a medida que se acerca el límite de la fecha de entrega .
-Cabe remarcar que el mayor número de interacciones no se producen el día mismo de la entrega(marcada por la línea negra), si no el día previo a la misma(pico máximo).
-Este patrón refleja el esfuerzo de última hora por parte del alumnado, donde la jornada previa concentra la mayor carga de trabajo en la plataforma, mientras que el día límite se reserva únicamente para llevar a cabo la entrega del material.
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 # Exploración Usuarios 
@@ -381,7 +397,7 @@ ggplot(Usuarios_activos, aes(x = Usuario, y = n)) +
   theme_minimal()
 
 ```
-Con el objetivo de analizar la participación por parte del alumnado, hemos identificado los 30 usuarios más activos del conjunto.Como podemos ver en la \@ref(fig:grafico-usuarios-activos),existe un grupo de alumnos con un número elevado de interacciones,llegando a ser más de 5000.
+Con el objetivo de analizar la participación por parte del alumnado, hemos identificado los 30 usuarios más activos del conjunto.Como podemos ver en la \ref{fig:grafico-usuarios-activos},existe un grupo de alumnos con un número elevado de interacciones,llegando a ser más de 5000.
 
 Este gráfico nos permite diferenciar el alumnado que utiliza la plataforma de forma puntual y aquellos que navegan e interactúan constantemente con el material del curso.
 
@@ -522,7 +538,11 @@ ggplot(fechas_concretas, aes(x = Fecha_s, y = Usuarios_Unicos)) +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 
 ```
+<<<<<<< Updated upstream
 En el gráfico \@ref(fig:grafico-usuarios-nocturnos) se observa que durante el curso la actividad registrada en horario nocturno es relativamente baja y corresponde mayoritariamente a usuarios aislados.
+=======
+En el gráfico \ref{fig:grafico-usuarios-nocturnos} muestra la evolución del segundo cuatrimestre en cuanto a la actividad de usuarios en horas "extrañas" (00:00 a 05:00 AM). Se observan claros picos de actividad en algunos periodos del año, especialmente entre los meses de mayo y julio. Mientras que durante el resto del curso la actividad es mínima y podemos atribuirlo a usuarios aislados.
+>>>>>>> Stashed changes
 
 
 Sin embargo, conforme se aproximan los periodos de evaluación, el número de estudiantes activos durante la madrugada aumenta de manera considerable. Este comportamiento resulta especialmente visible entre los meses de mayo y junio, coincidiendo la época de exámenes.
