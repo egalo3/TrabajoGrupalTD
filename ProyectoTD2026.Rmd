@@ -757,7 +757,7 @@ df_u1 <- actividades_por_usuario(usuarios_azar[1])
 df_u2 <- actividades_por_usuario(usuarios_azar[2])
 df_u3 <- actividades_por_usuario(usuarios_azar[3])
 
-# 6. Unimos los 3 dataframes para el gráfico combinado
+# 6. Unimos los 3 dataframes para hacer el gráfico combinado
 df_todos <- bind_rows(df_u1, df_u2, df_u3)
 
 # 7. Gráfico combinado con 3 barras por mes
