@@ -752,7 +752,7 @@ actividades_por_usuario <- function(usuario_id) {
   return(df_usuario)
 }
 
-# 5. Generamos los 3 dataframes individuales
+# 5. Generamos los 3 dataframes individuales para cada alumno
 df_u1 <- actividades_por_usuario(usuarios_azar[1])
 df_u2 <- actividades_por_usuario(usuarios_azar[2])
 df_u3 <- actividades_por_usuario(usuarios_azar[3])
