@@ -538,11 +538,11 @@ ggplot(fechas_concretas, aes(x = Fecha_s, y = Usuarios_Unicos)) +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 
 ```
-<<<<<<< Updated upstream
+
 En el gráfico \@ref(fig:grafico-usuarios-nocturnos) se observa que durante el curso la actividad registrada en horario nocturno es relativamente baja y corresponde mayoritariamente a usuarios aislados.
-=======
+
 En el gráfico \ref{fig:grafico-usuarios-nocturnos} muestra la evolución del segundo cuatrimestre en cuanto a la actividad de usuarios en horas "extrañas" (00:00 a 05:00 AM). Se observan claros picos de actividad en algunos periodos del año, especialmente entre los meses de mayo y julio. Mientras que durante el resto del curso la actividad es mínima y podemos atribuirlo a usuarios aislados.
->>>>>>> Stashed changes
+
 
 
 Sin embargo, conforme se aproximan los periodos de evaluación, el número de estudiantes activos durante la madrugada aumenta de manera considerable. Este comportamiento resulta especialmente visible entre los meses de mayo y junio, coincidiendo la época de exámenes.
@@ -649,7 +649,7 @@ Para determinar si existen eventos de error o acciones fallidas recurrentes en l
 
 Este análisis puede resultar relevante ya que permite identificar los posibles problemas técnicos o dificultades de uso de la plataforma del Aula Virtual por parte de los usuarios.
 
-```{r, echo=FALSE, warning=FALSE, message=FALSE}}
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
 # Filtramos eventos relacionados con errores o acciones fallidad
 eventos_error <- datos_logs %>%
   
@@ -669,7 +669,7 @@ eventos_error <- datos_logs %>%
   arrange(desc(Total))
 ```
 
-```{r grafico-eventos-erroneos, echo=FALSE, warning=FALSE, message=FALSE}}
+```{r grafico-eventos-erroneos, echo=FALSE, warning=FALSE, message=FALSE}
 # Representamos gráficamente los eventos de error más frecuentes
 ggplot(eventos_error, aes(x = reorder(Evento, Total),
            y = Total)) +
@@ -695,7 +695,7 @@ ggplot(eventos_error, aes(x = reorder(Evento, Total),
   theme_minimal()
 ```
 
-En el gráfico \@ref(fig:grafico-eventos-erroneos) se pueden observar aquellos eventos de errores o acciones fallidas que presentan una mayor frecuencia dentro de los registros del Aula Virtual.
+En el gráfico \@reffig:grafico-eventos-erroneos) se pueden observar aquellos eventos de errores o acciones fallidas que presentan una mayor frecuencia dentro de los registros del Aula Virtual.
 
 
 El evento más repetido corresponde a "Tiempo límite del cuestionario excedido", con un total de 55 registros. También destacan los eventos “Módulo de curso eliminado” y “Elemento borrado”, ambos con 41 registros. 
