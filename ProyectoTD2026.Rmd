@@ -110,7 +110,7 @@ En este proyecto utilizaremos figuras y tablas para poder interpretar de una man
 ## Tablas:
 Queremos mostrar el número de veces que aparece cada tipo de evento, identificando así las acciones que los usuarios realizan de manera más habitual.
 
-```{r tabla-eventos, echo= FALSE}
+```{r, tabla-eventos, echo= FALSE}
 datos_logs %>%
   count(Evento, name = "Cantidad", sort = TRUE) %>%
   kable(longtable= TRUE, caption = "Frecuencia de eventos registrados")
@@ -214,7 +214,7 @@ En nuestro data frame observamos la predominancia de variables de tipo string o 
 
 
 
-```{r, tabla-variables, echo=FALSE}
+```{r, tabla-variables, echo=FALSE, message=FALSE, warning=FALSE, fig.cap="tipo de datos"}
 library(knitr)
 library(kableExtra)
 
@@ -240,7 +240,7 @@ Como se puede observar en la Tabla \ref{tab:tabla-variables}, existe una predomi
 
 
 
-```{r, analisis-nas, echo=FALSE}
+```{r, analisis-nas, echo=FALSE, message=FALSE, warning=FALSE, fig.cap="analisis de valores faltantes"}
 library(dplyr)
 library(knitr)
 library(kableExtra)
