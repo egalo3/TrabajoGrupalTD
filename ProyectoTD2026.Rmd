@@ -53,6 +53,7 @@ library(lubridate)
 library(knitr)
 library(ggplot2) 
 library(kableExtra)
+library(stringr)
 
 
 ```
@@ -297,12 +298,7 @@ geom_density(color = "deeppink1", linewidth = 1.2) +
 
 
 
-ggplot(datos_logs, aes(x = Hora)) +
-  geom_histogram( binwidth = 1, fill = "darkslategray3",color ="darkslategray") +scale_x_continuous(breaks = 0:23) +
-  labs(title = "Distribución de la Actividad",
-       x = "Hora del día (0-23h)",
-       y = "Interacciones") +
-  theme_minimal()
+
 
 
 
@@ -310,6 +306,14 @@ ggplot(datos_logs, aes(x = Hora)) +
 
 ```
 
+```{r grafico-densidad, echo=FALSE, message=FALSE, warning=FALSE, fig.cap="Análisis densidad"}
+ggplot(datos_logs, aes(x = Hora)) +
+  geom_histogram( binwidth = 1, fill = "darkslategray3",color ="darkslategray") +scale_x_continuous(breaks = 0:23) +
+  labs(title = "Distribución de la Actividad",
+       x = "Hora del día (0-23h)",
+       y = "Interacciones") +
+  theme_minimal()
+```
 
 
 
@@ -320,7 +324,7 @@ Como se puede observar en las Figuras \ref{fig:grafico-horas},el uso de la plata
 
 Por otro lado, podemos apreciar como la  caída de la actividad durante las horas centrales del mediodía (14:00 - 16:00), seguida de un segundo incremento más moderado durante la tarde y noche (17:00 - 20:00),franja horaria que coincide con el estudio autónomo y trabajo en casa .Finamente, la actividad desciende a patir de la 1:00 AM  
 
-En cuanto a la forma de la distribución , los datos no se distribuyen siguiendo la distribución Gaussiana . Podemos observar una distribución bimodal, es decir, este gráfico tiene claramente dos picos principales. Siendo el primero en la franja horario de  11:00 - 12:00 de la mañana y el segundo(siendo el pico máximo), de 10:00-11:00 am.  
+En cuanto a la forma de la distribución planteada en la figura  \ref{fig:grafico-densidad}  , los datos no se distribuyen siguiendo la distribución Gaussiana . Podemos observar una distribución bimodal, es decir, este gráfico tiene claramente dos picos principales. Siendo el primero en la franja horario de  11:00 - 12:00 de la mañana y el segundo(siendo el pico máximo), de 10:00-11:00 am.  
 
 
 
@@ -333,7 +337,7 @@ En cuanto a la forma de la distribución , los datos no se distribuyen siguiendo
 En este caso aplicaremos otro tipo de enfoque,trataremos con los días.
 El objetivo es ver la evolución temporal de la actividad y superponer las fechas límite (fechas de entrega) para comprobar visualmente si la actividad se dispara justo antes.
 
-Para realizar este análisis(\ref{fig:picos-entrega}), se ha explorado el dataset en busca del evento 'Se ha enviado una entrega'. Con el objetivo de mostrar el comportamiento del alumnado, se ha seleccionado la entrega del proyecto realizada el 26 de mayo de 2025.
+Para realizar este análisis( figura \ref{fig:picos-entrega}), se ha explorado el dataset en busca del evento 'Se ha enviado una entrega'. Con el objetivo de mostrar el comportamiento del alumnado, se ha seleccionado la entrega del proyecto realizada el 26 de mayo de 2025.
 
 ```{r picos-entrega, echo=FALSE, message=FALSE, warning=FALSE, fig.width=10, fig.height=4, fig.cap="Actividad diaria en los días previos a la entrega final del proyecto (26 de mayo)."}
 library(dplyr)
@@ -397,7 +401,7 @@ ggplot(Usuarios_activos, aes(x = Usuario, y = n)) +
   theme_minimal()
 
 ```
-Con el objetivo de analizar la participación por parte del alumnado, hemos identificado los 30 usuarios más activos del conjunto.Como podemos ver en la \ref{fig:grafico-usuarios-activos},existe un grupo de alumnos con un número elevado de interacciones,llegando a ser más de 5000.
+Con el objetivo de analizar la participación por parte del alumnado, hemos identificado los 30 usuarios más activos del conjunto.Como podemos ver en la figura  \ref{fig:grafico-usuarios-activos},existe un grupo de alumnos con un número elevado de interacciones,llegando a ser más de 5000.
 
 Este gráfico nos permite diferenciar el alumnado que utiliza la plataforma de forma puntual y aquellos que navegan e interactúan constantemente con el material del curso.
 
@@ -407,11 +411,13 @@ Este gráfico nos permite diferenciar el alumnado que utiliza la plataforma de f
 ## Número medio de acciones por usuario
 
 ```{r}
+
 acciones_por_usuario <- datos_logs %>%
   group_by(Usuario) %>%
   summarise(total_acciones = n(), .groups = "drop") # número total de acciones por cada usuario
 media <- mean(acciones_por_usuario$total_acciones)
 ```
+
 Tras procesar los registros, se ha determinado que el número medio de acciones realizadas por usuario es de 1261.448 
 Este dato sugiere que, en promedio, cada estudiante interactúa más de 800 veces con la plataforma a lo largo del periodo analizado, lo que refleja un seguimiento constante de los materiales.
 
@@ -472,7 +478,7 @@ Por ejemplo el origen web con el tipo de evento Módulo de curso visto con 23535
 
 ## Actividades/recursos con más iteracciones
 
-```{r tabla-iteraccion2}
+```{r tabla-iteraccion2,echo=FALSE}
 # Agrupar por el componente de Moodle y el evento
 actividades_populares <- datos_logs %>%
   group_by(Componente, Evento) %>%
@@ -512,7 +518,7 @@ Hora<- datos_logs %>%
   summarise(Usuarios_Unicos = n_distinct(Usuario))
 ```
 
-```{r grafico-usuarios-nocturnos}
+```{r grafico-usuarios-nocturnos,echo=FALSE}
 # Creamos el gráfico 
 fechas_concretas<-Hora %>% filter(
   Fecha_s>= as.Date("2025-01-01") & Fecha_s <= as.Date("2025-07-31"))
@@ -539,7 +545,7 @@ ggplot(fechas_concretas, aes(x = Fecha_s, y = Usuarios_Unicos)) +
 
 ```
 
-En el gráfico \@ref(fig:grafico-usuarios-nocturnos) se observa que durante el curso la actividad registrada en horario nocturno es relativamente baja y corresponde mayoritariamente a usuarios aislados.
+En el gráfico \ref{fig:grafico-usuarios-nocturnos} se observa que durante el curso la actividad registrada en horario nocturno es relativamente baja y corresponde mayoritariamente a usuarios aislados.
 
 En el gráfico \ref{fig:grafico-usuarios-nocturnos} muestra la evolución del segundo cuatrimestre en cuanto a la actividad de usuarios en horas "extrañas" (00:00 a 05:00 AM). Se observan claros picos de actividad en algunos periodos del año, especialmente entre los meses de mayo y julio. Mientras que durante el resto del curso la actividad es mínima y podemos atribuirlo a usuarios aislados.
 
@@ -550,7 +556,7 @@ Sin embargo, conforme se aproximan los periodos de evaluación, el número de es
 
 Con el objetivo de analizar con mayor detalle este periodo, se ha generado una segunda visualización centrada únicamente en los meses de mayo y julio.
 
-```{r grafico-epoca-examenes}
+```{r grafico-epoca-examenes,echo = FALSE}
 # Filtramos los meses que nos interesan
 datos_mayo_julio <- Hora %>% 
   filter(Fecha_s >= as.Date("2025-05-01") & Fecha_s <= as.Date("2025-07-31"))
@@ -569,7 +575,7 @@ ggplot(datos_mayo_julio, aes(x = Fecha_s, y = Usuarios_Unicos)) +
 
 
 ```
-Como se aprecia en la Figura \@ref(fig:grafico-epoca-examenes), existen varios días concretos donde la actividad nocturna aumenta notablemente. Por ejemplo, alrededor del 26 de mayo y mediados de junio se registran picos superiores a 15 y 20 usuarios conectados respectivamente durante la madrugada.
+Como se aprecia en la Figura \ref{fig:grafico-epoca-examenes} , existen varios días concretos donde la actividad nocturna aumenta notablemente. Por ejemplo, alrededor del 26 de mayo y mediados de junio se registran picos superiores a 15 y 20 usuarios conectados respectivamente durante la madrugada.
 
 
 Por otra parte, se puede ver casos aislados en algunos meses. Por ejemplo entre el 5 de mayo y el 12 de mayo donde la actividad nocturna se reduce a 1 o 2 usuarios por noche.
@@ -639,7 +645,7 @@ kable(head(resumen_cambios, 6),
 ) %>% kable_styling(latex_options = "scale_down")
 ```
 
-Al analizar la Tabla \@ref(tab:tabla-usuarios-ip-distinta), se confirma la existencia de accesos desde múltiples direcciones IP en intervalos de tiempo muy reducidos. Destaca especialmente el usuario U0001, que presenta un número muy elevado tanto de direcciones IP distintas como de cambios rápidos de conexión. Sin embargo, en la mayoría de los usuarios los valores observados son considerablemente más moderados.
+Al analizar la Tabla \ref{tab:tabla-usuarios-ip-distinta}, se confirma la existencia de accesos desde múltiples direcciones IP en intervalos de tiempo muy reducidos. Destaca especialmente el usuario U0001, que presenta un número muy elevado tanto de direcciones IP distintas como de cambios rápidos de conexión. Sin embargo, en la mayoría de los usuarios los valores observados son considerablemente más moderados.
 
 
 # Identificación de eventos de errores y acciones fallidas.
@@ -690,12 +696,11 @@ ggplot(eventos_error, aes(x = reorder(Evento, Total),
   labs(
     title = "Frecuencia de Eventos erróneos o Acciones fallidas",
     x = "Tipo de evento",
-    y = "Número de registros") 
-+
+    y = "Número de registros") +
   theme_minimal()
 ```
 
-En el gráfico \@reffig:grafico-eventos-erroneos) se pueden observar aquellos eventos de errores o acciones fallidas que presentan una mayor frecuencia dentro de los registros del Aula Virtual.
+En el gráfico \ref{fig:grafico-eventos-erroneos} se pueden observar aquellos eventos de errores o acciones fallidas que presentan una mayor frecuencia dentro de los registros del Aula Virtual.
 
 
 El evento más repetido corresponde a "Tiempo límite del cuestionario excedido", con un total de 55 registros. También destacan los eventos “Módulo de curso eliminado” y “Elemento borrado”, ambos con 41 registros. 
@@ -711,7 +716,7 @@ Por otro lado, los eventos menos frecuentes son "Grupo eliminado" o "Agrupamient
 
 Para el análisis de la variación de la actividad de cada usuario a lo largo del año, analizaremos las actividades registradas por cada usuario en los diferentes meses y representaremos en un gráfico de barras los datos de cada mes para poder observar la diferencia entre los meses.
 
-```{r}
+```{r graficos-actvidad-anual,echo= FALSE}
 library(dplyr)
 library(lubridate)
 library(ggplot2)
@@ -790,7 +795,7 @@ ggplot(df_todos, aes(x = Mes, y = Actividades, fill = Usuario)) +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 
 ```
-Como observamos en los gráficos, cada usuario presenta una variación anual de la actividad mensual diferente, es decir que ninguno sigue un patrón organizado, ni los usuarios muestran una misma variación entre los meses, por lo que según los datos registrados podemos concluir en que cada usuario realiza una serie de actividades diferentes independientemente de las actividades realizadas por los demás usuarios del registro.
+Como observamos en los gráficos (\ref{fig:graficos-actvidad-anual}), cada usuario presenta una variación anual de la actividad mensual diferente, es decir que ninguno sigue un patrón organizado, ni los usuarios muestran una misma variación entre los meses, por lo que según los datos registrados podemos concluir en que cada usuario realiza una serie de actividades diferentes independientemente de las actividades realizadas por los demás usuarios del registro.
 
 Por otra parte, algo que si podemos observar como "normal" en todos los usuarios estudiados es la falta de actividad durante los meses de agosto a diciembre, este suceso podemos suponer que no se sale de lo previsto, puesto que sabemos de ante mano que se trata del registro de las actividades realizadas en la asignatura de Tratamiento de Datos, la cual se desarrolla durante el segundo cuatrimestre. Es por ello que no es extraño que durante los meses del primer cuatrimestre, así como los meses de verano, naturalmente, no presenten actividad alguna.
 
@@ -799,7 +804,7 @@ Por otra parte, algo que si podemos observar como "normal" en todos los usuarios
 
 Para analizar si existe una diferencia notable entre la actividad registrada en días lectivos y la registrada durante los fines de semana, estudiaremos el número total de eventos generados en cada día. El objetivo es comprobar si los usuarios utilizan el aula virtual principalmente durante la semana, coincidiendo con el calendario académico, o si también muestran actividad relevante durante los sábados y domingos. Para ello, clasificaremos cada registro según el día de la semana y representaremos los resultados en un gráfico comparativo que permita visualizar de forma clara la diferencia entre ambos grupos.
 
-```{r}
+```{r dif_dias_fines,echo = FALSE}
 library(dplyr)
 library(lubridate)
 library(ggplot2)
@@ -828,7 +833,7 @@ ggplot(actividades_semana, aes(x = Dia_semana, y = Actividades, fill = Tipo_dia)
         legend.title = element_blank())
 
 ```
-En el gráfico se observa la distribución de actividades registradas a lo largo de los siete días de la semana. Los días lectivos (de lunes a viernes) concentran la mayor parte de la actividad, lo cual es coherente con el funcionamiento habitual de una asignatura universitaria: los estudiantes suelen acceder al aula virtual coincidiendo con las clases, la realización de tareas y la consulta de materiales.
+En el gráfico \ref{fig:dif_dias_fines} se observa la distribución de actividades registradas a lo largo de los siete días de la semana. Los días lectivos (de lunes a viernes) concentran la mayor parte de la actividad, lo cual es coherente con el funcionamiento habitual de una asignatura universitaria: los estudiantes suelen acceder al aula virtual coincidiendo con las clases, la realización de tareas y la consulta de materiales.
 
 Por el contrario, los sábados y domingos muestran una actividad considerablemente menor. Este descenso puede deberse a que los estudiantes tienden a desconectar durante el fin de semana o a que la asignatura no plantea entregas ni actividades en esos días.
 Además, si se observa un pico concreto en algún día específico (por ejemplo, los miércoles), podría estar relacionado con la programación de clases presenciales, la publicación de materiales o la proximidad de fechas de entrega. 
@@ -840,7 +845,7 @@ En conjunto, el gráfico permite visualizar de forma clara cómo se distribuye l
 
 Para analizar qué franjas horarias presentan una mayor variabilidad entre usuarios, estudiaremos cuántos usuarios distintos generan actividad en cada hora del día. Esto nos permitirá identificar si existen horas en las que muchos usuarios diferentes acceden a la plataforma, frente a otras en las que solo unos pocos usuarios realizan acciones. Este análisis es útil para comprender los patrones colectivos de acceso y detectar momentos de mayor diversidad de participación.
 
-```{r}
+```{r grafico-variabilidad ,echo = FALSE}
 library(dplyr)
 library(lubridate)
 library(ggplot2)
@@ -865,12 +870,12 @@ ggplot(variabilidad_horaria, aes(x = Hora, y = Usuarios_distintos)) +
 
 ```
 
-El gráfico muestra cuántos usuarios distintos generan actividad en cada hora del día. Las horas con barras más altas representan franjas horarias con mayor variabilidad, es decir, momentos en los que muchos usuarios diferentes acceden a la plataforma. Mientras que las barras más bajas muestran los momentos del día de menor actividad por parte de los estudiantes.
+El gráfico \ref{fig:grafico-variabilidad} muestra cuántos usuarios distintos generan actividad en cada hora del día. Las horas con barras más altas representan franjas horarias con mayor variabilidad, es decir, momentos en los que muchos usuarios diferentes acceden a la plataforma. Mientras que las barras más bajas muestran los momentos del día de menor actividad por parte de los estudiantes.
 
-Según lo que vemos en nuestro gráfico, apartir de las 9am existe un número de usuarios muy superior a las horas anteriores, vemos como este número continua estable durante las siguientes horas hasta las 2pm, hora apartir de la cual comienza a descender levemente, esto puede deberse a que apartir de las 9am y hasta las 2pm los estudiantes se encuentran en horario lectivo, horarios con clase, y vemos como la actividad sigue presente durante las horas de la tarde, pero este número va decreciendo.
+Según lo que vemos en nuestro gráfico \ref{fig:grafico-variabilidad} , apartir de las 9am existe un número de usuarios muy superior a las horas anteriores, vemos como este número continua estable durante las siguientes horas hasta las 2pm, hora apartir de la cual comienza a descender levemente, esto puede deberse a que apartir de las 9am y hasta las 2pm los estudiantes se encuentran en horario lectivo, horarios con clase, y vemos como la actividad sigue presente durante las horas de la tarde, pero este número va decreciendo.
 En cambio, llegados ya a las horas nocturas y durante las primeras horas de la mañana, vemos como esa masa tan alta descience notoriamente, esto se debe, naturalmente a las horas de descanso y sueño de los estudiantes.
 
-En conjunto, el gráfico permite identificar claramente qué franjas horarias presentan mayor diversidad de usuarios activos y cuáles muestran un uso más limitado, proporcionando una visión global del comportamiento colectivo a lo largo del día.
+En conjunto, el gráfico \ref{fig:grafico-variabilidad} permite identificar claramente qué franjas horarias presentan mayor diversidad de usuarios activos y cuáles muestran un uso más limitado, proporcionando una visión global del comportamiento colectivo a lo largo del día.
 
 
 
