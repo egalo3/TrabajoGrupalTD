@@ -765,7 +765,7 @@ ggplot(df_todos, aes(x = Mes, y = Actividades, fill = Usuario)) +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 
 ```
-Como observamos en los gráficos (\ref{fig:graficos-actvidad-anual}), cada usuario presenta una variación anual de la actividad mensual diferente, es decir que ninguno sigue un patrón organizado, ni los usuarios muestran una misma variación entre los meses, por lo que según los datos registrados podemos concluir en que cada usuario realiza una serie de actividades diferentes independientemente de las actividades realizadas por los demás usuarios del registro.
+Como observamos en el gráfico (\ref{fig:graficos-actvidad-anual}), cada usuario presenta una variación anual de la actividad mensual diferente, es decir que ninguno sigue un patrón organizado, ni los usuarios muestran una misma variación entre los meses, por lo que según los datos registrados podemos concluir en que cada usuario realiza una serie de actividades diferentes independientemente de las actividades realizadas por los demás usuarios del registro.
 
 Por otra parte, algo que si podemos observar como "normal" en todos los usuarios estudiados es la falta de actividad durante los meses de agosto a diciembre, este suceso podemos suponer que no se sale de lo previsto, puesto que sabemos de ante mano que se trata del registro de las actividades realizadas en la asignatura de Tratamiento de Datos, la cual se desarrolla durante el segundo cuatrimestre. Es por ello que no es extraño que durante los meses del primer cuatrimestre, así como los meses de verano, naturalmente, no presenten actividad alguna.
 
@@ -850,7 +850,7 @@ En conjunto, el gráfico \ref{fig:grafico-variabilidad} permite identificar clar
 
 
 
-## Comportamiento del usuario: Actividades pasivas frente a activas (Pregunta 17)
+## Comportamiento del usuario: Actividades pasivas frente a activas
 
 Para profundizar en la exploración de los usuarios, resulta fundamental conocer qué tipo de uso hacen de la plataforma. Por ello, se procederá a analizar la proporción existente entre el número de actividades pasivas (orientadas a la consulta, como entrar o visualizar material) y las actividades activas (que implican la creación o modificación de contenido, como entregar tareas o editar).
 
@@ -901,7 +901,7 @@ ggplot(proporcion_resumen, aes(x = Tipo_Actividad, y = Porcentaje, fill = Tipo_A
 Como se observa en la Figura \ref{fig:figura-proporcion}, la diferencia de comportamiento es muy notoria. La inmensa mayoría de las interacciones registradas en el Aula Virtual consisten en el consumo pasivo de contenido (visualización de cursos, descarga de apuntes o lectura de enunciados). Las interacciones activas representan una pequeña fracción del total, este es un patrón esperado en entornos de aprendizaje virtual donde el estudio autónomo y la lectura preceden a los momentos puntuales de entrega o evaluación.
 
 
-## Identificación de patrones de acceso estacional (Pregunta 18)
+## Identificación de patrones de acceso estacional
 
 Tras analizar la distribución general de la actividad, resulta de gran interés determinar si existe un perfil de estudiante con un comportamiento "estacional". Es decir, alumnos que no mantienen una interacción constante con el Aula Virtual, sino que concentran gran parte de su actividad en momentos críticos, como los días previos a la entrega final del proyecto (fijada el 26 de mayo).
 
@@ -964,7 +964,7 @@ ggplot(perfil_usuarios, aes(x = Pct_Critico)) +
 La Figura \ref{fig:figura-estacional} muestra la distribución de los usuarios según el peso que tiene esa semana específica en su actividad total anual. La acumulación de usuarios a la derecha de la línea de corte (marcada en color morado) confirma la existencia de alumnos cuya actividad se dispara bajo la presión evaluativa. Este comportamiento es un indicador claro de una estrategia de aprendizaje basada en la urgencia frente a la constancia continuada.
 
 
-## Análisis del uso de dispositivos según la franja horaria (Pregunta 19)
+## Análisis del uso de dispositivos según la franja horaria
 
 Para comprender los hábitos de conexión del alumnado, la cuestión plantea si existe una disminución del uso de dispositivos móviles durante el horario lectivo en favor de otras herramientas. Para estructurar la comparativa, definimos el "Horario Lectivo" como la franja comprendida entre las 08:00 y las 14:00 horas, frente al "Horario No Lectivo" (el resto del día).
 
@@ -1027,8 +1027,7 @@ A la vista de la Tabla \ref{tab:tabla-dispositivos} y la Figura \ref{fig:figura-
 Lo que sí experimenta una variación altamente significativa no es la herramienta, sino la intensidad de uso. La Figura \ref{fig:figura-dispositivos} evidencia que el volumen de interacciones se desploma casi a la mitad (pasando de más de 70.000 a cerca de 39.000) al salir del horario de clase. Esto permite concluir que, aunque el dispositivo no cambia, los estudiantes concentran su actividad digital en la franja matutina presencial, dejando el horario no lectivo para un acceso considerablemente más residual.
 
 
-## Análisis de la actividad según el tipo de día y momento del curso (Pregunta 20)
-
+## Análisis de la actividad según el tipo de día y momento del curso
 Para comprender los hábitos de estudio del alumnado, es fundamental analizar cómo se distribuye su carga de trabajo entre los días laborales y los fines de semana. Además, resulta de gran interés comprobar si esta proporción se mantiene estable a lo largo del año o si, por el contrario, se ve alterada ante la proximidad de fechas clave (como la entrega de proyectos o exámenes).
 
 Para responder a esta cuestión, utilizamos la información temporal de los eventos para identificar el día exacto de la semana en que ocurrieron. Posteriormente, dividimos el histórico del curso en dos fases: un Periodo Regular y una Época de Entrega (definida como los 14 días previos a la entrega final del proyecto fijada el 26 de mayo).
