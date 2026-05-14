@@ -162,35 +162,32 @@ En el siguiente apartado se expondrán dichas preguntas claves para la  explorac
 
 3.¿Qué usuarios son más activos (mayor número de eventos)?
 
-4.¿Cuál es el número medio de acciones por usuario? - - - LA QUITO
+4.¿Existen usuarios con comportamiento atípico (muy alta o muy baja actividad)?
 
-5.¿Existen usuarios con comportamiento atípico (muy alta o muy baja actividad)?
+5.¿Existe relación entre el dispositivo empleado y la actividad realizada?
 
-6.¿Existe relación entre el dispositivo empleado y la actividad realizada?
+6.¿Que actividades o recursos generan más interacciones?
 
-7.¿Que actividades o recursos generan más interacciones?
+7.¿Hay registros realizados en horas "extrañas" (ej. 4:00 AM)? ¿Son usuarios aislados o un patrón común en época de exámenes?
 
-8.¿Hay registros realizados en horas "extrañas" (ej. 4:00 AM)? ¿Son usuarios aislados o un patrón común en época de exámenes?
+8.¿Se detectan múltiples IPs para un mismo usuario en un corto periodo de tiempo?
 
-9.¿Se detectan múltiples IPs para un mismo usuario en un corto periodo de tiempo?
+9.¿Hay eventos de error o acciones fallidas recurrentes en los logs?
 
-10.¿Hay eventos de error o acciones fallidas recurrentes en los logs?
+10.¿Existe alguna evolución en la actividad de un mismo usuario a lo largo del año (de menos a más o de más a menos)? ¿A que puede deberse esto?
 
-11.¿Existe alguna evolución en la actividad de un mismo usuario a lo largo del año (de menos a más o de más a menos)? ¿A que puede deberse esto?
+11.¿Hay una diferencia notoria entre las actividades registradas en dias lectivos y las registradas los fines de semana?
 
-12.¿Hay una diferencia notoria entre las actividades registradas en dias lectivos y las registradas los fines de semana?
+12.¿Que franjas horarias muestran una mayor concentración de usuarios al mismo tiempo?
 
-13.¿Que franjas horarias muestran una mayor concentración de usuarios al mismo tiempo?
 
-14.¿Qué actividades se realizan más desde móvil y cuáles desde ordenador? - - - MUY PARECIDA A LA PREGUNTA 7
+13.¿Cuál es la proporción entre el número de actividades pasivas (entrar, ver) y las activas (entregar, editar)?
 
-15.¿Cuál es la proporción entre el número de actividades pasivas (entrar, ver) y las activas (entregar, editar)?
+14.¿Existen usuarios que solo acceden en momentos muy concretos? (Ej. previos a entrega o a exámenes)
 
-16.¿Existen usuarios que solo acceden en momentos muy concretos? (Ej. previos a entrega o a exámenes)
+15.¿En horario lectivo se detecta menor actividad desde el móvil o es indiferente?
 
-17.¿En horario lectivo se detecta menor actividad desde el móvil o es indiferente?
-
-18.¿Hay más actividad en días laborales o en fin de semana? ¿Varia esta proporción en momentos concretos? (Ej. época de exámenes)
+16.¿Hay más actividad en días laborales o en fin de semana? ¿Varia esta proporción en momentos concretos? (Ej. época de exámenes)
 
 
 
