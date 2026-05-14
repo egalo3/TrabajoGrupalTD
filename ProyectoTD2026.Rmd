@@ -214,7 +214,7 @@ En nuestro data frame observamos la predominancia de variables de tipo string o 
 
 
 
-```{r, tabla-variables, echo=FALSE, message=FALSE, warning=FALSE, fig.cap="tipo de datos"}
+```{r, tabla-variables, echo=FALSE, fig.cap="tipo de datos"}
 library(knitr)
 library(kableExtra)
 
@@ -240,7 +240,7 @@ Como se puede observar en la Tabla \ref{tab:tabla-variables}, existe una predomi
 
 
 
-```{r, analisis-nas, echo=FALSE, message=FALSE, warning=FALSE, fig.cap="analisis de valores faltantes"}
+```{r, analisis-nas, echo=FALSE, fig.cap="analisis de valores faltantes"}
 library(dplyr)
 library(knitr)
 library(kableExtra)
