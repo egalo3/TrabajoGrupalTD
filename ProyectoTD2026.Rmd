@@ -271,7 +271,7 @@ En este caso contemplaremos tanto la forma de la distribución(Gráfica 1), como
 
 
 
-```{r, grafico-horas, echo=FALSE, fig.cap="Distribución de la actividad de los usuarios por hora del día"}
+```{r, grafico-densidad, echo=FALSE, fig.cap="Análisis densidad"}
 library(dplyr)
 library(lubridate)
 library(ggplot2)
@@ -302,7 +302,9 @@ geom_density(color = "deeppink1", linewidth = 1.2) +
 
 ```
 
-```{r, grafico-densidad, echo=FALSE, fig.cap="Análisis densidad"}
+
+```{r, grafico-horas, echo=FALSE, fig.cap="Distribución de la actividad de los usuarios por hora del día"}
+
 ggplot(datos_logs, aes(x = Hora)) +
   geom_histogram( binwidth = 1, fill = "darkslategray3",color ="darkslategray") +scale_x_continuous(breaks = 0:23) +
   labs(title = "Distribución de la Actividad",
