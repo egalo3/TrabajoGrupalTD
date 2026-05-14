@@ -110,7 +110,7 @@ En este proyecto utilizaremos figuras y tablas para poder interpretar de una man
 ## Tablas:
 Queremos mostrar el número de veces que aparece cada tipo de evento, identificando así las acciones que los usuarios realizan de manera más habitual.
 
-```{r, tabla-eventos, echo= FALSE,fig.cap = "Evento"}
+```{r, tabla-eventos, echo= FALSE, warning=FALSE, message=FALSE, fig.cap = "Evento"}
 datos_logs %>%
   count(Evento, name = "Cantidad", sort = TRUE) %>%
   kable(longtable= TRUE, caption = "Frecuencia de eventos registrados")
@@ -122,7 +122,7 @@ Vamos a crear un diagrama de barras que nos permite visualizar cuáles son los t
 
 En la Figura \ref{fig:figura-eventos} podemos observar cuáles son los eventos más frecuentes entre los usuarios.
 
-```{r figura-eventos, echo=FALSE, fig.cap="Diagrama de barras de los eventos más frecuentes"}
+```{r figura-eventos, echo=FALSE, warning=FALSE, message=FALSE, fig.cap="Diagrama de barras de los eventos más frecuentes"}
 library(ggplot2)
 frecuencias <- datos_logs %>%
   count(Evento) %>%
@@ -210,7 +210,7 @@ En nuestro data frame observamos la predominancia de variables de tipo string o 
 
 
 
-```{r, tabla-variables, echo=FALSE, fig.cap="tipo de datos"}
+```{r, tabla-variables, echo=FALSE, warning=FALSE, message=FALSE, fig.cap="tipo de datos"}
 library(knitr)
 library(kableExtra)
 
@@ -236,7 +236,7 @@ Como se puede observar en la Tabla \ref{tab:tabla-variables}, existe una predomi
 
 
 
-```{r, analisis-nas, echo=FALSE, fig.cap="analisis de valores faltantes"}
+```{r, analisis-nas, echo=FALSE,warning=FALSE, message=FALSE, fig.cap="analisis de valores faltantes"}
 library(dplyr)
 library(knitr)
 library(kableExtra)
@@ -271,7 +271,7 @@ En este caso contemplaremos tanto la forma de la distribución(Gráfica 1), como
 
 
 
-```{r, grafico-densidad, echo=FALSE, fig.cap="Análisis densidad"}
+```{r, grafico-densidad, echo=FALSE, warning=FALSE, message=FALSE, fig.cap="Análisis densidad"}
 library(dplyr)
 library(lubridate)
 library(ggplot2)
@@ -303,7 +303,7 @@ geom_density(color = "deeppink1", linewidth = 1.2) +
 ```
 
 
-```{r, grafico-horas, echo=FALSE, fig.cap="Distribución de la actividad de los usuarios por hora del día"}
+```{r, grafico-horas, echo=FALSE, warning=FALSE, message=FALSE, fig.cap="Distribución de la actividad de los usuarios por hora del día"}
 
 ggplot(datos_logs, aes(x = Hora)) +
   geom_histogram( binwidth = 1, fill = "darkslategray3",color ="darkslategray") +scale_x_continuous(breaks = 0:23) +
@@ -337,7 +337,7 @@ El objetivo es ver la evolución temporal de la actividad y superponer las fecha
 
 Para realizar este análisis( figura \ref{fig:picos-entrega}), se ha explorado el dataset en busca del evento 'Se ha enviado una entrega'. Con el objetivo de mostrar el comportamiento del alumnado, se ha seleccionado la entrega del proyecto realizada el 26 de mayo de 2025.
 
-```{r, picos-entrega, echo=FALSE, fig.width=10, fig.height=4, fig.cap="Actividad diaria en los días previos a la entrega final del proyecto (26 de mayo)."}
+```{r, picos-entrega, echo=FALSE, warning=FALSE, message=FALSE, fig.width=10, fig.height=4, fig.cap="Actividad diaria en los días previos a la entrega final del proyecto (26 de mayo)."}
 library(dplyr)
 library(lubridate)
 library(ggplot2)
@@ -384,7 +384,7 @@ En este apartado realizaremos un análisis en base al comportamiento de los usua
 
 ## Análisis frecuencia:usuarios más activos
 
-```{r,grafico-usuarios-activos, echo=FALSE, fig.cap="30 usuarios con mayor número de interacciones en la plataforma."}
+```{r,grafico-usuarios-activos, echo=FALSE, warning=FALSE, message=FALSE, fig.cap="30 usuarios con mayor número de interacciones en la plataforma."}
 library(ggplot2)
 #Acciones por usuario
 Usuarios_activos <- datos_logs %>%
@@ -422,7 +422,7 @@ Este dato sugiere que, en promedio, cada estudiante interactúa más de 800 vece
 
 ## Comportamientos atípicos
 
-```{r, tabla-atipicos, echo=FALSE, fig.cap = "Comportamientos atípicos"}
+```{r, tabla-atipicos, echo=FALSE, warning=FALSE, message=FALSE, fig.cap = "Comportamientos atípicos"}
 # Calculamos por quantiles
 q1 <- quantile(acciones_por_usuario$total_acciones, 0.25)
 q3 <- quantile(acciones_por_usuario$total_acciones, 0.75)
@@ -451,7 +451,7 @@ En este apartado veremos las diferentes relaciones, iteracciones y comportamient
 
 ## Relación entre dispositivo empleado y la actividad realizada
 
-```{r,tabla-origen, echo=FALSE, fig.cap = "relación y actividad"}
+```{r,tabla-origen, echo=FALSE, warning=FALSE, message=FALSE, fig.cap = "relación y actividad"}
 # Limpiar y agrupar datos
 relacion_origen_evento <- datos_logs %>%
   group_by(Origen, Evento) %>%
@@ -476,7 +476,7 @@ Por ejemplo el origen web con el tipo de evento Módulo de curso visto con 23535
 
 ## Actividades/recursos con más iteracciones
 
-```{r,tabla-iteraccion2,echo=FALSE, fig.cap = "materiales interacciones"}
+```{r,tabla-iteraccion2,echo=FALSE, warning=FALSE, message=FALSE, fig.cap = "materiales interacciones"}
 # Agrupar por el componente de Moodle y el evento
 actividades_populares <- datos_logs %>%
   group_by(Componente, Evento) %>%
@@ -516,7 +516,7 @@ Hora<- datos_logs %>%
   summarise(Usuarios_Unicos = n_distinct(Usuario))
 ```
 
-```{r, grafico-usuarios-nocturnos, echo=FALSE, fig.cap= "grafico usuarios nocturnos"}
+```{r, grafico-usuarios-nocturnos, echo=FALSE, warning=FALSE, message=FALSE, fig.cap= "grafico usuarios nocturnos"}
 # Creamos el gráfico 
 fechas_concretas<-Hora %>% filter(
   Fecha_s>= as.Date("2025-01-01") & Fecha_s <= as.Date("2025-07-31"))
@@ -554,7 +554,7 @@ Sin embargo, conforme se aproximan los periodos de evaluación, el número de es
 
 Con el objetivo de analizar con mayor detalle este periodo, se ha generado una segunda visualización centrada únicamente en los meses de mayo y julio.
 
-```{r, grafico-epoca-examenes, echo = FALSE, fig.cap= "epoca examenes"}
+```{r, grafico-epoca-examenes, echo = FALSE, warning=FALSE, message=FALSE, fig.cap= "epoca examenes"}
 # Filtramos los meses que nos interesan
 datos_mayo_julio <- Hora %>% 
   filter(Fecha_s >= as.Date("2025-05-01") & Fecha_s <= as.Date("2025-07-31"))
