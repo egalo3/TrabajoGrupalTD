@@ -327,12 +327,14 @@ En cuanto a la forma de la distribución planteada en la Figura  \ref{fig:grafic
 
 
 
-### *Análisis de la distribución horaria*
+### *Análisis de la evolución temporal *
 
 En este caso aplicaremos otro tipo de enfoque,trataremos con los días.
 El objetivo es ver la evolución temporal de la actividad y superponer las fechas límite (fechas de entrega) para comprobar visualmente si la actividad se dispara justo antes.
 
 Para realizar este análisis( figura \ref{fig:picos-entrega}), se ha explorado el dataset en busca del evento 'Se ha enviado una entrega'. Con el objetivo de mostrar el comportamiento del alumnado, se ha seleccionado la entrega del proyecto realizada el 26 de mayo de 2025.
+
+
 
 ```{r, picos-entrega, echo=FALSE, warning=FALSE, message=FALSE, fig.width=10, fig.height=4, fig.cap="Actividad diaria en los días previos a la entrega final del proyecto (26 de mayo)."}
 library(dplyr)
@@ -362,7 +364,8 @@ theme_minimal()
 
 
 
-
+En la Figura \ref{fig:picos-entrega} podemos identificar una evolución creciente de la actividad a medida que se aproxima la fecha límite. El mayor pico de actividad no se produce el mismo día de la entrega, sino durante la jornada anterior, la cual se dedica a la depuración y preparación del trabajo, limitándose el último día simplemente a efectuar la entrega.
+Por tanto,los datos demuestran que el trabajo no se planificó de forma escalonada, sino que más del 70% del esfuerzo total del periodo evaluado se condensó en las 24 horas inmediatamente anteriores a la fecha límite.
 
 
 
