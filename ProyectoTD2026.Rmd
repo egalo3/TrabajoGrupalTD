@@ -162,39 +162,35 @@ En el siguiente apartado se expondrán dichas preguntas claves para la  explorac
 
 3.¿Qué usuarios son más activos (mayor número de eventos)?
 
-4.NO LA HAGO
+4.¿Cuál es el número medio de acciones por usuario? - - - LA QUITO
 
-5.¿Cuál es el número medio de acciones por usuario? - - - LA QUITO
+5.¿Existen usuarios con comportamiento atípico (muy alta o muy baja actividad)?
 
-6.¿Existen usuarios con comportamiento atípico (muy alta o muy baja actividad)?
+6.¿Existe relación entre el dispositivo empleado y la actividad realizada?
 
-7.¿Existe relación entre el dispositivo empleado y la actividad realizada?
+7.¿Que actividades o recursos generan más interacciones?
 
-8.¿Que actividades o recursos generan más interacciones?
+8.¿Hay registros realizados en horas "extrañas" (ej. 4:00 AM)? ¿Son usuarios aislados o un patrón común en época de exámenes?
 
-9.HACER UNA PREGUNTA
+9.¿Se detectan múltiples IPs para un mismo usuario en un corto periodo de tiempo?
 
-10.¿Hay registros realizados en horas "extrañas" (ej. 4:00 AM)? ¿Son usuarios aislados o un patrón común en época de exámenes?
+10.¿Hay eventos de error o acciones fallidas recurrentes en los logs?
 
-11.¿Se detectan múltiples IPs para un mismo usuario en un corto periodo de tiempo?
+11.¿Existe alguna evolución en la actividad de un mismo usuario a lo largo del año (de menos a más o de más a menos)? ¿A que puede deberse esto?
 
-12.¿Hay eventos de error o acciones fallidas recurrentes en los logs?
+12.¿Hay una diferencia notoria entre las actividades registradas en dias lectivos y las registradas los fines de semana?
 
-13.¿Existe alguna evolución en la actividad de un mismo usuario a lo largo del año (de menos a más o de más a menos)? ¿A que puede deberse esto?
+13.¿Que franjas horarias muestran una mayor concentración de usuarios al mismo tiempo?
 
-14.¿Hay una diferencia notoria entre las actividades registradas en dias lectivos y las registradas los fines de semana?
+14.¿Qué actividades se realizan más desde móvil y cuáles desde ordenador? - - - MUY PARECIDA A LA PREGUNTA 7
 
-15.¿Que franjas horarias muestran una mayor concentración de usuarios al mismo tiempo?
+15.¿Cuál es la proporción entre el número de actividades pasivas (entrar, ver) y las activas (entregar, editar)?
 
-16.¿Qué actividades se realizan más desde móvil y cuáles desde ordenador? - - - MUY PARECIDA A LA PREGUNTA 7
+16.¿Existen usuarios que solo acceden en momentos muy concretos? (Ej. previos a entrega o a exámenes)
 
-17.¿Cuál es la proporción entre el número de actividades pasivas (entrar, ver) y las activas (entregar, editar)?
+17.¿En horario lectivo se detecta menor actividad desde el móvil o es indiferente?
 
-18.¿Existen usuarios que solo acceden en momentos muy concretos? (Ej. previos a entrega o a exámenes)
-
-19.¿En horario lectivo se detecta menor actividad desde el móvil o es indiferente?
-
-20.¿Hay más actividad en días laborales o en fin de semana? ¿Varia esta proporción en momentos concretos? (Ej. época de exámenes)
+18.¿Hay más actividad en días laborales o en fin de semana? ¿Varia esta proporción en momentos concretos? (Ej. época de exámenes)
 
 
 
@@ -275,7 +271,7 @@ En este caso contemplaremos tanto la forma de la distribución(Gráfica 1), como
 
 
 
-```{r, grafico-horas, echo=FALSE, message=FALSE, warning=FALSE, fig.cap="Distribución de la actividad de los usuarios por hora del día"}
+```{r, grafico-horas, echo=FALSE, fig.cap="Distribución de la actividad de los usuarios por hora del día"}
 library(dplyr)
 library(lubridate)
 library(ggplot2)
@@ -306,7 +302,7 @@ geom_density(color = "deeppink1", linewidth = 1.2) +
 
 ```
 
-```{r, grafico-densidad, echo=FALSE, message=FALSE, warning=FALSE, fig.cap="Análisis densidad"}
+```{r, grafico-densidad, echo=FALSE, fig.cap="Análisis densidad"}
 ggplot(datos_logs, aes(x = Hora)) +
   geom_histogram( binwidth = 1, fill = "darkslategray3",color ="darkslategray") +scale_x_continuous(breaks = 0:23) +
   labs(title = "Distribución de la Actividad",
@@ -339,7 +335,7 @@ El objetivo es ver la evolución temporal de la actividad y superponer las fecha
 
 Para realizar este análisis( figura \ref{fig:picos-entrega}), se ha explorado el dataset en busca del evento 'Se ha enviado una entrega'. Con el objetivo de mostrar el comportamiento del alumnado, se ha seleccionado la entrega del proyecto realizada el 26 de mayo de 2025.
 
-```{r, picos-entrega, echo=FALSE, message=FALSE, warning=FALSE, fig.width=10, fig.height=4, fig.cap="Actividad diaria en los días previos a la entrega final del proyecto (26 de mayo)."}
+```{r, picos-entrega, echo=FALSE, fig.width=10, fig.height=4, fig.cap="Actividad diaria en los días previos a la entrega final del proyecto (26 de mayo)."}
 library(dplyr)
 library(lubridate)
 library(ggplot2)
@@ -518,7 +514,7 @@ Hora<- datos_logs %>%
   summarise(Usuarios_Unicos = n_distinct(Usuario))
 ```
 
-```{r, grafico-usuarios-nocturnos,echo=FALSE, fig.cap= "grafico usuarios nocturnos"}
+```{r, grafico-usuarios-nocturnos, echo=FALSE, fig.cap= "grafico usuarios nocturnos"}
 # Creamos el gráfico 
 fechas_concretas<-Hora %>% filter(
   Fecha_s>= as.Date("2025-01-01") & Fecha_s <= as.Date("2025-07-31"))
@@ -556,7 +552,7 @@ Sin embargo, conforme se aproximan los periodos de evaluación, el número de es
 
 Con el objetivo de analizar con mayor detalle este periodo, se ha generado una segunda visualización centrada únicamente en los meses de mayo y julio.
 
-```{r, grafico-epoca-examenes,echo = FALSE, fig.cap= "epoca examenes"}
+```{r, grafico-epoca-examenes, echo = FALSE, fig.cap= "epoca examenes"}
 # Filtramos los meses que nos interesan
 datos_mayo_julio <- Hora %>% 
   filter(Fecha_s >= as.Date("2025-05-01") & Fecha_s <= as.Date("2025-07-31"))
@@ -675,7 +671,7 @@ eventos_error <- datos_logs %>%
   arrange(desc(Total))
 ```
 
-```{r,grafico-eventos-erroneos,fig.cap="eventos de error más frecuentes."}
+```{r,grafico-eventos-erroneos, fig.cap="eventos de error más frecuentes."}
 # Representamos gráficamente los eventos de error más frecuentes
 ggplot(eventos_error, aes(x = reorder(Evento, Total),
            y = Total)) +
@@ -716,7 +712,7 @@ Por otro lado, los eventos menos frecuentes son "Grupo eliminado" o "Agrupamient
 
 Para el análisis de la variación de la actividad de cada usuario a lo largo del año, analizaremos las actividades registradas por cada usuario en los diferentes meses y representaremos en un gráfico de barras los datos de cada mes para poder observar la diferencia entre los meses.
 
-```{r, graficos-actvidad-anual,echo= FALSE, fig.cap= "variación actividad anual"}
+```{r, graficos-actvidad-anual,cecho= FALSE, fig.cap= "variación actividad anual"}
 library(dplyr)
 library(lubridate)
 library(ggplot2)
@@ -779,7 +775,7 @@ Por otra parte, algo que si podemos observar como "normal" en todos los usuarios
 
 Para analizar si existe una diferencia notable entre la actividad registrada en días lectivos y la registrada durante los fines de semana, estudiaremos el número total de eventos generados en cada día. El objetivo es comprobar si los usuarios utilizan el aula virtual principalmente durante la semana, coincidiendo con el calendario académico, o si también muestran actividad relevante durante los sábados y domingos. Para ello, clasificaremos cada registro según el día de la semana y representaremos los resultados en un gráfico comparativo que permita visualizar de forma clara la diferencia entre ambos grupos.
 
-```{r, dif_dias_fines,echo = FALSE, fig.cap= "diferencia de actividad"}
+```{r, dif_dias_fines, echo = FALSE, fig.cap= "diferencia de actividad"}
 library(dplyr)
 library(lubridate)
 library(ggplot2)
@@ -820,7 +816,7 @@ En conjunto, el gráfico permite visualizar de forma clara cómo se distribuye l
 
 Para analizar qué franjas horarias presentan una mayor variabilidad entre usuarios, estudiaremos cuántos usuarios distintos generan actividad en cada hora del día. Esto nos permitirá identificar si existen horas en las que muchos usuarios diferentes acceden a la plataforma, frente a otras en las que solo unos pocos usuarios realizan acciones. Este análisis es útil para comprender los patrones colectivos de acceso y detectar momentos de mayor diversidad de participación.
 
-```{r, grafico-variabilidad ,echo = FALSE, fig.cap= "variabilidad"}
+```{r, grafico-variabilidad, echo = FALSE, fig.cap= "variabilidad"}
 library(dplyr)
 library(lubridate)
 library(ggplot2)
