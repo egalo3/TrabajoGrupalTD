@@ -1,15 +1,15 @@
 ---
 title: "Análisis Exploratorio de los Logs del Aula Virtual: Grupo E"
 author:
-  - name: (Nombre Alumno 1)
+  - name: (Eva Gamón)
     affil: 1
-  - name: (Nombre Alumno 2)
+  - name: (Marina Moros)
     affil: 1
-  - name: (Nombre Alumno 3)
+  - name: (Irene Pérez)
     affil: 1
-  - name: (Nombre Alumno 4)
+  - name: (Maria Martínez)
     affil: 1
-  - name: (Nombre Alumno 5)
+  - name: (Tomas Payás)
     affil: 1
 affiliation:
   - num: 1
@@ -25,7 +25,7 @@ status: submit
 simplesummary: |
   Este trabajo analiza el comportamiento de los estudiantes mediante los registros de actividad del Aula Virtual.
 abstract: |
-  ( resumen de unos 200 palabras sobre los objetivos, metodología y resultados principales).
+ Este trabajo analiza el comportamiento de los estudiantes mediante los registros de actividad del Aula Virtual, aplicando un Análisis Exploratorio de Tatamiento de Datos (TD) con R y Tidyverse. El objetivo es extraer patrones de interacción y transformar datos brutos en información útil.
 keywords: |
   Análisis exploratorio; R; Logs; Aula Virtual; Tidyverse.
 
