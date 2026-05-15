@@ -108,11 +108,12 @@ En este proyecto utilizaremos figuras y tablas para poder interpretar de una man
 
 
 ## Tablas:
-Queremos mostrar el número de veces que aparece cada tipo de evento, identificando así las acciones que los usuarios realizan de manera más habitual.
+Queremos mostrar los 5 eventos que más aparecen, identificando así las acciones que los usuarios realizan de manera más habitual.
 
 ```{r tabla-eventos, echo=FALSE, fig.cap="Evento", message=FALSE, warning=FALSE}
 datos_logs %>%
   count(Evento, name = "Cantidad", sort = TRUE) %>%
+  head(5) %>%
   kable(longtable= TRUE, caption = "Frecuencia de eventos registrados")
 ```
 En la Tabla \ref{fig:tabla-eventos} vemos los eventos más habituales entre los usuarios.
@@ -551,8 +552,6 @@ ggplot(fechas_concretas, aes(x = Fecha_s, y = Usuarios_Unicos)) +
 
 ```
 
-En el gráfico \ref{fig:grafico-usuarios-nocturnos} se observa que durante el curso la actividad registrada en horario nocturno es relativamente baja y corresponde mayoritariamente a usuarios aislados.
-
 En el gráfico \ref{fig:grafico-usuarios-nocturnos} muestra la evolución del segundo cuatrimestre en cuanto a la actividad de usuarios en horas "extrañas" (00:00 a 05:00 AM). Se observan claros picos de actividad en algunos periodos del año, especialmente entre los meses de mayo y julio. Mientras que durante el resto del curso la actividad es mínima y podemos atribuirlo a usuarios aislados.
 
 
@@ -567,7 +566,7 @@ Con el objetivo de analizar con mayor detalle este periodo, se ha generado una s
 
 # Filtramos los meses que nos interesan
 datos_mayo_julio <- Hora %>% 
-  filter(Fecha_s >= as.Date("2025-05-01") & Fecha_s <= as.Date("2025-07-31"))
+  filter(Fecha_s >= as.Date("2025-04-15") & Fecha_s <= as.Date("2025-07-01"))
 
 ggplot(datos_mayo_julio, aes(x = Fecha_s, y = Usuarios_Unicos)) +
   geom_line(color = "lightblue", size = 0.9) +   
