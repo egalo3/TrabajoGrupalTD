@@ -110,7 +110,7 @@ En este proyecto utilizaremos figuras y tablas para poder interpretar de una man
 ## Tablas:
 Queremos mostrar el número de veces que aparece cada tipo de evento, identificando así las acciones que los usuarios realizan de manera más habitual.
 
-```{r, tabla-eventos, echo= FALSE, warning=FALSE, message=FALSE, fig.cap = "Evento"}
+```{r tabla-eventos, echo=FALSE, fig.cap="Evento", message=FALSE, warning=FALSE}
 datos_logs %>%
   count(Evento, name = "Cantidad", sort = TRUE) %>%
   kable(longtable= TRUE, caption = "Frecuencia de eventos registrados")
@@ -122,7 +122,7 @@ Vamos a crear un diagrama de barras que nos permite visualizar cuáles son los t
 
 En la Figura \ref{fig:figura-eventos} podemos observar cuáles son los eventos más frecuentes entre los usuarios.
 
-```{r figura-eventos, echo=FALSE, fig.cap="Diagrama de barras de los eventos más frecuentes", fig.height=2, fig.width=3, message=FALSE, warning=FALSE}
+```{r figura-eventos, echo=FALSE, fig.cap="Diagrama de barras de los eventos más frecuentes", message=FALSE, warning=FALSE}
 library(ggplot2)
 frecuencias <- datos_logs %>%
   count(Evento) %>%
@@ -207,7 +207,7 @@ En nuestro data frame observamos la predominancia de variables de tipo string o 
 
 
 
-```{r, tabla-variables, echo=FALSE, warning=FALSE, message=FALSE, fig.cap="tipo de datos"}
+```{r tabla-variables, echo=FALSE, fig.cap="tipo de datos", message=FALSE, warning=FALSE}
 library(knitr)
 library(kableExtra)
 
@@ -233,7 +233,7 @@ Como se puede observar en la Tabla \ref{tab:tabla-variables}, existe una predomi
 
 
 
-```{r analisis-nas, echo=FALSE, fig.cap="analisis de valores faltantes", fig.height=3, fig.width=3, message=FALSE, warning=FALSE}
+```{r analisis-nas, echo=FALSE, fig.cap="analisis de valores faltantes", message=FALSE, warning=FALSE}
 library(dplyr)
 library(knitr)
 library(kableExtra)
@@ -268,7 +268,9 @@ En este caso contemplaremos tanto la forma de la distribución(Gráfica 1), como
 
 
 
-```{r grafico-densidad, echo=FALSE, fig.cap="Análisis densidad", fig.height=3, fig.width=3, message=FALSE, warning=FALSE}
+```{r grafico-densidad, echo=FALSE, fig.cap="Análisis densidad", message=FALSE, warning=FALSE}
+
+
 library(dplyr)
 library(lubridate)
 library(ggplot2)
@@ -300,7 +302,8 @@ geom_density(color = "deeppink1", linewidth = 1.2) +
 ```
 
 
-```{r grafico-horas, echo=FALSE, fig.cap="Distribución de la actividad de los usuarios por hora del día", fig.height=3, fig.width=3, message=FALSE, warning=FALSE}
+
+```{r grafico-horas, echo=FALSE, fig.cap="Distribución de la actividad de los usuarios por hora del día", message=FALSE, warning=FALSE}
 
 ggplot(datos_logs, aes(x = Hora)) +
   geom_histogram( binwidth = 1, fill = "darkslategray3",color ="darkslategray") +scale_x_continuous(breaks = 0:23) +
@@ -336,7 +339,9 @@ Para realizar este análisis( figura \ref{fig:picos-entrega}), se ha explorado e
 
 
 
-```{r picos-entrega, echo=FALSE, fig.cap="Actividad diaria en los días previos a la entrega final del proyecto (26 de mayo).", fig.height=3, fig.width=3, message=FALSE, warning=FALSE}
+
+```{r picos-entrega, echo=FALSE, fig.cap="Actividad diaria en los días previos a la entrega final del proyecto (26 de mayo).", message=FALSE, warning=FALSE}
+
 library(dplyr)
 library(lubridate)
 library(ggplot2)
@@ -384,7 +389,8 @@ En este apartado realizaremos un análisis en base al comportamiento de los usua
 
 ## Análisis frecuencia:usuarios más activos
 
-```{r grafico-usuarios-activos, echo=FALSE, fig.cap="30 usuarios con mayor número de interacciones en la plataforma.", fig.height=3, fig.width=3, message=FALSE, warning=FALSE}
+```{r grafico-usuarios-activos, echo=FALSE, fig.cap="30 usuarios con mayor número de interacciones en la plataforma.", message=FALSE, warning=FALSE}
+
 library(ggplot2)
 #Acciones por usuario
 Usuarios_activos <- datos_logs %>%
@@ -422,7 +428,7 @@ Este dato sugiere que, en promedio, cada estudiante interactúa más de 800 vece
 
 ## Comportamientos atípicos
 
-```{r tabla-atipicos, echo=FALSE, fig.cap="Comportamientos atípicos", fig.height=3, fig.width=3, message=FALSE, warning=FALSE}
+```{r tabla-atipicos, echo=FALSE, fig.cap="Comportamientos atípicos", message=FALSE, warning=FALSE}
 # Calculamos por quantiles
 q1 <- quantile(acciones_por_usuario$total_acciones, 0.25)
 q3 <- quantile(acciones_por_usuario$total_acciones, 0.75)
@@ -451,7 +457,7 @@ En este apartado veremos las diferentes relaciones, iteracciones y comportamient
 
 ## Relación entre dispositivo empleado y la actividad realizada
 
-```{r tabla-origen, echo=FALSE, fig.cap="relación y actividad", fig.height=3, fig.width=3, message=FALSE, warning=FALSE}
+```{r tabla-origen, echo=FALSE, fig.cap="relación y actividad", message=FALSE, warning=FALSE}
 # Limpiar y agrupar datos
 relacion_origen_evento <- datos_logs %>%
   group_by(Origen, Evento) %>%
@@ -476,7 +482,7 @@ Por ejemplo el origen web con el tipo de evento Módulo de curso visto con 23535
 
 ## Actividades/recursos con más iteracciones
 
-```{r tabla-iteraccion2, echo=FALSE, fig.cap="materiales interacciones", fig.height=3, fig.width=3, message=FALSE, warning=FALSE}
+```{r tabla-iteraccion2, echo=FALSE, fig.cap="materiales interacciones", message=FALSE, warning=FALSE}
 # Agrupar por el componente de Moodle y el evento
 actividades_populares <- datos_logs %>%
   group_by(Componente, Evento) %>%
@@ -516,7 +522,9 @@ Hora<- datos_logs %>%
   summarise(Usuarios_Unicos = n_distinct(Usuario))
 ```
 
-```{r grafico-usuarios-nocturnos, echo=FALSE, fig.cap="grafico usuarios nocturnos", fig.height=3, fig.width=3, message=FALSE, warning=FALSE}
+
+```{r grafico-usuarios-nocturnos, echo=FALSE, fig.cap="grafico usuarios nocturnos", message=FALSE, warning=FALSE}
+
 # Creamos el gráfico 
 fechas_concretas<-Hora %>% filter(
   Fecha_s>= as.Date("2025-01-01") & Fecha_s <= as.Date("2025-07-31"))
@@ -554,7 +562,9 @@ Sin embargo, conforme se aproximan los periodos de evaluación, el número de es
 
 Con el objetivo de analizar con mayor detalle este periodo, se ha generado una segunda visualización centrada únicamente en los meses de mayo y julio.
 
-```{r grafico-epoca-examenes, echo=FALSE, fig.cap="epoca examenes", fig.height=3, fig.width=3, message=FALSE, warning=FALSE}
+
+```{r grafico-epoca-examenes, echo=FALSE, fig.cap="epoca examenes", message=FALSE, warning=FALSE}
+
 # Filtramos los meses que nos interesan
 datos_mayo_julio <- Hora %>% 
   filter(Fecha_s >= as.Date("2025-05-01") & Fecha_s <= as.Date("2025-07-31"))
@@ -584,7 +594,7 @@ Por otra parte, se puede ver casos aislados en algunos meses. Por ejemplo entre 
 Se ha realizado un análisis para estudiar los posibles cambios de conexión entre los usuarios mediantelas direcciones IP registradas en los accesos del Aula Virtual. Este proceso perimite detectar si un mismo usuario accede desde diferentes redes o dispositivos en intervalos temporales reducidos.
 
 
-```{r echo=FALSE, fig.cap="dirección IP", fig.height=3, fig.width=3, message=FALSE, warning=FALSE}
+```{r echo=FALSE, fig.cap="dirección IP", message=FALSE, warning=FALSE}
 # Definimos el umbral de tiempo que queremos estudiar.
 umbral_minutos <- 30 
 
@@ -616,7 +626,7 @@ cambios_ip <- datos_logs %>%
 ```
 
 
-```{r tabla-usuarios-ip-distinta, echo=FALSE, fig.cap="IPS", fig.height=3, fig.width=3, message=FALSE, warning=FALSE}
+```{r tabla-usuarios-ip-distinta, echo=FALSE, fig.cap="IPS", message=FALSE, warning=FALSE}
 resumen_cambios <- cambios_ip %>%
   # Agrupamos por usuario
   group_by(Usuario) %>%
@@ -643,8 +653,9 @@ kable(head(resumen_cambios, 6),
 ) %>% kable_styling(latex_options = "scale_down")
 ```
 
-Al analizar la Tabla \ref{tab:tabla-usuarios-ip-distinta}, se confirma la existencia de accesos desde múltiples direcciones IP en intervalos de tiempo muy reducidos. Destaca especialmente el usuario U0001, que presenta un número muy elevado tanto de direcciones IP distintas como de cambios rápidos de conexión. Sin embargo, en la mayoría de los usuarios los valores observados son considerablemente más moderados.
+Al analizar la Tabla \ref{tab:tabla-usuarios-ip-distinta}, se confirma la existencia de accesos desde múltiples direcciones IP en intervalos de tiempo muy reducidos. Destaca especialmente el usuario U0001, que presenta un número muy elevado tanto de direcciones IP distintas como de cambios rápidos de conexión (cada 30 minutos). Sin embargo, en la mayoría de los usuarios los valores observados son considerablemente más moderados.
 
+Estos cambios tan frecuentes se deben a cambios de red (Wifi y datos móviles), el uso de diferentes dispositivos o aquellas redes que son dinámicas.
 
 # Identificación de eventos de errores y acciones fallidas.
 
@@ -653,7 +664,7 @@ Para determinar si existen eventos de error o acciones fallidas recurrentes en l
 
 Este análisis puede resultar relevante ya que permite identificar los posibles problemas técnicos o dificultades de uso de la plataforma del Aula Virtual por parte de los usuarios.
 
-```{r echo=FALSE, fig.cap="acciones fallidas", fig.height=3, fig.width=3, message=FALSE, warning=FALSE}
+```{r echo=FALSE, fig.cap="acciones fallidas", message=FALSE, warning=FALSE}
 # Filtramos eventos relacionados con errores o acciones fallidad
 eventos_error <- datos_logs %>%
   
@@ -673,7 +684,8 @@ eventos_error <- datos_logs %>%
   arrange(desc(Total))
 ```
 
-```{r grafico-eventos-erroneos, fig.cap="eventos de error más frecuentes.", fig.height=3, fig.width=3, message=FALSE, warning=FALSE}
+```{r grafico-eventos-erroneos, fig.cap="eventos de error más frecuentes.", message=FALSE, warning=FALSE}
+
 # Representamos gráficamente los eventos de error más frecuentes
 ggplot(eventos_error, aes(x = reorder(Evento, Total),
            y = Total)) +
@@ -714,7 +726,9 @@ Por otro lado, los eventos menos frecuentes son "Grupo eliminado" o "Agrupamient
 
 Para el análisis de la variación de la actividad de cada usuario a lo largo del año, analizaremos las actividades registradas por cada usuario en los diferentes meses y representaremos en un gráfico de barras los datos de cada mes para poder observar la diferencia entre los meses.
 
-```{r graficos-actvidad-anual, echo=FALSE, fig.cap="variación actividad anual", fig.height=3, fig.width=3, message=FALSE, warning=FALSE}
+
+```{r graficos-actvidad-anual, echo=FALSE, fig.cap="variación actividad anual", message=FALSE, warning=FALSE}
+
 library(dplyr)
 library(lubridate)
 library(ggplot2)
@@ -777,8 +791,9 @@ Por otra parte, algo que si podemos observar como "normal" en todos los usuarios
 
 Para analizar si existe una diferencia notable entre la actividad registrada en días lectivos y la registrada durante los fines de semana, estudiaremos el número total de eventos generados en cada día. El objetivo es comprobar si los usuarios utilizan el aula virtual principalmente durante la semana, coincidiendo con el calendario académico, o si también muestran actividad relevante durante los sábados y domingos. Para ello, clasificaremos cada registro según el día de la semana y representaremos los resultados en un gráfico comparativo que permita visualizar de forma clara la diferencia entre ambos grupos.
 
-```{r dif_dias_fines, echo=FALSE, fig.cap="diferencia de actividad", fig.height=3, fig.width=3, message=FALSE, warning=FALSE}
-library(dplyr)
+
+```{r dif_dias_fines, echo=FALSE, fig.cap="diferencia de actividad", message=FALSE, warning=FALSE}
+
 library(lubridate)
 library(ggplot2)
 
@@ -818,7 +833,9 @@ En conjunto, el gráfico permite visualizar de forma clara cómo se distribuye l
 
 Para analizar qué franjas horarias presentan una mayor variabilidad entre usuarios, estudiaremos cuántos usuarios distintos generan actividad en cada hora del día. Esto nos permitirá identificar si existen horas en las que muchos usuarios diferentes acceden a la plataforma, frente a otras en las que solo unos pocos usuarios realizan acciones. Este análisis es útil para comprender los patrones colectivos de acceso y detectar momentos de mayor diversidad de participación.
 
-```{r grafico-variabilidad, echo=FALSE, fig.cap="variabilidad", fig.height=3, fig.width=3, message=FALSE, warning=FALSE}
+
+```{r grafico-variabilidad, echo=FALSE, fig.cap="variabilidad", message=FALSE, warning=FALSE}
+
 library(dplyr)
 library(lubridate)
 library(ggplot2)
@@ -859,7 +876,7 @@ Para profundizar en la exploración de los usuarios, resulta fundamental conocer
 
 Para dar respuesta a esta cuestión, se ha llevado a cabo una clasificación de los eventos mediante técnicas de procesamiento de texto. Se ha normalizado el texto y buscado raíces de palabras clave para categorizar cada acción, otorgando prioridad a los eventos de creación y excluyendo los eventos neutros o del sistema para asegurar una comparativa directa y rigurosa.
 
-```{r tabla-proporcion, echo=FALSE, fig.cap="act pasivas vs pasivas ", fig.height=3, fig.width=3, message=FALSE, warning=FALSE}
+```{r tabla-proporcion, echo=FALSE, fig.cap="act pasivas vs pasivas ", message=FALSE, warning=FALSE}
 
 # Clasificación de actividades usando manipulación de caracteres:
 datos_actividad <- datos_logs %>%
@@ -887,7 +904,9 @@ kable(proporcion_resumen, caption = "Frecuencia y porcentaje de actividades Pasi
 
 Tal y como se muestra en la Tabla \ref{tab:tabla-proporcion}, existe una evidente disparidad entre los volúmenes de ambas categorías. Para facilitar la interpretación de estos resultados, se ha generado la siguiente representación gráfica.
 
-```{r figura-proporcion, echo=FALSE, fig.cap="Proporción de actividades pasivas frente a activas en la plataforma.", fig.height=3, fig.pos="H", fig.width=3, message=FALSE, warning=FALSE}
+
+```{r figura-proporcion, echo=FALSE, fig.cap="Proporción de actividades pasivas frente a activas en la plataforma.", fig.pos="H", message=FALSE, warning=FALSE}
+
 
 # Gráfico de barras de la proporción:
 ggplot(proporcion_resumen, aes(x = Tipo_Actividad, y = Porcentaje, fill = Tipo_Actividad)) +
@@ -910,7 +929,7 @@ Tras analizar la distribución general de la actividad, resulta de gran interés
 
 Para este análisis, hemos definido un "Periodo Crítico" que abarca los 7 días previos a la entrega. Hemos clasificado a los usuarios en dos categorías: **Acceso Puntual**, aquellos cuya actividad semanal triplica la media esperada (concentrando más del 10% de sus clics anuales en esa única semana); y **Acceso Regular**, el resto de usuarios con una participación más constante a lo largo del curso.
 
-```{r tabla-estacionalidad, echo=FALSE, fig.cap="periodo crítico", fig.height=3, fig.width=3, message=FALSE, warning=FALSE}
+```{r tabla-estacionalidad, echo=FALSE, fig.cap="periodo crítico", message=FALSE, warning=FALSE}
 
 # Definimos fecha de referencia y el periodo crítico 
 fecha_entrega <- as.Date("2025-05-26")
@@ -948,7 +967,9 @@ Como se puede observar en la Tabla \ref{tab:tabla-estacional}, al aplicar este c
 
 Para visualizar esta segmentación y entender cómo se distribuye la intensidad de la actividad en el periodo crítico, se presenta la siguiente figura.
 
-```{r figura-estacional, echo=FALSE, fig.cap="Concentración de la actividad de los usuarios en la plataforma durante periodos muy concretos.", fig.height=3, fig.pos="H", fig.width=3, message=FALSE, warning=FALSE}
+
+```{r figura-estacional, echo=FALSE, fig.cap="Concentración de la actividad de los usuarios en la plataforma durante periodos muy concretos.", fig.pos="H", message=FALSE, warning=FALSE}
+
 
 # Graficamos la distribución del porcentaje de actividad 
 ggplot(perfil_usuarios, aes(x = Pct_Critico)) +
@@ -973,7 +994,7 @@ Para comprender los hábitos de conexión del alumnado, la cuestión plantea si 
 
 Mediante funciones de búsqueda y filtrado de texto, rastreamos los registros en busca de las etiquetas asociadas a la aplicación móvil (App, Web Services, Mobile,...) para contrastarlos con los accesos al entorno web estándar.
 
-```{r tabla-dispositivos, echo=FALSE, fig.cap="dispositivos franja horaria", fig.height=3, fig.width=3, message=FALSE, warning=FALSE}
+```{r tabla-dispositivos, echo=FALSE, fig.cap="dispositivos franja horaria", message=FALSE, warning=FALSE}
 
 # Definición de franjas horarias y clasificación de dispositivos 
 uso_dispositivos <- datos_logs %>%
@@ -1006,7 +1027,9 @@ Como se detalla en la Tabla \ref{tab:tabla-dispositivos}, los resultados extraí
 
 Ante la imposibilidad de comparar porcentajes de dispositivos (dado que la variable es constante), el análisis debe centrarse en el volumen total de actividad que soporta la plataforma en cada una de estas franjas.
 
-```{r figura-dispositivos, echo=FALSE, fig.cap="Actividad total en el Aula Virtual por franja horaria.", fig.height=3, fig.pos="H", fig.width=3}
+
+```{r figura-dispositivos, echo=FALSE, fig.cap="Actividad total en el Aula Virtual por franja horaria.", fig.pos="H"}
+
 
 # Gráfico de volumen absoluto que hace visible el contraste real de actividad 
 ggplot(resumen_dispositivos, aes(x = Horario, y = Accesos, fill = Horario)) +
@@ -1035,7 +1058,7 @@ Para comprender los hábitos de estudio del alumnado, es fundamental analizar c�
 
 Para responder a esta cuestión, utilizamos la información temporal de los eventos para identificar el día exacto de la semana en que ocurrieron. Posteriormente, dividimos el histórico del curso en dos fases: un Periodo Regular y una Época de Entrega (definida como los 14 días previos a la entrega final del proyecto fijada el 26 de mayo).
 
-```{r tabla-dias, echo=FALSE, fig.cap="Análisis actividad", fig.height=3, fig.width=3, message=FALSE, warning=FALSE}
+```{r tabla-dias, echo=FALSE, fig.cap="Análisis actividad", message=FALSE, warning=FALSE}
 
 # Clasificación temporal 
 fecha_entrega <- as.Date("2025-05-26")
@@ -1073,7 +1096,9 @@ Al analizar la Tabla \ref{tab:tabla-dias}, debemos tener en cuenta un factor est
 
 Para interpretar correctamente cómo los estudiantes alteran este balance natural según el momento del curso, se ha diseñado la siguiente visualización comparativa.
 
-```{r figura-dias, echo=FALSE, fig.cap="Comparativa porcentual de accesos entre días laborales y fines de semana.", fig.height=3, fig.pos="H", fig.width=3, message=FALSE, warning=FALSE}
+
+```{r figura-dias, echo=FALSE, fig.cap="Comparativa porcentual de accesos entre días laborales y fines de semana.", fig.pos="H", message=FALSE, warning=FALSE}
+
 
 # Gráfico de barras agrupadas 
 ggplot(resumen_dias, aes(x = Fase_Curso, y = Porcentaje, fill = Tipo_Dia)) +
