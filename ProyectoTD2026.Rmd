@@ -643,7 +643,7 @@ kable(head(resumen_cambios, 6),
 ) %>% kable_styling(latex_options = "scale_down")
 ```
 
-Al analizar la Tabla \ref{tab:tabla-usuarios-ip-distinta}, se confirma la existencia de accesos desde múltiples direcciones IP en intervalos de tiempo muy reducidos. Destaca especialmente el usuario U0001, que presenta un número muy elevado tanto de direcciones IP distintas como de cambios rápidos de conexión. Sin embargo, en la mayoría de los usuarios los valores observados son considerablemente más moderados.
+Al analizar la Tabla \ref{tab:tabla-usuarios-ip-distinta}, se confirma la existencia de accesos desde múltiples direcciones IP en intervalos de tiempo muy reducidos. Destaca especialmente el usuario U0001, que presenta un número muy elevado tanto de direcciones IP distintas como de cambios rápidos de conexión (cada 30 minutos). Sin embargo, en la mayoría de los usuarios los valores observados son considerablemente más moderados.
 
 Estos cambios tan frecuentes se deben a cambios de red (Wifi y datos móviles), el uso de diferentes dispositivos o aquellas redes que son dinámicas.
 
